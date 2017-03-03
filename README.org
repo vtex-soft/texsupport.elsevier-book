@@ -1,1 +1,19 @@
 * LaTeX book class and template for Elsevier book projects
+
+* Folder structure
+
+  - sty/
+    - elsevierbook.cls
+    - elsevierbook-a02.cls
+    - elsevierbook-a08.cls
+  - doc/
+     - sample.pdf
+     - usermanual.pdf
+  - bib/
+    - xx.bib
+    - yy.bst
+  - template/
+    - img/
+    - chapter-x/ (optional)
+    - book.tex
+
