@@ -1,0 +1,358 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{multicol}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{fancyvrb}
+\usepackage{enumitem}
+\setlist%
+{%
+ topsep=0pt,%
+ labelsep=6pt,
+ noitemsep,%
+ leftmargin=*
+}
+\setlist[description]{font=\normalfont\sffamily}
+
+\title{elsevierbook.cls class}
+\author{deimi}
+\date{}
+
+\def\file#1{\texttt{#1}}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\file{elsevierbook.cls} is designed for preparation \LaTeX{} books to be published by Elsevier. 
+The document class is built on \file{book.cls} and require following packages:
+
+\begin{itemize}
+\item \file{etoolbox}
+\item \file{calc}
+\item \file{afterpackage}
+\item \file{numname}
+\item \file{xcolor}
+\item \file{colortbl} for table with colored rows, columns;
+\item \file{fontenc}
+\item \file{textcomp} 
+\item \file{amsmath} for math typesetting;
+\item \file{amsmath,amssymb,amsfonts}
+\item \file{amsthm} for theorem and alike;
+\item \file{caption} for table, figure caption control;
+\item \file{titlesec} for sectioning control;
+\item \file{enumitem} for lists control;
+\item \file{mdframed} for boxed text elements;
+\item \file{footmisc} for footnote control;
+\item \file{natbib} for bibliography; 
+\item \file{minitoc} for producing chaper's minitoc;
+\item \file{multicol}
+\end{itemize}
+
+\section{Installation}
+
+
+The package is available at TeX Support page on github\\ (\file{https://github.com/vtex-soft/texsupport.elsevier-book})
+It can also be found on CTAN (Comprehensive TeX Archive Network)
+\file(http://www.ctan.org/tex-archive/macros/latex/contrib/elsevierbook/)
+Please download the \file{elsevierbook.dtx} which is a class source file and
+\file{elsevierbook.ins} which is a driver file for extraction the class file.
+To produce \file{elsevier.cls} file, run LaTeX on the \file{elsarticle.ins}. 
+The class file may be moved to a place, usually, \file(\$TEXMF/tex/latex/elsevierbook/), or a folder
+that TeX can read  from. The TeX file database needs to be regenerated after moving the class file.
+Usually, we use commands like \file{mktexlsr} or \file{texhash} depending upon the distribution and operating system. 
+
+However, the installation is optional and you can skip this phase.
+The bundle is self-contained and after unzipping your have everything you need for book preparation. (see \ref{bookstructrure})
+
+\section{Book structure}\label{bookstructure}
+
+Organising book can be challenging. 
+Here we discribe two possible ways of book organisation.
+The first one is pretty simple with flat folder structure that can suit for 
+short books, the other is more complex that can serve for more complex books.
+
+\subsection{Option 1 - simple stucture}
+\begin{multicols}{2}
+\begin{verbatim}
+book.tex
+chapter01.tex
+chapter02.tex
+dediction.tex
+preface.tex
+bibliography.tex
+[...] 
+img/
+  ch01-figure01.eps
+  ch02-figure02.eps
+sty/
+  elsevierbook.cls
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+book.tex: 
+\documentclass{elsevierbook.cls}
+\begin{document}
+\Frontmatter
+  \include{titlepage}
+  \include{dedication}
+  \tableofcontents
+  \include{preface}
+  \include{acknowledgement}
+  [...]
+\Mainmatter
+  \include{chapter01}
+  \include{chapter02}
+  [...]
+\Backmatter
+  \include{appendix01}
+  [...]
+  \include{bibliograhy}
+  \printindex
+\end{document}
+\end{verbatim}
+
+\end{multicols}
+
+\subsection{Option 2 - more complex structure}
+For more complex projects this can be more suitable
+
+\begin{multicols}{2}
+\begin{verbatim}
+book.tex
+dediction.tex
+preface.tex
+bibliography.tex
+[...]
+chapter01/
+  chapter01.tex
+  img/
+    ch01-figure01.eps
+    ch02-figure02.eps
+    [...]
+chapter02/
+  chapter02.tex
+  img/
+    ch02-figure01.eps
+    ch02-figure02.eps
+    [...]
+[...]
+appendix01/
+  appendix01.tex
+  img/
+    appendix01-figure01.eps
+    appendix01-figure02.eps
+bibliography.tex
+sty/
+  elsevierbook.cls
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+book.tex: 
+
+\documentclass{elsevierbook.cls}
+\begin{document}
+\Frontmatter
+  \include{titlepage}
+  \include{dedication}
+  \tableofcontents
+  \include{preface}
+  \include{acknowledgement}
+  [...]
+\Mainmatter
+  \include{chapter01}
+  \include{chapter02}
+  [...]
+\Backmatter
+  \include{appendix01}
+  [...]
+  \include{bibliograhy}
+  \printindex
+\end{document}
+\end{verbatim}
+\end{multicols}
+
+
+\section{Usage}
+
+The class should be loaded with the following command:
+
+\begin{verbatim}
+\documentclass[<options>]{elsevierboook}
+\end{verbatim}
+
+\noindent where the \verb!options! can be following:
+
+\begin{description}[labelwidth=6pc,labelindent=0pc,labelsep=0pt,leftmargin=6pc]
+\item[a02] sets \verb!a02! book model settings
+\item[a08a] sets \verb!a08a! book model settings
+\item[p05] sets \verb!p05! book model settings
+\item[authoryear] for \file{natbib} package.
+\end{description}
+
+
+
+\section{Frontmatter}
+
+ - chapter
+ - author
+ - address
+ - footnotes
+ - dispquotes
+ - chapter points
+ - minitoc
+ - abstract
+ - keywords
+
+\section{Tables, Figures}
+
+Figures may be included using the command \verb!\includegraphics!. Please check \verb!graphicx! package
+for available options. Please use EPS format for figures  working with LaTeX, and PDF, PNG, MPS formats for pdfLaTeX. 
+Do not use file extensions and path in order to load file. If you need LaTeX to find your graphics files in 
+other folder than in setup, set the path into \verb!input@path!.
+
+\begin{verbatim}
+\begin{figure}
+\includegraphics{file-name}% no path, no extension
+\caption%
+  {Figure caption %
+     \source{Cortesy of [...]}% 
+  }
+\end{figure}
+\end{verbatim}
+
+Table environment may be enhanced depending on model chosen. 
+
+\begin{verbatim}
+\begin{table}
+\begin{tableframe}
+\caption{Table caption text [...]  }%
+\begin{tabularx}{\textwidth}{X||X}
+\Hline
+\tch{Item A} & \tch{Item B}\tabnoteref{tn1}\\\hline
+\tchi{Item A2} & \tchi{Item B2}\tabnoteref{tn1}\\\hline
+\rowcolor{thd}
+\multicolumn{2}{l}{\textbf{Item}} \\
+Item A & Item B\\\hline
+Item C & Item D\tabnoteref{tn2}\\\Hline
+\end{tabularx}
+\begin{tabnotes}
+  \tabnotetext[*]{tn1}{Table footnote}
+  \tabnotetext[a]{tn2}{Table footnote}
+  \legend{EL=empirical likelihook.}
+  \source{foo}
+\end{tabnotes}
+\end{tableframe}
+\end{table}
+\end{verbatim}
+
+\begin{description}
+\item[tableframe] - environment 
+\item[source] - source 
+\item[Hline] - heavy line
+\item[tch] - table column head
+\item[rowcolor{thd}] for colored rows
+\item[tabnoteref] table footnote reference
+\item[tabnotetext] table footnote text. Must be on \verb!tabnotes! environment
+\item[legend] table legend. Must be inside \verb!tabnotes! environment.
+\end{description}
+
+
+\section{Boxed text}
+
+Boxed text environments uses mdframed package as its basic. There are two types defined: Box Type A (BtypeA) and 
+Box Type B (BtypeB)
+
+Unnumbered text boxes
+\begin{Verbatim}
+\begin{textbox}[style=BtypeA,frametitle={Box type A}]
+ Some text [...]
+\end{textbox}
+[...]
+\begin{textbox}[style=BtypeB,frametitle={Box type B}]
+ Some text [...]
+\end{textbox}
+\end{Verbatim}
+
+\noindent Numbered text boxes are defined pretty much the same as theorem like environments.
+\begin{Verbatim}
+\mdtheorem[style=BtypeA]{example}{Example}[chapter]
+\mdtheorem[style=BtypeB]{boxb}{Box}
+\begin{example}[Numbered Box type A ]
+  Some text [..]
+\end{example}
+[...]
+\begin{boxb}[NUmbered Box type B]
+  Some text [..]
+\end{boxb}
+\end{Verbatim}
+
+You can use other options from mdframed package to fine tune the \verb!textbox! environment.
+
+\section{Theorems and friends}
+
+The class loads \verb!amsthm! package to make it easier to define theorem environments and the alike.
+\begin{verbatim}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\end{verbatim}
+
+Please refer to \verb!amsthm! package documentation for details.
+
+
+\section{Lists}
+
+We use \verb!enumitem! package for enumerate, itemize and other lists environments. It is possible 
+to supply optional arguments to fine control the appearance of list.
+
+\begin{Verbatim}
+\begin{enumerate}[<options>]
+\item [..]
+\end{enumerate}
+\end{Verbatim}
+
+Please check \verb!enumitem! documentation for details.
+
+
+\section{Display mathematics}
+
+The package \file{amsmath} is loaded by the class file. You can use all environments form amsmath package. 
+Please do not use faulty 'eqnarray' environment, but eqnalign or .. instead.
+
+
+\section{Program Lists}
+
+not available yet.
+
+\end{document}
+
+\section{Cross-references}
+
+
+\section{Bibliography}
+
+\section{Acknowledgement}
+
+\section{Appendices}
+
+\section{Index}
+
+\section{Glossary List}
+
+\section {Book Frontmatter}
+
+\subsection{titlepage}
+\subsection{Preface}
+\subsection{About Author}
+\subsection{Contributors Lists}
+\subsection{Toc, lof, lot, etc}
+\subsection{Dedication}
+
+
+
+\end{document}
