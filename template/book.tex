@@ -1,4 +1,13 @@
-\documentclass{elsevierboook}
+\RequirePackage{etoolbox}
+\csdef{input@path}%
+{%
+ {sty/},% class file
+ {img/},% graphics files
+ %{chapter01/},%
+ %{chapter01/img/},%
+}
+
+\documentclass{elsevierbook}
 
 \begin{document}
 
