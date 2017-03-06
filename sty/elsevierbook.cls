@@ -83,7 +83,7 @@
 }
 \def\startfrontmatter%
 {%
-  \clearpage%
+  \cleardoublepage%
 }
 \def\noindentafter{\@afterindentfalse\@afterheading}
 \def\stopfrontmatter%
@@ -394,7 +394,7 @@
 \newcommand*\keywordsprehook{\setlength\parindent{0pt}}
 \newcommand*\keywordsposthook{}
 \newcommand*\keywordshead{{\keywordsheadfont\MakeUppercase{\keywordsname}}\par}
-\newcommand*\keysep{\renewcommand*\keysep{\unskip,\space}}
+\newcommand*\kwdsep{\renewcommand*\kwdsep{\unskip,\space}}
 \newcommand*\keywordsfont{\small}
 \newenvironment{keywords}
 {%
@@ -402,7 +402,7 @@
   \keywordspreskip
   \keywordshead
   \keywordsfont
-  \def\key##1{\keysep ##1}%
+  \def\kwd##1{\kwdsep ##1}%
 }
 {%
   \keywordspostskip%
