@@ -1,0 +1,1065 @@
+%%
+%% This is file `elsevierbook-a08a.cls',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% elsevierbook.dtx  (with options: `class,a08a')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
+%% 
+\NeedsTeXFormat{LaTeX2e}[2005/12/01]
+\ProvidesClass{elsevierbook}[2017/01/24 v1.0 Elsevier book class]
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+\RequirePackage{afterpackage}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{colortbl}
+\RequirePackage{fmtcount}
+\RequirePackage{tikz}
+\newtoggle{bookseries}\togglefalse{bookseries}
+\newtoggle{multiauthor}\togglefalse{multiauthor}
+\def\metamacro#1{\csdef{#1}##1{\bgroup\csuse{#1prehook}\csuse{#1preskip}\csuse{#1format}{##1}\csuse{#1postskip}\csuse{#1posthook}\egroup}}
+\def\metamacrolist#1%
+{%
+ \def\do##1{\metamacro{##1}}%
+ \docsvlist{#1}%
+}
+\metamacrolist%
+{%
+  booktitle,%
+  booksubtitle,%
+  bookseriestitle,%
+  bookvolumenr,%
+  bookedition,%
+  bookeditedby,%
+  bookisbn,%
+  bookissn,%
+  booklanguage,%
+  bookauthor,%
+  bookeditor,%
+  bookauthoraddress,%
+}
+\PassOptionsToClass{11pt}{book}
+\LoadClass{book}
+\def\@listi%
+{%
+  \leftmargin\leftmargini%
+  \parsep 0\p@ \@plus.5\p@ \@minus.5\p@%
+  \topsep 8\p@ \@plus2\p@ \@minus4\p@%
+  \itemsep4\p@ \@plus2\p@ \@minus\p@%
+}
+\let\saved@listi\@listi
+\@listi
+\RequirePackage[T1]{fontenc}
+\RequirePackage[full]{textcomp}
+\RequirePackage[lining,proportional]{fbb}% Bembo-like font
+\RequirePackage[scale=.95,type1]{cabin}% sans serif in style of Gill Sans
+\RequirePackage[varqu,varl]{zi4}% inconsolata typewriter
+\csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
+\RequirePackage[libertine,bigdelims]{newtxmath}
+\RequirePackage{amsmath,amssymb,amsfonts}
+\let\openbox\relax
+\RequirePackage{amsthm}
+\RequirePackage%
+[%
+  total={6in,9in},%
+  body={27pc,43pc+8pt},%
+  %  twoside=true,%
+  head=10pt,
+  centering,
+]{geometry}
+\setlength\parindent{15pt}%
+\setlength\parskip{0pt plus0.1pt}%
+\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
+\newcommand*{\Mainmatter}%
+{%
+ \pagenumbering{arabic}%
+ \setcounter{page}{1}%
+ \relax%
+ \dominitoc%
+ \incrementmtc%
+}
+\newcommand*{\Frontmatter}%
+{%
+ \pagenumbering{roman}%
+ \relax
+}
+\def\startfrontmatter%
+{%
+  \cleardoublepage%
+}
+\def\noindentafter{\@afterindentfalse\@afterheading}
+\def\stopfrontmatter%
+{%
+  \par%
+  \csuse{frontmatterpostskip}%
+  \aftergroup\noindentafter%
+}
+\csdef{frontmatterpostskip}{\addvspace{5.292mm}}
+\renewenvironment{frontmatter}%
+ {\startfrontmatter}%
+ {\stopfrontmatter}%
+\newcommand*{\Backmatter}%
+{%
+ \relax
+}
+\RequirePackage{titlesec}
+\def\zerorule{\hrule height0pt\relax}
+\newcommand*\subchapterfont{\sffamily\Large}
+\newcommand*\subchapterprehook%
+{%
+  \vskip-\chapterpostskip%
+  \vskip.26\baselineskip%
+  \noindent%
+}
+\newcommand*\subchapterposthook
+{%
+  \addvspace{\chapterpostskip}%
+}
+\newcommand\subchapter[1]%
+{%
+  \csuse{subchapterprehook}%
+  \bgroup%
+    \csuse{subchapterfont}%
+    #1%
+  \egroup%
+  \par%
+  \csuse{subchapterposthook}
+}%
+\colorlet{charrowfillcolor}{gray!25}
+\colorlet{charrowoutlinecolor}{black}
+\def\charrow%
+{%
+  \begin{tikzpicture}[use as bounding box,line width=0.5pt]%
+  \coordinate (A) at (0pt,0pt);
+  \coordinate (B) at (0pt,10.2pt);
+  \coordinate (C) at (11pt,10.2pt+11.4pt);
+  \coordinate (D) at (0pt,10.2pt+11.4pt+11.4pt);
+  \coordinate (E) at (0pt,10.2pt+11.4pt+11.4pt+10.2pt);
+  \coordinate (F) at (11pt+10.4pt,10.2pt+11.4pt);
+     \draw[color=charrowoutlinecolor,fill=charrowfillcolor,thin]
+       (A) -- (B) -- (C)  -- (D) -- (E) -- (F) -- cycle;
+  \end{tikzpicture}%
+}
+\def\chapterrule%
+{%
+  \color{charrowoutlinecolor}%
+  \hrule%
+  \vskip-\topskip%
+  \parbox{24pt}{\charrow\hss}%
+  \normalcolor%
+}
+\titleclass{\chapter}{straight}
+\titleformat{\chapter}[display]%
+  {\chapterrule\vskip-28pt\thispagestyle{plain}\sffamily\footnotesize}%
+  {\hskip2pc\MakeUppercase{\chaptertitlename}\ \NUMBERstring{chapter}}%
+  {30pt}%
+  {\sffamily\fontseries{sb}\fontsize{22}{26}\selectfont\raggedright}%
+\newcommand*\chapterpostskip{20pt}
+\titlespacing*{\chapter}%
+  {0pt}%
+  {0pt}%
+  {\chapterpostskip}%
+\setcounter{secnumdepth}{6}
+\newcounter{subsubparagraph}
+\renewcommand*\thesubsubparagraph{\thesubparagraph.\arabic{subsubparagraph}}
+\titleclass{\subsubparagraph}{straight}[\subparagraph]
+\titleformat{\section}%
+  {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
+  {\thesection}%
+  {1em}%
+  {\MakeUppercase}%
+\titleformat{\subsection}%
+  {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
+  {\thesubsection}%
+  {1em}%
+  {}%
+\titleformat{\subsubsection}%
+  {\sffamily\fontshape{it}\fontsize{10.5}{12}\selectfont}%
+  {\thesubsubsection}%
+  {1em}%
+  {}%
+\titleformat{\paragraph}%
+  {\sffamily\fontsize{10}{12}\selectfont}%
+  {\theparagraph}%
+  {1em}%
+  {}%
+\titleformat{\subparagraph}%
+  {\sffamily\bfseries\itshape\fontsize{10}{12}\selectfont\mathversion{bold}}%
+  {\thesubparagraph}%
+  {1em}%
+  {}%
+\titleformat{\subsubparagraph}%
+  {\normalfont\bfseries\itshape}%
+  {\thesubsubparagraph}%
+  {1em}%
+  {}%
+\titlespacing*{\section}{0pt}%
+  {5.292mm}%
+  {2.117mm}%
+\titlespacing*{\subsection}{0pt}%
+  {5.292mm}%
+  {2.117mm}%
+\titlespacing*{\subsubsection}{0pt}%
+  {4.233mm}%
+  {1.058mm}%
+\titlespacing*{\paragraph}{0pt}%
+  {4.233mm}%
+  {1.058mm}%
+\titlespacing*{\subparagraph}{0pt}%
+  {*1}%
+  {*1}%
+\titlespacing*{\subsubparagraph}{1em}%
+  {*2}%
+  {*1}%
+\newenvironment{aug}%
+{%
+  \setcounter{author}{0}%
+  \augfont
+  \setbox\@tempboxa=\vbox\bgroup%
+}%
+{%
+  \egroup%
+  \printauthorlist%
+  \printaddresslist
+}%
+\newcounter{augtemp}
+\def\author@notes@format#1{\textsuperscript{#1}}
+\def\printauthorlist%
+{%
+  \bgroup%
+  \authorfont
+    \setcounter{augtemp}{0}%
+    \def\do##1%
+    {%
+      \let\author@notes\@empty%
+      \let\author@fnmarks\@empty%
+      \stepcounter{augtemp}%
+      \edef\@next{\csuse{author@\number\c@augtemp @addressrefs}}%
+      \csvlistassess{\author@notes}{\@next}{\ref{addressid.*}}%
+      \csdef{author@sep@\number\c@augtemp}{\author@sep@one}% default
+      %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
+      \ifnum\c@augtemp=1\relax%
+       \csdef{author@sep@\number\c@augtemp}{}%
+      \fi%
+      \ifnum\c@author=\c@augtemp\relax% Last item
+        \ifnum\c@augtemp=2\relax% if two items only
+          \csdef{author@sep@\number\c@augtemp}{\author@sep@two}%
+        \else%
+          \csdef{author@sep@\number\c@augtemp}{\author@sep@last}%
+        \fi%
+      \fi%
+      \csuse{author@sep@\number\c@augtemp}%
+      \def\@makefnmark{\listxadd\author@fnmarks{\@thefnmark}}%
+      ##1%
+      \listassess{\author@notes}{\author@fnmarks}{*}%
+      \author@notes@format{\author@notes}%
+    }%
+    \dolistloop{\@authorlist}%
+  \egroup%
+  \par%
+  \ignorespaces
+}
+\def\assess@sep{,}
+\robustify{\ref}
+\def\csvlistassess#1#2#3%
+{%
+  \def\@iii{#3}%
+  \def\@iv{\@empty}%
+  \patchcmd\@iii{*}{\@@@listitem}{}{}%
+  \bgroup%
+    \def\do##1%
+    {%
+      \def\@@@listitem{##1}%
+      \ifdefvoid{#1}{}{\def\@iv{\assess@sep}}%
+      \xappto#1{\@iv\@iii}%
+    }%
+    \edef\@nexti{\noexpand\docsvlist{#2}}%
+    \@nexti
+  \egroup%
+}
+\def\listassess#1#2#3%
+{%
+  \def\@iii{#3}%
+  \def\@iv{\@empty}%
+  \patchcmd\@iii{*}{\@@@listitem}{}{}%
+  \bgroup%
+    \def\do##1%
+    {%
+      \def\@@@listitem{##1}%
+      \ifdefvoid{#1}{}{\def\@iv{\assess@sep}}%
+      \xappto#1{\@iv\@iii}%
+    }%
+    \dolistloop{#2}%
+  \egroup%
+}
+\def\printaddresslist%
+{%
+  \bgroup%
+  \addressskip\addressfont%
+    \setcounter{addrtemp}{0}%
+    \def\do##1%
+    {%
+      \stepcounter{addrtemp}%
+      \csdef{address@sep@\number\c@addrtemp}{\address@sep@one}% default
+      %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
+      \ifnum\c@addrtemp=1\relax%
+       \csdef{address@sep@\number\c@addrtemp}{}%
+      \fi%
+      \ifnum\c@address=\c@addrtemp\relax% Last item
+        \ifnum\c@addrtemp=2\relax% if two items only
+          \csdef{address@sep@\number\c@addrtemp}{\address@sep@two}%
+        \else%
+          \csdef{address@sep@\number\c@addrtemp}{\address@sep@last}%
+        \fi%
+      \fi%
+      \csuse{address@sep@\number\c@addrtemp}%
+      \addresslabel{\csuse{addres@\number\c@addrtemp @id}}%
+      ##1%
+    }%
+    \dolistloop{\@addresslist}%
+    \par%
+  \egroup%
+  \par
+  \ignorespaces
+}
+\csdef{author@sep@one}{,\space}%
+\csdef{author@sep@two}{,\space}%   case = 2: Author<sep@two>Author
+\csdef{author@sep@last}{,\space}% case > 2: Author<sep@one>Author<sep@last>Author
+\csdef{address@sep@one}{\par}%
+\csdef{address@sep@two}{\par}%   case = 2: Author<sep@two>Author
+\csdef{address@sep@last}{\par}% case > 2: Author<sep@one>Author<sep@last>Author
+\newcounter{addrtemp}
+\newcommand*\authorfont{\sffamily\fontseries{sb}\selectfont}
+\newcommand*\augfont{\sffamily\fontseries{sb}\selectfont\raggedright}
+\newcommand*\authorskip{\setlength\parindent{0pt}}
+\newcommand*\authorsep{\@empty}
+\renewcommand*\author{\@ifnextchar[\@author{\@author[]}}
+\newcounter{author}
+\define@key{author}{id}{}
+\define@key{author}{addressrefs}{\csxdef{author@\number\c@author @addressrefs}{#1}}
+\define@key{address}{id}{\csxdef{addres@\number\c@address @id}{#1}}
+\def\@author[#1]#2%
+{%
+  \stepcounter{author}%
+  \bgroup%
+  \ifstrempty{#1}{}{\setkeys{author}{#1}}%
+    \bgroup%
+      \listgadd\@authorlist{#2}%
+    \egroup%
+ \egroup%
+ \ignorespaces
+}
+\let\fnm\@firstofone
+\let\snm\@firstofone
+%%
+\def\@address[#1]#2%
+{%
+  \stepcounter{address}%
+  \bgroup%
+  \ifstrempty{#1}{}{\setkeys{address}{#1}}%
+    \bgroup%
+      \listgadd\@addresslist{#2}%
+    \egroup%
+ \egroup%
+ \par%
+ \ignorespaces
+}
+\newcommand*\addressskip{\par\noindent\vskip2pt}
+\newcommand*\addressfont{\normalfont\fontsize{7.5}{8}\selectfont}
+\def\address{\@ifnextchar[{\@address}{\@address[]}}
+\newcounter{address}
+\newcounter{addresslabel}
+\renewcommand*\theaddresslabel{\fnsymbol{addresslabel}}
+\newcommand*\addressmark{\textsuperscript{\theaddresslabel}}
+\def\addresslabel#1{\refstepcounter{addresslabel}\label{addressid.#1}\addressmark}
+\newcommand*\abstractname{Abstract}
+\newcommand*\abstractheadfont{\sffamily}
+\newcommand*\abstractpreskip{\medskip}
+\newcommand*\abstractpostskip{\end{list}\medskip}%
+\newcommand*\abstractprehook{\setlength\parindent{0pt}}
+\newcommand*\abstractposthook{\par}%
+\newcommand*\frontlist@params%
+{%
+  \topsep0pt%
+  \itemsep0pt%
+  \partopsep0pt%
+  \parsep0pt%
+  \leftmargin5.929mm%
+}
+\newcommand*\abstracthead%
+{%
+  \bgroup%
+    \abstractheadfont{\abstractname}%
+  \egroup%
+  \par%
+  \nobreak%
+  \vskip.5\baselineskip%
+  \begin{list}{}{\frontlist@params}%
+  \item\relax%
+}
+\newcommand*\abstractfont{\sffamily\footnotesize}
+\newenvironment{abstract}
+{%
+  \abstractprehook
+  \abstractpreskip
+  \abstracthead
+  \abstractfont
+}%
+{%
+  \strut
+  \abstractpostskip%
+  \abstractposthook%
+}
+\newcommand*\keywordsname{Keywords}
+\newcommand*\keywordsheadfont{\sffamily}
+\newcommand*\keywordspreskip{\medskip}
+\newcommand*\keywordspostskip{\end{list}\medskip}
+\newcommand*\keywordsprehook{\setlength\parindent{0pt}}
+\newcommand*\keywordsposthook{}
+\newcommand*\keywordshead%
+{%
+  \bgroup%
+    \keywordsheadfont{\keywordsname}%
+  \egroup%
+  \par%
+  \nobreak%
+  \vskip.5\baselineskip%
+  \begin{list}{}{\frontlist@params}%
+  \item\relax%
+}
+\newcommand*\kwdsep{\renewcommand*\kwdsep{\unskip,\space}}
+\newcommand*\keywordsfont{\sffamily\footnotesize}
+\newenvironment{keywords}
+{%
+  \keywordsprehook
+  \keywordspreskip
+  \keywordshead
+  \keywordsfont
+  \def\kwd##1{\kwdsep ##1}%
+}
+{%
+  \keywordspostskip%
+  \keywordsposthook%
+}
+\RequirePackage{enumitem}
+\setlist%
+{%
+ topsep=0pt,%
+ labelsep=6pt,
+ noitemsep,%
+ leftmargin=*
+}
+\setitemize[1]{label=\ensuremath{\bullet},topsep=4pt}
+\setitemize[2]{label=\ensuremath{\bullet}}
+\setitemize[3]{label={-}}
+\setenumerate[1]{label={\arabic*.},font=\sffamily\textbf,topsep=4pt}
+\setenumerate[2]{label={\alph*.},font=\sffamily\textbf}
+\setenumerate[3]{label={-}}
+\setdescription{itemindent=-\parindent}
+\newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
+\newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
+\newcommand*\quoteleftindent{4mm}
+\newcommand*\quoterightindent{4mm}
+\newcommand*\quotelistparindent{4mm}%
+\newcommand*\quotetopsep{2.117mm}
+\newcommand*\quotationfont{\fontsize{9}{12}\itshape}
+\newcommand*\quotationsourcefont{\normalfont\fontsize{9}{11}\selectfont}
+\newcommand*\quotationtopsep{0pt}
+\newcommand*\quotesourceprehook%
+{%
+  \nointerlineskip\vskip4pt%
+  \raggedleft%
+}
+\newcommand\quotesource[1]%
+{%
+  \par%
+  \csuse{quotesourceprehook}%
+  \bgroup%
+  \hfill
+  \hbox to-\rightmargin
+  {%
+    \llap%
+    {%
+       \csuse{quotesourcefont}#1\unskip%
+     }%
+   \hss%
+   }%
+  \egroup%
+  \par%
+}
+\def\quotationsource{\quotesource}
+\renewenvironment{quote}%
+{%
+  \begin{list}{}%
+ {%
+   \setlength{\leftmargin}{\quoteleftindent}%
+   \setlength{\rightmargin}{\quoterightindent}%
+   \setlength{\topsep}{\quotetopsep}%
+   \setlength{\parsep}{0pt\@plus1pt}%
+   \setlength{\listparindent}{\quotelistparindent}%
+ }%
+ \item\relax\quotefont%
+ \let\source\quotesource%
+}%
+{%
+  \end{list}%
+}
+\renewenvironment{quotation}%
+{%
+  \renewcommand*\quotelistparindent{0mm}%
+  \begin{quote}%
+}{%
+  \end{quote}%
+}
+\newenvironment{dispquote}%
+{%
+  \begin{list}{}
+  {%
+    \setlength{\leftmargin}{4mm}%
+    \setlength{\topsep}{\quotationtopsep}%
+    \setlength{\itemindent}{\listparindent}%
+    \setlength{\rightmargin}{\leftmargin}%
+    \setlength{\parsep}{\z@ \@plus \p@}%
+  }%
+  \item\relax\quotationfont
+  \let\source\quotationsource
+  \hrule height.5pt
+  \nobreak
+  \vskip2.6pt
+}%
+{%
+  \end{list}%
+}%
+\newcommand*\chapterpointshead[1]{\item[]\hskip-10pt{\bfseries\fontsize{10}{12}\selectfont#1}}
+\newcommand*\chapterpointsfont{\raggedright\fontsize{8.5}{10}\sffamily}
+\newcommand*\chapterpointsprehook%
+{%
+  \zerorule%
+}
+\newenvironment{chapterpoints}[1][Chapter Points]
+{%
+  \chapterpointsprehook
+  \begin{chapterpointslist}%
+  \chapterpointsfont%
+  \chapterpointshead{#1}%
+  \vskip2pt
+}%
+{%
+  \end{chapterpointslist}%
+}
+\newlist{chapterpointslist}{itemize}{1}
+\setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=6pt,leftmargin=20pt,rightmargin=12pt}
+\def\contributorname#1{\item[#1]}
+\newlist{contributorslist}{description}{1}
+\setlist[contributorslist]{itemindent=-12pt,leftmargin=*,labelsep=.5em,itemsep=\smallskipamount,
+  before*={\let\name\contributorname}%
+}
+\RequirePackage{caption}
+\def\figuresource#1{\textit{(#1)}}
+\appto\@begin@figure@hook%
+{%
+  \def\source{\figuresource}%
+  \appto\@floatboxreset{\@figureboxreset@hook}%
+}%
+\appto\@begin@table@hook%
+{%
+  \def\source{\tablesource}%
+  \appto\@floatboxreset{\@tableboxreset@hook}%
+}%
+\def\@figureboxreset@hook{\centering}
+\def\@tableboxreset@hook{\footnotesize\sffamily}
+\captionsetup[figure]%
+{%
+  labelsep=quad,
+  labelfont={bf,sf},%
+  font={footnotesize},
+  name=FIGURE,%
+}
+\captionsetup[table]%
+{%
+  labelsep=space,
+  labelfont={bf,sf},%
+  font={small,sf},
+  name=TABLE,%
+  margin=\tabcolsep,
+  skip=2.6pt,
+}
+%% Tabnotes
+\def\tabnotesfont{\scriptsize}
+\def\tabnotesparindent{0pt}
+\newenvironment{tabnotes}%
+{%
+  \unskip\par
+  \tabnotesfont
+  \lineskip6\p@
+  \parindent=\tabnotesparindent
+  \noindent\hbox to\hsize\bgroup\hfill\vbox\bgroup\hsize=\textwidth%\tablewidth
+  \expandafter\noindent\ignorespaces
+}
+{%
+  \egroup\hfill\egroup\par%
+}
+\newcounter{tabnote}
+\def\thetabnote{\@alph\c@tabnote}
+\def\tabnoteref@shape#1{\sustyle\ref{tabnote.#1}}
+\def\tabnotemark@fmt#1{\hbox{\tabnoteref@shape{#1}}}
+\def\tabnoteref{\@ifnextchar[{\@tabnoteref}{\@tabnoteref[]}}
+\def\@tabnoteref[#1]#2%
+{%
+    \tabnotemark@fmt{#2}%
+}%
+\def\tablewidth{\textwidth}
+\def\tabnoteanchor@fmt[#1]#2%
+{%
+  %\@textsuperscript{#1}%
+  \bgroup%
+  \sustyle
+    #1%
+  \egroup%
+  \def\@currentlabel{#1}%
+  \label{tabnote.#2}%
+}
+\long\def\tabnotetext[#1]#2#3%
+{%
+  \lineskip2\p@%
+  \ifhmode\par\fi
+  \noindent
+  \hskip\tabcolsep
+  \parbox[t]{\tablewidth-2\tabcolsep}{%\parindent\tabnotetextwidth\relax
+    \ifx.#1.\relax
+    \else
+      \noindent
+      \bgroup
+      \hbox{\tabnoteanchor@fmt[#1]{#2}\kern1\p@}%
+      \egroup%
+    \fi%
+    {\itshape #3}\par}%
+  \vtop to\z@{}\par%
+}
+
+\long\def\legend#1{\lineskip4\p@%
+  \ifhmode\par\fi
+  \noindent
+  \hskip\tabcolsep
+  \parbox[t]{\tablewidth-2\tabcolsep}%
+  {
+    %\parindent\tabnotetextwidth
+    \noindent#1\par}%
+  \vtop to\z@{}\par
+}
+\def\tablesourcehead{Source:\space}
+\def\tablesource#1{\legend{\tablesourcehead #1}}
+\def\tch#1%
+{%
+  \bgroup%
+    \fontsize{8.5}{12}%
+    \bfseries%
+    #1%
+  \egroup%
+}
+\def\tchi#1%
+{%
+  \bgroup%
+    \fontsize{8}{12}%
+    \bfseries%
+    \itshape
+    #1%
+  \egroup%
+}
+\definecolor{thd}{cmyk}{0,0,0,.35}
+\RequirePackage{mdframed}
+\RequirePackage{colortbl}
+\setlength{\arrayrulewidth}{.5pt}
+\setlength{\doublerulesep}{0pt}
+\setlength{\minrowclearance}{2pt}%
+\def\Hline{\hline\hline\hline}
+\def\bhline{\hline\hline}
+\mdfdefinestyle{table}%
+{%
+  backgroundcolor=black!10,
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=5pt,
+  innerbottommargin=10pt,
+}
+\newenvironment{tableframe}[1][]%
+{%
+  \arrayrulecolor{black!00}%
+  \mdfsetup{style=table}%
+  \begin{mdframed}[#1]%
+}%
+{%
+ \end{mdframed}%
+ \arrayrulecolor{black}%
+}
+\RequirePackage[hang,bottom,stable]{footmisc}
+\def\footnoterule{\kern-3pt\hrule height.5pt\kern2.6pt}
+\setlength{\footnotemargin}{1em}
+\skip\footins=1pc
+\def\@makefnmarktext%
+{%
+  \ifx\@mpfn\f@@tn@te%
+    \ifx\thefootnote\orig@footnote
+      \hbox{\hspace *{.04em}\@thefnmark.\hspace *{.03em}}
+    \else%
+      \orig@makefnmark
+    \fi%
+  \else%
+    \orig@makefnmark%
+  \fi%
+}%
+\long\def\@makefntext#1%
+{%
+  \ifFN@hangfoot
+    \bgroup
+    \setbox\@tempboxa\hbox{%
+        \ifdim\footnotemargin>0pt
+          \hb@xt@\footnotemargin{\@makefnmarktext\hss}%
+        \else
+          \@makefnmark
+        \fi
+      }%
+      \leftmargin\wd\@tempboxa
+      \rightmargin\z@
+      \linewidth \columnwidth
+      \advance \linewidth -\leftmargin
+      \parshape \@ne \leftmargin \linewidth
+      \footnotesize
+      \@setpar{{\@@par}}%
+      \leavevmode
+      \llap{\box\@tempboxa}%
+      \parskip\hangfootparskip\relax
+      \parindent\hangfootparindent\relax
+    \else
+      \parindent1em
+      \noindent
+      \ifdim\footnotemargin>\z@
+        \hb@xt@ \footnotemargin{\hss\@makefnmark}%
+      \else
+        \ifdim\footnotemargin=\z@
+          \llap{\@makefnmark}%
+        \else
+          \llap{\hb@xt@ -\footnotemargin{\@makefnmark\hss}}%
+        \fi
+      \fi
+    \fi
+    \footnotelayout#1%
+    \ifFN@hangfoot
+      \par\egroup
+    \fi
+}
+\def\eqnarray@error%
+{%
+  \GenericError{}%
+  {%
+    LaTeX Error:
+    \MessageBreak Environment 'eqnarray' is obsolete!%
+    \MessageBreak See http://m.tug.org/pracjourn/2006-4/madsen/madsen.pdf%
+    \MessageBreak Please use 'align' (or other) environment from amsmath package%
+  }{}{}%
+}
+\csdef{eqnarray}{\eqnarray@error}
+\csdef{eqnarray*}{\eqnarray@error}
+\RequirePackage{fancyhdr}
+\def\thepageformat#1{{\bfseries\sffamily#1}}
+\def\thepagesep{\quad}
+\def\headsize{\sffamily\fontsize{8.5}{10}\selectfont}
+\fancypagestyle{headings}%
+{%
+ \fancyhf{}%
+ \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
+ \fancyhead[E]{\headsize\thepageformat\thepage\thepagesep\leftmark\hfill}%
+ \def\headrulewidth{0pt}%
+}
+\fancypagestyle{plain}%
+{%
+ \fancyhf{}%
+ \fancyfoot[OR]{\headsize\thepageformat\thepage}%
+ \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
+}
+\newcommand*\acknowledgementfont{\fontsize{8.5}{10}\selectfont}
+\newcommand*\acknowledgementheading{\section*}
+\newenvironment{ack}[1][Acknowledgement]%
+{%
+  \acknowledgementheading{#1}%
+  \acknowledgementfont%
+}%
+{%
+  \par%
+}
+\newenvironment{acks}[1][Acknowledgements]%
+{%
+  \acknowledgementheading{#1}%
+  \acknowledgementfont%
+}%
+{%
+  \par%
+}
+\RequirePackage[numbers]{natbib}
+\def\bibsection{\section*{\bibname}}
+\def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
+\setlength{\bibhang}{10pt}
+\setlength{\bibsep}{0pt \@plus.1pt}
+\def\booktitleposthook{\par}
+\def\booktitlepreskip{\zerorule\vskip4\baselineskip}
+\def\booktitleformat#1{\sffamily\bfseries\fontsize{24pt}{28pt}\selectfont\MakeUppercase{#1}}
+\def\booksubtitleformat{\sffamily\fontshape{sc}\fontsize{16}{18}\selectfont}
+\def\titlepagerule{\removelastskip\vskip\baselineskip\hrule height5.55pt\vskip1pc}
+\def\booksubtitleposthook{\par}
+\def\booksubtitlepreskip{\vskip.5\baselineskip}
+\def\booksubtitlepostskip{\vskip2\baselineskip}
+\def\bookauthorposthook{\par}
+\def\bookauthorpreskip{\vskip\baselineskip}
+\def\bookauthoraddressposthook{\par}
+\def\bookauthoraddressformat{\itshape}
+\def\bookauthorformat#1{\bfseries\fontsize{13}{15}\selectfont\MakeUppercase{#1}}
+\def\bookeditedbypreskip{\vskip2pc}
+\def\bookvolumenrformat#1{VOLUME \NUMBERstringnum{#1}}
+\AtBeginEnvironment{titlepage}
+{%
+  \let\title\booktitle%
+  \let\subtitle\booksubtitle%
+  \let\address\bookauthoraddress%
+  \let\author\bookauthor%
+  \let\edition\bookedition%
+  \let\editedby\bookeditedby
+  \let\volume\bookvolumenr
+  \setlength{\parindent}{0pt}%
+  \sffamily
+}%
+\def\dedicationhead%
+{
+  \begin{frontmatter}%
+  \chapter*{Dedication}%
+  \end{frontmatter}%
+}
+\def\dedicationprehook{\clearpage}
+\def\dedicationfont{}
+\newenvironment{dedication}%
+{%
+  \csuse{dedicationprehook}%
+    \dedicationfont%
+    \dedicationhead%
+}%
+{%
+   \csuse{dedicationposthook}%
+}
+\newenvironment{biography}{\par}{}
+\pagestyle{headings}
+\def\chaptermark#1{\markright{#1\enskip\hbox{\color{black!30}\@chapapp\enskip|\enskip\thechapter}}}
+\def\partmark#1{%
+  \markboth%
+  {\hbox{\color{black!30}\partname\enskip|\enskip\thepart}\enskip#1}%
+  {#1\enskip\hbox{\color{black!30}\partname\enskip|\enskip\thepart}}%
+}
+\def\sectionmark#1{}
+\RequirePackage[tight]{minitoc}
+\RequirePackage{multicol}
+\newcommand*\setminitoclines%
+{%
+  \def\l@section{\@dottedtocline {1}{0em}{2.3em}}%
+  \def\l@subsection{\@dottedtocline {2}{2.3em}{3em}}%
+  \def\l@subsubsection{\@dottedtocline {3}{5.3em}{3.5em}}%
+}
+\mtcsetformat{minitoc}{dotinterval}{1000}
+\setcounter{minitocdepth}{3}
+\setlength{\mtcindent}{0pt}
+\mtcsetoffset{minitoc}{0pt}
+\mtcsettitle{minitoc}{Contents}
+\mtcsettitlefont{minitoc}{\large\sffamily\bfseries}
+\mtcsetfont{minitoc}{section}{\sffamily\bfseries}
+\mtcsetfont{minitoc}{subsection}{\sffamily}
+\mtcsetfont{minitoc}{subsubsection}{\sffamily}
+\mtcsetrules{minitoc}{off}
+\mtcsetformat{minitoc}{tocrightmargin}{2.55em plus 1fil}
+\newcommand{\multicolumnmtc}{2}
+\let\SV@mtc@verse\mtc@verse
+\let\SV@endmtc@verse\endmtc@verse
+\def\mtc@verse#1{%
+  \setminitoclines%
+  %\SV@mtc@verse#1\removelastskip%
+  \setcounter{collectmore}{-1}%
+  \multicolsep0pt%
+  \begin{multicols}{\multicolumnmtc}
+  \raggedcolumns\leavevmode\unskip
+  \vskip -1.5ex \vskip -1\baselineskip}
+\def\endmtc@verse%
+{%
+  \end{multicols}%
+  %\SV@endmtc@verse
+}
+\def\tableofcontents{\@starttoc{toc}}
+%% TODO: chapter numberline
+%% TODO: part numberline
+\let\tocnumberline\numberline
+\long\def\tocpartnumberline#1%
+{%
+  \noindent%
+  \bgroup%
+    \normalfont\sffamily\fontsize{13}{15}\selectfont
+    \partname\space%
+    #1\par%
+  \egroup
+  \noindent%
+}
+\def\tocpartshape{\normalfont\sffamily\bfseries\fontsize{13}{15}\selectfont}
+\def\tocchaptershape{\normalfont\sffamily\bfseries\fontsize{11}{13}\selectfont}
+\def\tocsectionshape{\normalfont\sffamily\bfseries\fontsize{9}{11}\selectfont}
+\def\tocsubsectionshape{\normalfont\sffamily\fontsize{9}{11}\selectfont}
+\def\tocsubsubsectionshape{\normalfont\sffamily\fontsize{9}{11}\selectfont}
+\def\@dotsep{1000}
+\def\l@part#1#2%
+{%
+ \let\numberline\tocpartnumberline%
+ \csuse{tocpartshape}%
+ #1%
+ \par
+ \vskip2.6pt
+}%
+\def\l@chapter%
+{%
+  \let\numberline\tocnumberline%
+  \csuse{tocchaptershape}%
+  \book@dottedtocline{0}{0pt}{1pc}%
+}%
+\def\l@section%
+{%
+  \csuse{tocsectionshape}%
+  \let\numberline\tocnumberline%
+  \book@dottedtocline{1}{1pc}{2pc}%
+}%
+\def\l@subsection%
+{%
+  \csuse{tocsubsectionshape}%
+  \let\numberline\tocnumberline%
+  \book@dottedtocline{2}{3pc}{2pc}%
+}%
+\def\l@subsubsection%
+{%
+  \csuse{tocsubsubsectionshape}%
+  \let\numberline\tocnumberline%
+  \book@dottedtocline{3}{5.3em}{3.5em}%
+}%
+\def\pnumshape{\sffamily\fontsize{9}{11}\selectfont}
+\def\l@paragraph#1#2{}%
+\let\l@paragraph\@gobbletwo%
+\let\l@subparagraph\@gobbletwo%
+\let\l@subsubparagraph\@gobbletwo%
+\def\book@dottedtocline#1#2#3#4#5{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+     {#4}\nobreak
+     \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill
+     \nobreak
+     \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor \pnumshape #5}%
+     \par}%
+  \fi}
+ \newcommand\source[1]%
+ {%
+   \bgroup
+   \vskip1pc
+   \let\author\@firstofone%
+   \let\address\@firstofone%
+   \let\date\@firstofone%
+   \begin{flushright}
+   #1%
+   \end{flushright}
+   \egroup%
+   \par%
+ }
+
+\RequirePackage{mdframed}
+\newmdenv{textbox}
+\mdfdefinestyle{BtypeA}%
+{%
+  font={\fontsize{8.5}{10}\sffamily},%
+  frametitlefont={\fontsize{9}{11}\sffamily\bfseries},%
+  hidealllines=true,
+  innertopmargin=4pt,
+  innerbottommargin=10pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  backgroundcolor=black!10,
+  frametitleaboveskip=10pt,
+}
+\mdfdefinestyle{BtypeB}%
+{%
+  font={\fontsize{8.5}{10}\sffamily},%
+  frametitlefont={\strut\rlap{\frametitlerule@BtypeB}\fontsize{9}{11}\sffamily\bfseries},%
+  linewidth=.5pt,
+  innertopmargin=0pt,
+  innerbottommargin=6pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  frametitleaboveskip=9pt,
+}
+\mdfsetup%
+{
+  theoremseparator=,
+  theoremspace=\space\space,
+}
+\def\frametitlerule@BtypeB{\rule[-5pt]{\linewidth}{.75pt}}
+\AfterPackage{index}
+{%
+\renewenvironment{theindex}%
+{%
+  \edef\indexname{\the\@nameuse{idxtitle@\@indextype}}%
+  \if@twocolumn%
+    \@restonecolfalse
+  \else%
+    \@restonecoltrue%
+  \fi%
+  \columnseprule\z@%
+  \columnsep35\p@%
+  \twocolumn%
+  [%
+    \@makeschapterhead{\indexname}%
+    \ifx\index@prologue\@empty%
+    \else%
+      \index@prologue\bigskip%
+    \fi%
+  ]%
+  \@mkboth{\MakeUppercase\indexname}%
+  {\MakeUppercase\indexname}%
+  \indexfont
+  \parindent\z@
+  \parskip\z@ \@plus .3\p@\relax
+  \let\item\@idxitem
+}%
+{%
+  \if@restonecol%
+    \onecolumn%
+  \else%
+    \clearpage
+  \fi
+}
+\def\runmakeindex%
+{%
+  \begingroup
+    \immediate\write18{makeindex \jobname}%
+  \endgroup
+}
+\AtEndPreamble
+{%
+  \runmakeindex%
+  \def\indexfont{\small}%
+  \newindex{default}{idx}{ind}{Index}%
+}
+}
+\endinput
+%%
+%% End of file `elsevierbook-a08a.cls'.
