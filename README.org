@@ -1,27 +1,30 @@
-* LaTeX book class and template for Elsevier book projects
 
-* Setup
+* Getting started
 
   Download
   [[https://github.com/vtex-soft/texsupport.elsevier-book/raw/master/release/elsevierbook-project-template.zip][elsevierbook-project-template]]
-  package and unzip.
+  package and unzip it.
+  Rename the folder =elsevierbook-project-template= to =<your-project-name>=.
+  The package is self-contained, which means that once unzipped you can start
+  formatting your book straight away. No additional installation steps are required.
+  However, you may wish to checj the 'Installation' section in the manual.
 
-  Rename folder =elsevierbook-project-template= to =<your-project-name>=.
-  The package is self-contained. This means that once unzipped you can start
-  formatting your book straight away. No any installation of file needed.
-  However, you may wish to 'Installation' section in preparation manual.
 
-
-* Package contains
+* Package content
 
   - sty/
     - elsevierbook.cls - class file
+    - elsevierbook-<model>.cls - model class file(s)
   - doc/
-     - elsbookdoc.pdf - Manual on book preparation
-  - img - EPS, PDF graphics files
-  - chapterXX/ (optional)
-  - chapterXX/img/ (optional)
+     - elsbookdoc.pdf - manual on book preparation
+  - img/ - forder for graphics files: EPS, PDF format
   - book.tex
   - chapter01.tex
   - chapter02.tex
+  - [..]
 
+* Submission
+  
+  Submit one single file as a zip archive. 
+  Pack your root folder =<your-project-name>= with files and subfolders.
+  Check that subfolder =sty/=, =img/=, or =chapterNN/= (if any) are present in a zip file.

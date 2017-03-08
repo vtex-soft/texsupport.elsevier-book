@@ -2,35 +2,38 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. LaTeX book class and template for Elsevier book projects</a></li>
-<li><a href="#orgheadline2">2. Setup</a></li>
-<li><a href="#orgheadline3">3. Package contains</a></li>
+<li><a href="#orgheadline1">1. Getting started</a></li>
+<li><a href="#orgheadline2">2. Package content</a></li>
+<li><a href="#orgheadline3">3. Submission</a></li>
 </ul>
 </div>
 </div>
 
-# LaTeX book class and template for Elsevier book projects<a id="orgheadline1"></a>
-
-# Setup<a id="orgheadline2"></a>
+# Getting started<a id="orgheadline1"></a>
 
 Download
 [elsevierbook-project-template](https://github.com/vtex-soft/texsupport.elsevier-book/raw/master/release/elsevierbook-project-template.zip)
-package and unzip.
+package and unzip it.
+Rename the folder `elsevierbook-project-template` to `<your-project-name>`.
+The package is self-contained, which means that once unzipped you can start
+formatting your book straight away. No additional installation steps are required.
+However, you may wish to checj the 'Installation' section in the manual.
 
-Rename folder `elsevierbook-project-template` to `<your-project-name>`.
-The package is self-contained. This means that once unzipped you can start
-formatting your book straight away. No any installation of file needed.
-However, you may wish to 'Installation' section in preparation manual.
-
-# Package contains<a id="orgheadline3"></a>
+# Package content<a id="orgheadline2"></a>
 
 -   sty/
     -   elsevierbook.cls - class file
+    -   elsevierbook-<model>.cls - model class file(s)
 -   doc/
-    -   elsbookdoc.pdf - Manual on book preparation
--   img - EPS, PDF graphics files
--   chapterXX/ (optional)
--   chapterXX/img/ (optional)
+    -   elsbookdoc.pdf - manual on book preparation
+-   img/ - forder for graphics files: EPS, PDF format
 -   book.tex
 -   chapter01.tex
 -   chapter02.tex
+-   [..]
+
+# Submission<a id="orgheadline3"></a>
+
+Submit one single file as a zip archive. 
+Pack your root folder `<your-project-name>` with files and subfolders.
+Check that subfolder `sty/`, `img/`, or `chapterNN/` (if any) are present in a zip file.
