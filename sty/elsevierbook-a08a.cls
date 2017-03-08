@@ -169,12 +169,12 @@
 \renewcommand*\thesubsubparagraph{\thesubparagraph.\arabic{subsubparagraph}}
 \titleclass{\subsubparagraph}{straight}[\subparagraph]
 \titleformat{\section}%
-  {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
+  {\sffamily\bfseries\mathversion{bold}\Large\raggedright}%
   {\thesection}%
   {1em}%
   {\MakeUppercase}%
 \titleformat{\subsection}%
-  {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
+  {\sffamily\fontseries{sb}\mathversion{bold}\Large\raggedright}%
   {\thesubsection}%
   {1em}%
   {}%
