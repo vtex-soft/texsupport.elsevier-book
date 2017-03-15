@@ -77,6 +77,7 @@
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
 \newcommand*{\Mainmatter}%
 {%
+ \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
  \relax%
@@ -109,6 +110,17 @@
 }
 \RequirePackage{titlesec}
 \def\zerorule{\hrule height0pt\relax}
+\titleclass{\part}{straight}
+\titleformat{\part}[display]%
+  {\partrule\thispagestyle{plain}\vskip-26pt\sffamily\fontseries{sb}\fontsize{9}{9}\selectfont}%
+  {\hskip2pc\MakeUppercase{\partname}\ \NUMBERstring{part}}%
+  {30pt}%
+  {\fontsize{30}{34}\sffamily\fontseries{sb}\selectfont}%
+\titlespacing*{\part}%
+  {0pt}
+  {20pt}
+  {20pt}
+\def\ttl@tocpart{\def\ttl@a{\string\numberline{\thepart}}}
 \newcommand*\subchapterfont{\sffamily\Large}
 \newcommand*\subchapterprehook%
 {%
@@ -136,29 +148,55 @@
 {%
   \begin{tikzpicture}[use as bounding box,line width=0.5pt]%
   \coordinate (A) at (0pt,0pt);
-  \coordinate (B) at (0pt,10.2pt);
-  \coordinate (C) at (11pt,10.2pt+11.4pt);
-  \coordinate (D) at (0pt,10.2pt+11.4pt+11.4pt);
-  \coordinate (E) at (0pt,10.2pt+11.4pt+11.4pt+10.2pt);
-  \coordinate (F) at (11pt+10.4pt,10.2pt+11.4pt);
+  \coordinate (B) at (0pt,10pt);
+  \coordinate (C) at (11pt,11pt+11pt);
+  \coordinate (D) at (0pt,11pt+11pt+11pt);
+  \coordinate (E) at (0pt,11pt+11pt+11pt+11pt);
+  \coordinate (F) at (11pt+11pt,11pt+11pt);
      \draw[color=charrowoutlinecolor,fill=charrowfillcolor,thin]
-       (A) -- (B) -- (C)  -- (D) -- (E) -- (F) -- cycle;
+       (A) -- (B) -- (C) -- (D)  -- (E) -- (F) -- cycle;
   \end{tikzpicture}%
 }
 \def\chapterrule%
 {%
-  \color{charrowoutlinecolor}%
-  \hrule%
-  \vskip-\topskip%
-  \parbox{24pt}{\charrow\hss}%
-  \normalcolor%
+  \zerorule
+  \vtop to1pc%
+  \bgroup%
+    \leftskip\z@skip%
+    \hrule height.5pt width\textwidth%
+    \vskip-11pt%
+    \hbox to\textwidth{\parbox{24pt}{\charrow\hss}\hss}%
+  \egroup%
+}
+\def\partrulepreskip{\vskip8pc}
+\def\partrule%
+{%
+  \zerorule
+  \csuse{partrulepreskip}%
+  \vtop to1pc%
+  \bgroup%
+    \leftskip\z@skip%
+    \hrule height.5pt width284pt%
+    \bgroup
+      \color{black!8}%
+      \vtop to18pt{\hskip11pt\rule{273pt}{18pt}}%
+    \egroup
+    \vskip-2pc%
+    \vskip-11pt
+    \hbox to\textwidth{\parbox{24pt}{\charrow\hss}\hss}%
+  \egroup%
 }
 \titleclass{\chapter}{straight}
 \titleformat{\chapter}[display]%
-  {\chapterrule\vskip-28pt\thispagestyle{plain}\sffamily\footnotesize}%
+  {\chapterrule\vskip-26pt\thispagestyle{plain}\sffamily\footnotesize}%
   {\hskip2pc\MakeUppercase{\chaptertitlename}\ \NUMBERstring{chapter}}%
   {30pt}%
   {\sffamily\fontseries{sb}\fontsize{22}{26}\selectfont\raggedright}%
+\titleformat{name=\chapter,numberless}%[display]%
+  {\thispagestyle{plain}}%
+  {}%
+  {0pt}%
+  {\sffamily\fontseries{sb}\fontsize{16}{18}\selectfont\raggedright\MakeUppercase}%
 \newcommand*\chapterpostskip{20pt}
 \titlespacing*{\chapter}%
   {0pt}%
@@ -168,53 +206,108 @@
 \newcounter{subsubparagraph}
 \renewcommand*\thesubsubparagraph{\thesubparagraph.\arabic{subsubparagraph}}
 \titleclass{\subsubparagraph}{straight}[\subparagraph]
-\titleformat{\section}%
-  {\sffamily\bfseries\mathversion{bold}\Large\raggedright}%
-  {\thesection}%
-  {1em}%
+\newdimen\savedparindent
+\setlength\savedparindent{\parindent}
+\def\restoreparindent{\setlength\parindent{\savedparindent}}
+\newdimen\afterheadingindent
+\setlength\afterheadingindent{0pt}
+\def\@afterheadingwithindent{%
+  \@nobreaktrue
+  \parindent=\afterheadingindent
+  \everypar{%
+    \restoreparindent
+    \if@nobreak
+      \@nobreakfalse
+      \clubpenalty \@M
+      \global\togglefalse{sectionbefore}%
+      \if@afterindent
+       \else
+        {\setbox\z@\lastbox}%
+      \fi
+    \else
+      \clubpenalty \@clubpenalty
+      \everypar{}%
+    \fi}}
+\def\sectionindent{26pt}
+\newcommand*\sectionrule%
+{%
+  \bgroup%
+    \hskip-\sectionindent%
+    \chapterrule
+  \egroup
+  \par%
+  \vskip-31pt%
+}
+\newcommand*\nosectionrulexxx%
+{%
+  \def\sectionrule%
+  {%
+    \global\let\sectionrule\oo@sectionrule%
+  }%
+}
+\newcommand*\sectionposthook%
+{%
+  \setlength\afterheadingindent{\sectionindent}%
+  \let\@afterheading\@afterheadingwithindent%
+}
+\newtoggle{sectionbefore}
+\patchcmd\begin{\begingroup}{\begingroup\prunesectiontoggle}{}{}%
+\def\setsectiontoggle{\global\toggletrue{sectionbefore}}
+\def\prunesectiontoggle{\iftoggle{sectionbefore}{\vskip1pc}{}\global\togglefalse{sectionbefore}}
+\def\sectionfont{\sffamily\bfseries\mathversion{bold}\Large\filright}
+\titleformat{\section}[block]%
+  {\aftergroup\sectionposthook
+    \sectionrule%
+    \sectionfont}%
+  {\thesection.}%
+  {.5em}%
   {\MakeUppercase}%
+  [\setsectiontoggle]
 \titleformat{\subsection}%
-  {\sffamily\fontseries{sb}\mathversion{bold}\Large\raggedright}%
+  {%
+    \prunesectiontoggle%
+    \sffamily\fontseries{sb}\Large\raggedright%
+  }%
   {\thesubsection}%
-  {1em}%
+  {.5em}%
   {}%
 \titleformat{\subsubsection}%
-  {\sffamily\fontshape{it}\fontsize{10.5}{12}\selectfont}%
+  {\sffamily\fontseries{sb}\fontshape{it}\raggedright}%
   {\thesubsubsection}%
-  {1em}%
+  {.5em}%
   {}%
 \titleformat{\paragraph}%
-  {\sffamily\fontsize{10}{12}\selectfont}%
+  {\normalfont\sffamily\fontsize{10}{12}\selectfont\raggedright}%
   {\theparagraph}%
-  {1em}%
+  {.5em}%
   {}%
 \titleformat{\subparagraph}%
-  {\sffamily\bfseries\itshape\fontsize{10}{12}\selectfont\mathversion{bold}}%
+  {\normalfont\sffamily\fontseries{sb}\selectfont\raggedright}%
   {\thesubparagraph}%
   {1em}%
   {}%
 \titleformat{\subsubparagraph}%
-  {\normalfont\bfseries\itshape}%
+  {\normalfont\sffamily\fontsize{10}{12pt}\itshape\raggedright}%
   {\thesubsubparagraph}%
   {1em}%
   {}%
-\titlespacing*{\section}{0pt}%
+\titlespacing{\section}{\sectionindent}%
   {5.292mm}%
   {2.117mm}%
-\titlespacing*{\subsection}{0pt}%
-  {5.292mm}%
+\titlespacing*{\subsection}{0pc}%
+  {4.762mm}%
   {2.117mm}%
 \titlespacing*{\subsubsection}{0pt}%
-  {4.233mm}%
+  {4.762mm}%
   {1.058mm}%
 \titlespacing*{\paragraph}{0pt}%
-  {4.233mm}%
+  {4.762mm}%
   {1.058mm}%
 \titlespacing*{\subparagraph}{0pt}%
   {*1}%
   {*1}%
 \titlespacing*{\subsubparagraph}{1em}%
-  {*2}%
+  {*1}%
   {*1}%
 \newenvironment{aug}%
 {%
@@ -454,13 +547,14 @@
  noitemsep,%
  leftmargin=*
 }
-\setitemize[1]{label=\ensuremath{\bullet},topsep=4pt}
-\setitemize[2]{label=\ensuremath{\bullet}}
 \setitemize[3]{label={-}}
-\setenumerate[1]{label={\arabic*.},font=\sffamily\textbf,topsep=4pt}
-\setenumerate[2]{label={\alph*.},font=\sffamily\textbf}
 \setenumerate[3]{label={-}}
 \setdescription{itemindent=-\parindent}
+\setitemize[1]{label=\textbullet,labelsep=10pt}
+\setitemize[2]{label=\color{black!50}\textbullet,labelsep=10pt}
+\setitemize[3]{label=\ensuremath{-}}
+\setenumerate[1]{label={\arabic*.},font=\textbf}
+\setenumerate[2]{label={\alph*.},font=\textbf}
 \newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
 \newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
 \newcommand*\quoteleftindent{4mm}
@@ -554,21 +648,32 @@
 }
 \newlist{chapterpointslist}{itemize}{1}
 \setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=6pt,leftmargin=20pt,rightmargin=12pt}
-\def\contributorname#1{\item[#1]}
+\def\contributorname#1{\listtitle{#1}\item[]}
+\def\listtitle#1%
+{%
+  \bgroup\parshape0
+  \vskip\listtitle@topsep
+  \listtitle@fmt{#1}%
+ \egroup%
+}
+\def\listtitle@size{\bfseries}
+\def\listtitle@fmt#1{\hbox{\vbox{\noindent\listtitle@size{#1}}}}
+\def\listtitle@rule{\hrule height0pt depth-0pt}
+\def\listtitle@topsep{10pt}
 \newlist{contributorslist}{description}{1}
-\setlist[contributorslist]{itemindent=-12pt,leftmargin=*,labelsep=.5em,itemsep=\smallskipamount,
-  before*={\let\name\contributorname}%
+\setlist[contributorslist]{itemindent=0pt,leftmargin=0pt,labelsep=0pt,itemsep=0pt,
+  before*={\let\name\contributorname\raggedright}%
 }
 \RequirePackage{caption}
-\def\figuresource#1{\textit{(#1)}}
+\protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
-  \def\source{\figuresource}%
+  \def\source{\protect\figuresource}%
   \appto\@floatboxreset{\@figureboxreset@hook}%
 }%
 \appto\@begin@table@hook%
 {%
-  \def\source{\tablesource}%
+  \def\source{\protect\tablesource}%
   \appto\@floatboxreset{\@tableboxreset@hook}%
 }%
 \def\@figureboxreset@hook{\centering}
@@ -606,7 +711,7 @@
 }
 \newcounter{tabnote}
 \def\thetabnote{\@alph\c@tabnote}
-\def\tabnoteref@shape#1{\sustyle\ref{tabnote.#1}}
+\def\tabnoteref@shape#1{\ref{tabnote.#1}}
 \def\tabnotemark@fmt#1{\hbox{\tabnoteref@shape{#1}}}
 \def\tabnoteref{\@ifnextchar[{\@tabnoteref}{\@tabnoteref[]}}
 \def\@tabnoteref[#1]#2%
@@ -618,7 +723,6 @@
 {%
   %\@textsuperscript{#1}%
   \bgroup%
-  \sustyle
     #1%
   \egroup%
   \def\@currentlabel{#1}%
@@ -767,9 +871,10 @@
 \csdef{eqnarray}{\eqnarray@error}
 \csdef{eqnarray*}{\eqnarray@error}
 \RequirePackage{fancyhdr}
-\def\thepageformat#1{{\bfseries\sffamily#1}}
+\def\thepageformat#1{{\sffamily#1}}
+\def\ps@plain@thepagepostfix{\,\rule[-4pt]{.75pt}{15pt}}
 \def\thepagesep{\quad}
-\def\headsize{\sffamily\fontsize{8.5}{10}\selectfont}
+\def\headsize{\sffamily\fontsize{9}{9}\selectfont}
 \fancypagestyle{headings}%
 {%
  \fancyhf{}%
@@ -780,11 +885,22 @@
 \fancypagestyle{plain}%
 {%
  \fancyhf{}%
- \fancyfoot[OR]{\headsize\thepageformat\thepage}%
+ \fancyfoot[OR]{\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
  \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
 }
-\newcommand*\acknowledgementfont{\fontsize{8.5}{10}\selectfont}
-\newcommand*\acknowledgementheading{\section*}
+\newcommand*\acknowledgementfont{\fontsize{9}{11}\selectfont}
+\def\nosectionrule%
+{%
+  \titlespacing*{\section}{0pt}%
+  {5.292mm}%
+  {2.117mm}%
+  \let\sectionrule\relax%
+}
+\newcommand*\acknowledgementheading%
+{%
+  \nosectionrule%
+  \section*%
+}
 \newenvironment{ack}[1][Acknowledgement]%
 {%
   \acknowledgementheading{#1}%
@@ -802,15 +918,35 @@
   \par%
 }
 \RequirePackage[numbers]{natbib}
-\def\bibsection{\section*{\bibname}}
+\def\bibsection{\nosectionrule\section*{\bibname}}
 \def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
 \setlength{\bibhang}{10pt}
 \setlength{\bibsep}{0pt \@plus.1pt}
+\newcommand*\titlepagehook%
+{%
+  \let\seriestitle\bookseriestitle%
+  \let\title\booktitle%
+  \let\subtitle\booksubtitle%
+  \let\address\bookauthoraddress%
+  \let\author\bookauthor%
+  \let\edition\bookedition%
+  \let\editedby\bookeditedby%
+  \let\volume\bookvolumenr%
+}
+\AtBeginEnvironment{titlepage}
+{%
+  \csuse{titlepagehook}%
+  \csuse{titlepagefont}%
+  \setlength{\parindent}{0pt}%
+}%
+\preto\endtitlepage{\par}
+\appto\titlepagehook{\setlength\leftskip{40pt}}
+\def\titlepagefont{\sffamily}
 \def\booktitleposthook{\par}
 \def\booktitlepreskip{\zerorule\vskip4\baselineskip}
 \def\booktitleformat#1{\sffamily\bfseries\fontsize{24pt}{28pt}\selectfont\MakeUppercase{#1}}
 \def\booksubtitleformat{\sffamily\fontshape{sc}\fontsize{16}{18}\selectfont}
-\def\titlepagerule{\removelastskip\vskip\baselineskip\hrule height5.55pt\vskip1pc}
+\def\titlepagerule{}
 \def\booksubtitleposthook{\par}
 \def\booksubtitlepreskip{\vskip.5\baselineskip}
 \def\booksubtitlepostskip{\vskip2\baselineskip}
@@ -821,25 +957,13 @@
 \def\bookauthorformat#1{\bfseries\fontsize{13}{15}\selectfont\MakeUppercase{#1}}
 \def\bookeditedbypreskip{\vskip2pc}
 \def\bookvolumenrformat#1{VOLUME \NUMBERstringnum{#1}}
-\AtBeginEnvironment{titlepage}
-{%
-  \let\title\booktitle%
-  \let\subtitle\booksubtitle%
-  \let\address\bookauthoraddress%
-  \let\author\bookauthor%
-  \let\edition\bookedition%
-  \let\editedby\bookeditedby
-  \let\volume\bookvolumenr
-  \setlength{\parindent}{0pt}%
-  \sffamily
-}%
 \def\dedicationhead%
 {
   \begin{frontmatter}%
   \chapter*{Dedication}%
   \end{frontmatter}%
 }
-\def\dedicationprehook{\clearpage}
+\def\dedicationprehook{}
 \def\dedicationfont{}
 \newenvironment{dedication}%
 {%
@@ -850,7 +974,7 @@
 {%
    \csuse{dedicationposthook}%
 }
-\newenvironment{biography}{\par}{}
+\newenvironment{biography}{\removelastskip}{}
 \pagestyle{headings}
 \def\chaptermark#1{\markright{#1\enskip\hbox{\color{black!30}\@chapapp\enskip|\enskip\thechapter}}}
 \def\partmark#1{%
@@ -895,6 +1019,8 @@
   %\SV@endmtc@verse
 }
 \def\tableofcontents{\@starttoc{toc}}
+\def\listoffigures{\global\@mtc@lof@used@true\@starttoc{lof}}
+\def\listoftables{\global\@mtc@lot@used@true\@starttoc{lot}}
 %% TODO: chapter numberline
 %% TODO: part numberline
 \let\tocnumberline\numberline
@@ -902,46 +1028,71 @@
 {%
   \noindent%
   \bgroup%
-    \normalfont\sffamily\fontsize{13}{15}\selectfont
-    \partname\space%
-    #1\par%
+    \MakeUppercase{\partname\space #1}\qquad%
   \egroup
   \noindent%
 }
-\def\tocpartshape{\normalfont\sffamily\bfseries\fontsize{13}{15}\selectfont}
-\def\tocchaptershape{\normalfont\sffamily\bfseries\fontsize{11}{13}\selectfont}
-\def\tocsectionshape{\normalfont\sffamily\bfseries\fontsize{9}{11}\selectfont}
+\def\tocpartshape{\normalfont\sffamily\fontseries{sb}\fontsize{10}{12}\selectfont}
+\def\tocchaptershape{\normalfont\sffamily\fontseries{sb}\fontsize{10}{12}\selectfont}
+\def\tocchapterpostskip{\vskip4pt}%
+\def\tocsectionshape{\normalfont\sffamily\fontsize{9}{11}\selectfont}
 \def\tocsubsectionshape{\normalfont\sffamily\fontsize{9}{11}\selectfont}
 \def\tocsubsubsectionshape{\normalfont\sffamily\fontsize{9}{11}\selectfont}
 \def\@dotsep{1000}
+\def\tocpartpostskip{\vskip4pt}
+\def\tocfigurenumberline#1{\hb@xt@\@tempdima{\fontseries{sb}\selectfont\figurename\space#1\hfil}}
+\def\tocchapternumberline#1{\hb@xt@\@tempdima{#1.\hfil}}
+\def\tocfigureshape{\sffamily\fontsize{9}{11}\selectfont\raggedright}
+\def\toctablenumberline#1{\hb@xt@\@tempdima{\fontseries{sb}\selectfont\tablename\space#1\hfil}}
+\def\toctableshape{\sffamily\fontsize{9}{11}\selectfont\raggedright}
+\def\l@figure%
+{%
+  \def\@tocentry{figure}%
+  \csuse{tocfigureshape}%
+  \let\figuresource\@gobbletwo
+  \let\numberline\tocfigurenumberline%
+  \book@dottedtocline{1}{0pc}{3.8pc}%
+}%
+\def\l@table%
+{%
+  \def\@tocentry{table}%
+  \csuse{toctableshape}%
+  \let\tablesource\@gobbletwo
+  \let\numberline\toctablenumberline%
+  \book@dottedtocline{1}{0pc}{3.8pc}%
+}%
 \def\l@part#1#2%
 {%
  \let\numberline\tocpartnumberline%
  \csuse{tocpartshape}%
  #1%
  \par
- \vskip2.6pt
+ \csuse{tocpartpostskip}%
 }%
 \def\l@chapter%
 {%
-  \let\numberline\tocnumberline%
+  \def\@tocentry{chapter}%
+  \let\numberline\tocchapternumberline%
   \csuse{tocchaptershape}%
   \book@dottedtocline{0}{0pt}{1pc}%
 }%
 \def\l@section%
 {%
+  \def\@tocentry{section}%
   \csuse{tocsectionshape}%
   \let\numberline\tocnumberline%
   \book@dottedtocline{1}{1pc}{2pc}%
 }%
 \def\l@subsection%
 {%
+  \def\@tocentry{subsection}%
   \csuse{tocsubsectionshape}%
   \let\numberline\tocnumberline%
   \book@dottedtocline{2}{3pc}{2pc}%
 }%
 \def\l@subsubsection%
 {%
+  \def\@tocentry{subsubsection}%
   \csuse{tocsubsubsectionshape}%
   \let\numberline\tocnumberline%
   \book@dottedtocline{3}{5.3em}{3.5em}%
@@ -951,7 +1102,8 @@
 \let\l@paragraph\@gobbletwo%
 \let\l@subparagraph\@gobbletwo%
 \let\l@subsubparagraph\@gobbletwo%
-\def\book@dottedtocline#1#2#3#4#5{%
+\def\book@dottedtocline#1#2#3#4#5%
+{%
   \ifnum #1>\c@tocdepth \else
     \vskip \z@ \@plus.2\p@
     {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
@@ -966,8 +1118,11 @@
         mu$}\hfill
      \nobreak
      \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor \pnumshape #5}%
-     \par}%
-  \fi}
+     \par%
+   }%
+   \csuse{toc\@tocentry postskip}%
+  \fi%
+}
  \newcommand\source[1]%
  {%
    \bgroup
@@ -1027,14 +1182,8 @@
   \columnsep35\p@%
   \twocolumn%
   [%
-    \@makeschapterhead{\indexname}%
-    \ifx\index@prologue\@empty%
-    \else%
-      \index@prologue\bigskip%
-    \fi%
+   \chapter*{\indexname}%
   ]%
-  \@mkboth{\MakeUppercase\indexname}%
-  {\MakeUppercase\indexname}%
   \indexfont
   \parindent\z@
   \parskip\z@ \@plus .3\p@\relax
