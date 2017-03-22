@@ -8,7 +8,7 @@
 }
 %% Book layout models: a02, a08a, p04
 %% choose one of three models
-\documentclass{elsevierbook}
+%!
 %\documentclass[a02]{elsevierbook}
 %\documentclass[a08a]{elsevierbook}
 %\documentclass[p04]{elsevierbook}
