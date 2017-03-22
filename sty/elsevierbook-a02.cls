@@ -19,6 +19,8 @@
 \RequirePackage{xcolor}
 \RequirePackage{colortbl}
 \RequirePackage{fmtcount}
+%%<a08a>
+\RequirePackage{tikz}
 \newtoggle{bookseries}\togglefalse{bookseries}
 \newtoggle{multiauthor}\togglefalse{multiauthor}
 \def\metamacro#1{\csdef{#1}##1{\bgroup\csuse{#1prehook}\csuse{#1preskip}\csuse{#1format}{##1}\csuse{#1postskip}\csuse{#1posthook}\egroup}}
@@ -60,6 +62,7 @@
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}
+\newlength\textcolumnwidth
 \RequirePackage%
 [%
   total={6in,9in},%
@@ -68,6 +71,7 @@
   head=10pt,
   centering,
 ]{geometry}
+\setlength\textcolumnwidth{54mm}%
 \setlength\parindent{14pt}%
 \setlength\parskip{0pt plus0.1pt}%
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
@@ -76,9 +80,6 @@
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
- \relax%
- \dominitoc%
- \incrementmtc%
 }
 \newcommand*{\Frontmatter}%
 {%
@@ -102,7 +103,7 @@
  {\stopfrontmatter}%
 \newcommand*{\Backmatter}%
 {%
- \relax
+ \let\bibsection\relax
 }
 \RequirePackage{titlesec}
 \def\zerorule{\hrule height0pt\relax}
@@ -483,38 +484,39 @@
 }{%
   \end{quote}%
 }
+\def\dispquoteleftmargin{4mm}
+\def\dispquotetopsep{\quotationtopsep}
+\def\dispitemindent{\listparindent}
+\def\dispquoterule{\hrule height.5pt\nobreak\vskip2.6pt}
 \newenvironment{dispquote}%
 {%
-  \begin{list}{}
+  \begin{list}{}%
   {%
-    \setlength{\leftmargin}{4mm}%
-    \setlength{\topsep}{\quotationtopsep}%
-    \setlength{\itemindent}{\listparindent}%
+    \setlength{\leftmargin}{\dispquoteleftmargin}%
+    \setlength{\topsep}{\dispquotetopsep}%
+    \setlength{\itemindent}{\dispitemindent}%
     \setlength{\rightmargin}{\leftmargin}%
     \setlength{\parsep}{\z@ \@plus \p@}%
   }%
-  \item\relax\quotationfont
-  \let\source\quotationsource
-  \hrule height.5pt
-  \nobreak
-  \vskip2.6pt
+  \item\relax\quotationfont%
+  \let\source\quotationsource%
+  \csuse{disquoterule}%
+  \csuse{dispquotefont}%
 }%
 {%
   \end{list}%
 }%
 \newcommand*\chapterpointshead[1]{\item[]\hskip-10pt{\bfseries\fontsize{10}{12}\selectfont#1}}
 \newcommand*\chapterpointsfont{\raggedright\fontsize{8.5}{10}\sffamily}
-\newcommand*\chapterpointsprehook%
-{%
-  \zerorule%
-}
+\newcommand*\chapterpointsprehook{\zerorule}
+\newcommand*\chapterpointsheadskip{\vskip2pt}
 \newenvironment{chapterpoints}[1][Chapter Points]
 {%
   \chapterpointsprehook
   \begin{chapterpointslist}%
   \chapterpointsfont%
   \chapterpointshead{#1}%
-  \vskip2pt
+  \chapterpointsheadskip%
 }%
 {%
   \end{chapterpointslist}%
@@ -538,6 +540,7 @@
   before*={\let\name\contributorname}%
 }
 \RequirePackage{caption}
+\DeclareCaptionLabelSeparator{enskip}{\enskip}
 \protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
@@ -649,15 +652,17 @@
     #1%
   \egroup%
 }
-\definecolor{thd}{cmyk}{0,0,0,.35}
-\RequirePackage{mdframed}
+\definecolor{thd}{gray}{.65}
+\RequirePackage[framemethod=tikz]{mdframed}
 \RequirePackage{colortbl}
 \setlength{\arrayrulewidth}{.5pt}
 \setlength{\doublerulesep}{0pt}
 \setlength{\minrowclearance}{2pt}%
 \def\Hline{\hline\hline\hline}
 \def\bhline{\hline\hline}
-\mdfdefinestyle{table}%
+\def\tophline{}
+\def\bottomhline{}
+\mdfdefinestyle{table-a02}%
 {%
   backgroundcolor=black!10,
   innerleftmargin=0pt,
@@ -666,10 +671,18 @@
   innertopmargin=5pt,
   innerbottommargin=10pt,
 }
+\mdfdefinestyle{table-a08a}%
+{%
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=0pt,
+  innerbottommargin=0pt,
+}
 \newenvironment{tableframe}[1][]%
 {%
   \arrayrulecolor{black!00}%
-  \mdfsetup{style=table}%
+  \mdfsetup{style=table-a02}%
   \begin{mdframed}[#1]%
 }%
 {%
@@ -780,7 +793,7 @@
   \par%
 }
 \RequirePackage[numbers]{natbib}
-\def\bibsection{\nosectionrule\section*{\bibname}}
+\def\bibsection{\section*{\bibname}}
 \def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
 \setlength{\bibhang}{10pt}
 \setlength{\bibsep}{0pt \@plus.1pt}
@@ -845,6 +858,8 @@
 }
 \def\sectionmark#1{}
 \RequirePackage[tight]{minitoc}
+\preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
+\AtBeginDocument{\dominitoc}
 \RequirePackage{multicol}
 \newcommand*\setminitoclines%
 {%
@@ -903,6 +918,7 @@
 \def\@dotsep{1000}
 \def\tocpartpostskip{\vskip2.6pt}
 \let\tocchapternumberline\tocnumberline
+\let\tocfigurenumberline\tocnumberline
 \def\l@figure%
 {%
   \def\@tocentry{figure}%
@@ -1022,8 +1038,8 @@
 }
 \mdfsetup%
 {
-  theoremseparator=,
-  theoremspace=\space\space,
+  theoremseparator=,%
+  theoremspace=\space\space,%
 }
 \def\frametitlerule@BtypeB{\rule[-5pt]{\linewidth}{.75pt}}
 \AfterPackage{index}

@@ -19,6 +19,8 @@
 \RequirePackage{xcolor}
 \RequirePackage{colortbl}
 \RequirePackage{fmtcount}
+%%<a08a>
+\RequirePackage{tikz}
 \newtoggle{bookseries}\togglefalse{bookseries}
 \newtoggle{multiauthor}\togglefalse{multiauthor}
 \def\metamacro#1{\csdef{#1}##1{\bgroup\csuse{#1prehook}\csuse{#1preskip}\csuse{#1format}{##1}\csuse{#1postskip}\csuse{#1posthook}\egroup}}
@@ -58,15 +60,13 @@
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}
+\newlength\textcolumnwidth
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
 \newcommand*{\Mainmatter}%
 {%
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
- \relax%
- \dominitoc%
- \incrementmtc%
 }
 \newcommand*{\Frontmatter}%
 {%
@@ -90,7 +90,7 @@
  {\stopfrontmatter}%
 \newcommand*{\Backmatter}%
 {%
- \relax
+ \let\bibsection\relax
 }
 \RequirePackage{titlesec}
 \def\zerorule{\hrule height0pt\relax}
@@ -289,15 +289,12 @@
 \setlist%
 {%
  topsep=0pt,%
- labelsep=6pt,
  noitemsep,%
  leftmargin=*
 }
 \setitemize[3]{label={-}}
 \setenumerate[3]{label={-}}
 \setdescription{itemindent=-\parindent}
-\newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
-\newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
 \newcommand*\quoteleftindent{4mm}
 \newcommand*\quoterightindent{4mm}
 \newcommand*\quotelistparindent{4mm}%
@@ -353,42 +350,34 @@
 }
 \newenvironment{dispquote}%
 {%
-  \begin{list}{}
+  \begin{list}{}%
   {%
-    \setlength{\leftmargin}{4mm}%
-    \setlength{\topsep}{\quotationtopsep}%
-    \setlength{\itemindent}{\listparindent}%
+    \setlength{\leftmargin}{\dispquoteleftmargin}%
+    \setlength{\topsep}{\dispquotetopsep}%
+    \setlength{\itemindent}{\dispitemindent}%
     \setlength{\rightmargin}{\leftmargin}%
     \setlength{\parsep}{\z@ \@plus \p@}%
   }%
-  \item\relax\quotationfont
-  \let\source\quotationsource
-  \hrule height.5pt
-  \nobreak
-  \vskip2.6pt
+  \item\relax\quotationfont%
+  \let\source\quotationsource%
+  \csuse{disquoterule}%
+  \csuse{dispquotefont}%
 }%
 {%
   \end{list}%
 }%
-\newcommand*\chapterpointshead[1]{\item[]\hskip-10pt{\bfseries\fontsize{10}{12}\selectfont#1}}
-\newcommand*\chapterpointsfont{\raggedright\fontsize{8.5}{10}\sffamily}
-\newcommand*\chapterpointsprehook%
-{%
-  \zerorule%
-}
 \newenvironment{chapterpoints}[1][Chapter Points]
 {%
   \chapterpointsprehook
   \begin{chapterpointslist}%
   \chapterpointsfont%
   \chapterpointshead{#1}%
-  \vskip2pt
+  \chapterpointsheadskip%
 }%
 {%
   \end{chapterpointslist}%
 }
 \newlist{chapterpointslist}{itemize}{1}
-\setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=6pt,leftmargin=20pt,rightmargin=12pt}
 \def\listtitle#1%
 {%
   \bgroup\parshape0
@@ -402,6 +391,7 @@
 \def\listtitle@topsep{10pt}
 \newlist{contributorslist}{description}{1}
 \RequirePackage{caption}
+\DeclareCaptionLabelSeparator{enskip}{\enskip}
 \protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
@@ -414,23 +404,6 @@
   \appto\@floatboxreset{\@tableboxreset@hook}%
 }%
 \def\@figureboxreset@hook{\centering}
-\def\@tableboxreset@hook{\footnotesize\sffamily}
-\captionsetup[figure]%
-{%
-  labelsep=quad,
-  labelfont={bf,sf},%
-  font={footnotesize},
-  name=FIGURE,%
-}
-\captionsetup[table]%
-{%
-  labelsep=space,
-  labelfont={bf,sf},%
-  font={small,sf},
-  name=TABLE,%
-  margin=\tabcolsep,
-  skip=2.6pt,
-}
 %% Tabnotes
 \def\tabnotesfont{\scriptsize}
 \def\tabnotesparindent{0pt}
@@ -469,7 +442,6 @@
   \lineskip2\p@%
   \ifhmode\par\fi
   \noindent
-  \hskip\tabcolsep
   \parbox[t]{\tablewidth-2\tabcolsep}{%\parindent\tabnotetextwidth\relax
     \ifx.#1.\relax
     \else
@@ -485,14 +457,12 @@
 \long\def\legend#1{\lineskip4\p@%
   \ifhmode\par\fi
   \noindent
-  \hskip\tabcolsep
   \parbox[t]{\tablewidth-2\tabcolsep}%
   {
     %\parindent\tabnotetextwidth
     \noindent#1\par}%
   \vtop to\z@{}\par
 }
-\def\tablesourcehead{Source:\space}
 \def\tablesource#1{\legend{\tablesourcehead #1}}
 \def\tch#1%
 {%
@@ -511,15 +481,14 @@
     #1%
   \egroup%
 }
-\definecolor{thd}{cmyk}{0,0,0,.35}
-\RequirePackage{mdframed}
+\RequirePackage[framemethod=tikz]{mdframed}
 \RequirePackage{colortbl}
 \setlength{\arrayrulewidth}{.5pt}
 \setlength{\doublerulesep}{0pt}
 \setlength{\minrowclearance}{2pt}%
 \def\Hline{\hline\hline\hline}
 \def\bhline{\hline\hline}
-\mdfdefinestyle{table}%
+\mdfdefinestyle{table-a02}%
 {%
   backgroundcolor=black!10,
   innerleftmargin=0pt,
@@ -528,10 +497,16 @@
   innertopmargin=5pt,
   innerbottommargin=10pt,
 }
+\mdfdefinestyle{table-a08a}%
+{%
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=0pt,
+  innerbottommargin=0pt,
+}
 \newenvironment{tableframe}[1][]%
 {%
-  \arrayrulecolor{black!00}%
-  \mdfsetup{style=table}%
   \begin{mdframed}[#1]%
 }%
 {%
@@ -637,7 +612,6 @@
   \par%
 }
 \RequirePackage[numbers]{natbib}
-\def\bibsection{\nosectionrule\section*{\bibname}}
 \def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
 \setlength{\bibhang}{10pt}
 \setlength{\bibsep}{0pt \@plus.1pt}
@@ -677,6 +651,8 @@
 }
 \def\sectionmark#1{}
 \RequirePackage[tight]{minitoc}
+\preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
+\AtBeginDocument{\dominitoc}
 \RequirePackage{multicol}
 \newcommand*\setminitoclines%
 {%
@@ -811,35 +787,6 @@
 
 \RequirePackage{mdframed}
 \newmdenv{textbox}
-\mdfdefinestyle{BtypeA}%
-{%
-  font={\fontsize{8.5}{10}\sffamily},%
-  frametitlefont={\fontsize{9}{11}\sffamily\bfseries},%
-  hidealllines=true,
-  innertopmargin=4pt,
-  innerbottommargin=10pt,
-  innerleftmargin=10pt,
-  innerrightmargin=10pt,
-  backgroundcolor=black!10,
-  frametitleaboveskip=10pt,
-}
-\mdfdefinestyle{BtypeB}%
-{%
-  font={\fontsize{8.5}{10}\sffamily},%
-  frametitlefont={\strut\rlap{\frametitlerule@BtypeB}\fontsize{9}{11}\sffamily\bfseries},%
-  linewidth=.5pt,
-  innertopmargin=0pt,
-  innerbottommargin=6pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  frametitleaboveskip=9pt,
-}
-\mdfsetup%
-{
-  theoremseparator=,
-  theoremspace=\space\space,
-}
-\def\frametitlerule@BtypeB{\rule[-5pt]{\linewidth}{.75pt}}
 \AfterPackage{index}
 {%
 \renewenvironment{theindex}%

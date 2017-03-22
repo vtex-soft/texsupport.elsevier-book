@@ -19,6 +19,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{colortbl}
 \RequirePackage{fmtcount}
+%%<a08a>
 \RequirePackage{tikz}
 \newtoggle{bookseries}\togglefalse{bookseries}
 \newtoggle{multiauthor}\togglefalse{multiauthor}
@@ -64,6 +65,7 @@
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}
+\newlength\textcolumnwidth
 \RequirePackage%
 [%
   total={6in,9in},%
@@ -72,6 +74,7 @@
   head=10pt,
   centering,
 ]{geometry}
+\setlength\textcolumnwidth{55mm}%
 \setlength\parindent{15pt}%
 \setlength\parskip{0pt plus0.1pt}%
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
@@ -80,9 +83,6 @@
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
- \relax%
- \dominitoc%
- \incrementmtc%
 }
 \newcommand*{\Frontmatter}%
 {%
@@ -106,7 +106,7 @@
  {\stopfrontmatter}%
 \newcommand*{\Backmatter}%
 {%
- \relax
+ \let\bibsection\relax
 }
 \RequirePackage{titlesec}
 \def\zerorule{\hrule height0pt\relax}
@@ -231,19 +231,14 @@
 \def\sectionindent{26pt}
 \newcommand*\sectionrule%
 {%
+  \allowbreak%
   \bgroup%
     \hskip-\sectionindent%
     \chapterrule
   \egroup
+  \nobreak%
   \par%
   \vskip-31pt%
-}
-\newcommand*\nosectionrulexxx%
-{%
-  \def\sectionrule%
-  {%
-    \global\let\sectionrule\oo@sectionrule%
-  }%
 }
 \newcommand*\sectionposthook%
 {%
@@ -543,7 +538,7 @@
 \setlist%
 {%
  topsep=0pt,%
- labelsep=6pt,
+ labelsep=8pt,
  noitemsep,%
  leftmargin=*
 }
@@ -555,8 +550,8 @@
 \setitemize[3]{label=\ensuremath{-}}
 \setenumerate[1]{label={\arabic*.},font=\textbf}
 \setenumerate[2]{label={\alph*.},font=\textbf}
-\newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
-\newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
+\newcommand*\quotefont{\sffamily\fontsize{10.5}{12}\itshape}
+\newcommand*\quotesourcefont{\bfseries}
 \newcommand*\quoteleftindent{4mm}
 \newcommand*\quoterightindent{4mm}
 \newcommand*\quotelistparindent{4mm}%
@@ -610,44 +605,45 @@
 }{%
   \end{quote}%
 }
+\def\dispquoteleftmargin{15pt}
+\def\dispquotetopsep{12pt}
+\def\dispitemindent{\listparindent}
+\def\dispquotefont{\sffamily\fontsize{10.5}{12}\selectfont}
 \newenvironment{dispquote}%
 {%
-  \begin{list}{}
+  \begin{list}{}%
   {%
-    \setlength{\leftmargin}{4mm}%
-    \setlength{\topsep}{\quotationtopsep}%
-    \setlength{\itemindent}{\listparindent}%
+    \setlength{\leftmargin}{\dispquoteleftmargin}%
+    \setlength{\topsep}{\dispquotetopsep}%
+    \setlength{\itemindent}{\dispitemindent}%
     \setlength{\rightmargin}{\leftmargin}%
     \setlength{\parsep}{\z@ \@plus \p@}%
   }%
-  \item\relax\quotationfont
-  \let\source\quotationsource
-  \hrule height.5pt
-  \nobreak
-  \vskip2.6pt
+  \item\relax\quotationfont%
+  \let\source\quotationsource%
+  \csuse{disquoterule}%
+  \csuse{dispquotefont}%
 }%
 {%
   \end{list}%
 }%
-\newcommand*\chapterpointshead[1]{\item[]\hskip-10pt{\bfseries\fontsize{10}{12}\selectfont#1}}
-\newcommand*\chapterpointsfont{\raggedright\fontsize{8.5}{10}\sffamily}
-\newcommand*\chapterpointsprehook%
-{%
-  \zerorule%
-}
+\newcommand*\chapterpointshead[1]{\item[]\hskip-12pt{\sffamily\fontsize{11}{13.5}\selectfont#1}}
+\newcommand*\chapterpointsfont{\sffamily\fontseries{mb}\raggedright\fontsize{9.5}{11}\selectfont}
+\newcommand*\chapterpointsprehook{\zerorule}
+\newcommand*\chapterpointsheadskip{\vskip4pt}
 \newenvironment{chapterpoints}[1][Chapter Points]
 {%
   \chapterpointsprehook
   \begin{chapterpointslist}%
   \chapterpointsfont%
   \chapterpointshead{#1}%
-  \vskip2pt
+  \chapterpointsheadskip%
 }%
 {%
   \end{chapterpointslist}%
 }
 \newlist{chapterpointslist}{itemize}{1}
-\setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=6pt,leftmargin=20pt,rightmargin=12pt}
+\setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=18pt,leftmargin=12pt,rightmargin=15pt,itemsep=0pt}
 \def\contributorname#1{\listtitle{#1}\item[]}
 \def\listtitle#1%
 {%
@@ -665,6 +661,7 @@
   before*={\let\name\contributorname\raggedright}%
 }
 \RequirePackage{caption}
+\DeclareCaptionLabelSeparator{enskip}{\enskip}
 \protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
@@ -677,21 +674,21 @@
   \appto\@floatboxreset{\@tableboxreset@hook}%
 }%
 \def\@figureboxreset@hook{\centering}
-\def\@tableboxreset@hook{\footnotesize\sffamily}
+\def\@tableboxreset@hook{\footnotesize}
 \captionsetup[figure]%
 {%
-  labelsep=quad,
-  labelfont={bf,sf},%
-  font={footnotesize},
-  name=FIGURE,%
+  labelsep=enskip,
+  labelfont={small,bf,sf},%
+  font={small,sf},
+  name=Figure,%
 }
 \captionsetup[table]%
 {%
-  labelsep=space,
+  labelsep=enskip,
   labelfont={bf,sf},%
   font={small,sf},
-  name=TABLE,%
-  margin=\tabcolsep,
+  name=Table,%
+  margin=0pt,%
   skip=2.6pt,
 }
 %% Tabnotes
@@ -733,7 +730,6 @@
   \lineskip2\p@%
   \ifhmode\par\fi
   \noindent
-  \hskip\tabcolsep
   \parbox[t]{\tablewidth-2\tabcolsep}{%\parindent\tabnotetextwidth\relax
     \ifx.#1.\relax
     \else
@@ -749,14 +745,13 @@
 \long\def\legend#1{\lineskip4\p@%
   \ifhmode\par\fi
   \noindent
-  \hskip\tabcolsep
   \parbox[t]{\tablewidth-2\tabcolsep}%
   {
     %\parindent\tabnotetextwidth
     \noindent#1\par}%
   \vtop to\z@{}\par
 }
-\def\tablesourcehead{Source:\space}
+\def\tablesourcehead{\textit{Source:}\space}
 \def\tablesource#1{\legend{\tablesourcehead #1}}
 \def\tch#1%
 {%
@@ -775,15 +770,17 @@
     #1%
   \egroup%
 }
-\definecolor{thd}{cmyk}{0,0,0,.35}
-\RequirePackage{mdframed}
+\definecolor{thd}{gray}{1}
+\RequirePackage[framemethod=tikz]{mdframed}
 \RequirePackage{colortbl}
 \setlength{\arrayrulewidth}{.5pt}
 \setlength{\doublerulesep}{0pt}
 \setlength{\minrowclearance}{2pt}%
 \def\Hline{\hline\hline\hline}
 \def\bhline{\hline\hline}
-\mdfdefinestyle{table}%
+\def\tophline{}
+\def\bottomhline{\hline}
+\mdfdefinestyle{table-a02}%
 {%
   backgroundcolor=black!10,
   innerleftmargin=0pt,
@@ -792,10 +789,17 @@
   innertopmargin=5pt,
   innerbottommargin=10pt,
 }
+\mdfdefinestyle{table-a08a}%
+{%
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=0pt,
+  innerbottommargin=0pt,
+}
 \newenvironment{tableframe}[1][]%
 {%
-  \arrayrulecolor{black!00}%
-  \mdfsetup{style=table}%
+  \mdfsetup{style=table-a08a}%
   \begin{mdframed}[#1]%
 }%
 {%
@@ -984,6 +988,8 @@
 }
 \def\sectionmark#1{}
 \RequirePackage[tight]{minitoc}
+\preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
+\AtBeginDocument{\dominitoc}
 \RequirePackage{multicol}
 \newcommand*\setminitoclines%
 {%
@@ -1141,6 +1147,7 @@
 \newmdenv{textbox}
 \mdfdefinestyle{BtypeA}%
 {%
+  roundcorner=10pt,%
   font={\fontsize{8.5}{10}\sffamily},%
   frametitlefont={\fontsize{9}{11}\sffamily\bfseries},%
   hidealllines=true,
@@ -1153,21 +1160,21 @@
 }
 \mdfdefinestyle{BtypeB}%
 {%
+  roundcorner=10pt,%
   font={\fontsize{8.5}{10}\sffamily},%
-  frametitlefont={\strut\rlap{\frametitlerule@BtypeB}\fontsize{9}{11}\sffamily\bfseries},%
-  linewidth=.5pt,
-  innertopmargin=0pt,
-  innerbottommargin=6pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  frametitleaboveskip=9pt,
+  frametitlefont={\fontsize{9}{11}\sffamily\bfseries},%
+  linewidth=2pt,
+  innertopmargin=4pt,
+  innerbottommargin=10pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  frametitleaboveskip=10pt,
 }
 \mdfsetup%
-{
-  theoremseparator=,
-  theoremspace=\space\space,
+{%
+  theoremseparator=,%
+  theoremspace=\enskip,%
 }
-\def\frametitlerule@BtypeB{\rule[-5pt]{\linewidth}{.75pt}}
 \AfterPackage{index}
 {%
 \renewenvironment{theindex}%
