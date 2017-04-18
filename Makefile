@@ -2,7 +2,7 @@ temp := elsevierbook-project-template
 
 elsevierbook-project-template.zip:
 	mkdir -p $(temp)
-	cp template/* $(temp)/
+	cp template/*.tex $(temp)/
 	cp -r doc/ $(temp)/
 	cp -r sty/ $(temp)/
 	mkdir -p $(temp)/img
