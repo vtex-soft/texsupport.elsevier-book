@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2017/01/24 v1.0 Elsevier book class]
+\ProvidesClass{elsevierbook}[2017/01/24 v0.1  Elsevier book class]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -74,7 +74,7 @@
 \setlength\textcolumnwidth{54mm}%
 \setlength\parindent{14pt}%
 \setlength\parskip{0pt plus0.1pt}%
-\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
+\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\FALSE}
 \newcommand*{\Mainmatter}%
 {%
  \cleardoublepage
@@ -541,6 +541,9 @@
 }
 \RequirePackage{caption}
 \DeclareCaptionLabelSeparator{enskip}{\enskip}
+\DeclareCaptionLabelSeparator{rule35}{\\\rule[4pt]{\linewidth}{.35pt}\\[-2pt]}
+\DeclareCaptionFont{figcaptionfont-p04}{\fontsize{8.75}{10}\selectfont}
+\DeclareCaptionFont{tablecaptionfont-p04}{\fontsize{9.75}{12}\selectfont}
 \protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
@@ -622,7 +625,6 @@
     {\itshape #3}\par}%
   \vtop to\z@{}\par%
 }
-
 \long\def\legend#1{\lineskip4\p@%
   \ifhmode\par\fi
   \noindent
@@ -665,6 +667,15 @@
 \mdfdefinestyle{table-a02}%
 {%
   backgroundcolor=black!10,
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=5pt,
+  innerbottommargin=10pt,
+}
+\mdfdefinestyle{table-p04}%
+{%
+  backgroundcolor=black!0,
   innerleftmargin=0pt,
   innerrightmargin=0pt,
   linewidth=0pt,
@@ -765,13 +776,13 @@
 {%
  \fancyhf{}%
  \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
- \fancyhead[E]{\headsize\thepageformat\thepage\thepagesep\leftmark\hfill}%
+ \fancyhead[E]{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
  \def\headrulewidth{0pt}%
 }
 \fancypagestyle{plain}%
 {%
  \fancyhf{}%
- \fancyfoot[OR]{\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
+ \fancyfoot[OR]{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
  \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
 }
 \newcommand*\acknowledgementfont{\fontsize{8.5}{10}\selectfont}
@@ -829,7 +840,7 @@
 \def\bookauthoraddressposthook{\par}
 \def\bookauthorformat{\bfseries\Large}
 \def\dedicationhead%
-{
+{%
   \thispagestyle{empty}%
   \zerorule
   \vskip4pc
@@ -842,8 +853,8 @@
 \newenvironment{dedication}%
 {%
   \csuse{dedicationprehook}%
-    \dedicationfont%
-    \dedicationhead%
+  \dedicationfont%
+  \dedicationhead%
 }%
 {%
    \csuse{dedicationposthook}%
@@ -921,6 +932,7 @@
 \let\tocfigurenumberline\tocnumberline
 \def\l@figure%
 {%
+  \def\@dotsep{1000}%
   \def\@tocentry{figure}%
   \csuse{tocfigureshape}%
   \let\figuresource\@gobbletwo

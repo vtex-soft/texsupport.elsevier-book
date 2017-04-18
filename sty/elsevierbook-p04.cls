@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2017/01/24 v1.0 Elsevier book class]
+\ProvidesClass{elsevierbook}[2017/01/24 v0.1  Elsevier book class]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -56,12 +56,28 @@
 \@listi
 \RequirePackage[T1]{fontenc}
 \RequirePackage[full]{textcomp}
+\RequirePackage{newtxtext}
+\RequirePackage[type1,lining]{FiraSans}% sans serif
+\RequirePackage[varqu,varl]{zi4}% inconsolata typewriter
 \csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
+\RequirePackage{newtxmath}
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}
 \newlength\textcolumnwidth
-\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{}
+\RequirePackage%
+[%
+  total={7.5in,9.25in},%
+  body={118.71mm,185.649mm},%
+  %  twoside=true,%
+  head=22pt,
+  headsep=2pc,
+  centering,
+]{geometry}
+\setlength\textcolumnwidth{(118.71mm-4mm)/2}%
+\setlength\parindent{14pt}%
+\setlength\parskip{0pt plus0.1pt}%
+\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\FALSE}
 \newcommand*{\Mainmatter}%
 {%
  \cleardoublepage
@@ -106,10 +122,83 @@
   \par%
   \csuse{subchapterposthook}
 }%
+\titleclass{\chapter}{straight}%
+\titleformat{\chapter}[block]%
+  {\thispagestyle{plain}%
+    \zerorule
+    \vskip-34pt%
+    \rlap{%
+      \hskip290pt\rlap{\color{black}\rule[-8pt]{178pt}{24pt}}%
+      \rlap{\space\color{white}\sffamily\fontseries{bx}\selectfont\ \MakeUppercase{\@chapapp}}
+    }%
+    \titlerule
+    \vskip1pc%
+}%
+  {\rlap{\vtop to40pt{\vss\hfill\fontsize{84}{84}\selectfont\thechapter}}}%
+  {0pt}%
+  {\sffamily\fontsize{22}{24}\fontseries{l}\selectfont}%
+\titleformat{name=\chapter,numberless}%[display]%
+  {\thispagestyle{plain}}%
+  {}%
+  {0pt}%
+  {\sffamily\fontsize{22}{24}\fontseries{l}\selectfont}%
+\newcommand*\chapterpostskip{0pt}
+\titlespacing*{\chapter}%
+  {0pt}%
+  {0pt}%
+  {\chapterpostskip}%
 \setcounter{secnumdepth}{6}
 \newcounter{subsubparagraph}
 \renewcommand*\thesubsubparagraph{\thesubparagraph.\arabic{subsubparagraph}}
 \titleclass{\subsubparagraph}{straight}[\subparagraph]
+\titleformat{\section}%
+  {\titlerule\vskip3pt\sffamily\bfseries\mathversion{bold}\fontsize{13.50}{13}\selectfont}%
+  {\thesection}%
+  {1em}%
+  {\MakeUppercase}%
+\titleformat{\subsection}%
+  {\sffamily\bfseries\mathversion{bold}\fontsize{12}{14}\selectfont}%
+  {\thesubsection}%
+  {1em}%
+  {}%
+\titleformat{\subsubsection}%
+  {\sffamily\bfseries\fontshape{it}\fontsize{11}{13}\selectfont}%
+  {\thesubsubsection}%
+  {1em}%
+  {}%
+\titleformat{\paragraph}%
+  {\sffamily\fontsize{10.75}{12}\selectfont}%
+  {\theparagraph}%
+  {1em}%
+  {}%
+\titleformat{\subparagraph}%
+  {\sffamily\bfseries\itshape\fontsize{10}{12}\selectfont\mathversion{bold}}%
+  {\thesubparagraph}%
+  {1em}%
+  {}%
+\titleformat{\subsubparagraph}%
+  {\normalfont\bfseries\itshape\fontsize{9.50}{12}\selectfont\color{black!60}}%
+  {\thesubsubparagraph}%
+  {1em}%
+  {}%
+\titlespacing*{\section}{0pt}%
+  {5.292mm}%
+  {2.117mm}%
+\titlespacing*{\subsection}{0pt}%
+  {5.292mm}%
+  {2.117mm}%
+\titlespacing*{\subsubsection}{0pt}%
+  {4.233mm}%
+  {1.058mm}%
+\titlespacing*{\paragraph}{0pt}%
+  {4.233mm}%
+  {1.058mm}%
+\titlespacing*{\subparagraph}{0pt}%
+  {*1}%
+  {*1}%
+\titlespacing*{\subsubparagraph}{1em}%
+  {*2}%
+  {*1}%
 \newenvironment{aug}%
 {%
   \setcounter{author}{0}%
@@ -221,7 +310,17 @@
   \par
   \ignorespaces
 }
+\csdef{author@sep@one}{,\space}%
+\csdef{author@sep@two}{\space and\space}%   case = 2: Author<sep@two>Author
+\csdef{author@sep@last}{,\space and\space}% case > 2: Author<sep@one>Author<sep@last>Author
+\csdef{address@sep@one}{,\space}%
+\csdef{address@sep@two}{,\space}%   case = 2: Author<sep@two>Author
+\csdef{address@sep@last}{,\space}% case > 2: Author<sep@one>Author<sep@last>Author
 \newcounter{addrtemp}
+\newcommand*\authorfont{\sffamily\bfseries}
+\newcommand*\augfont{\raggedleft}
+\newcommand*\authorskip{\setlength\parindent{0pt}}
+\newcommand*\authorsep{\@empty}
 \renewcommand*\author{\@ifnextchar[\@author{\@author[]}}
 \newcounter{author}
 \define@key{author}{id}{}
@@ -253,6 +352,8 @@
  \par%
  \ignorespaces
 }
+\newcommand*\addressskip{\par\noindent}
+\newcommand*\addressfont{\normalfont\fontsize{8}{11}\itshape\selectfont}
 \def\address{\@ifnextchar[{\@address}{\@address[]}}
 \newcounter{address}
 \newcounter{addresslabel}
@@ -260,6 +361,23 @@
 \newcommand*\addressmark{\textsuperscript{\theaddresslabel}}
 \def\addresslabel#1{\refstepcounter{addresslabel}\label{addressid.#1}\addressmark}
 \newcommand*\abstractname{Abstract}
+\newcommand*\abstractheadfont{\bfseries\sffamily}
+\newcommand*\abstractpreskip%
+{%
+  \medskip%
+  \hrule height.5pt%
+  \vskip6pt%
+}
+\newcommand*\abstractpostskip%
+{
+  \vskip4pt%
+  \hrule height.5pt%
+  \medskip%
+}
+\newcommand*\abstractprehook{\setlength\parindent{0pt}}
+\newcommand*\abstractposthook{}
+\newcommand*\abstracthead{{\abstractheadfont\MakeUppercase{\abstractname}}\par}
+\newcommand*\abstractfont{\small}
 \newenvironment{abstract}
 {%
   \abstractprehook
@@ -273,6 +391,14 @@
   \abstractposthook%
 }
 \newcommand*\keywordsname{Keywords}
+\newcommand*\keywordsheadfont{\bfseries\sffamily}
+\newcommand*\keywordspreskip{\medskip}
+\newcommand*\keywordspostskip{\medskip}
+\newcommand*\keywordsprehook{\setlength\parindent{0pt}}
+\newcommand*\keywordsposthook{}
+\newcommand*\keywordshead{{\keywordsheadfont\MakeUppercase{\keywordsname}}\par}
+\newcommand*\kwdsep{\renewcommand*\kwdsep{\unskip,\space}}
+\newcommand*\keywordsfont{\small}
 \newenvironment{keywords}
 {%
   \keywordsprehook
@@ -289,12 +415,19 @@
 \setlist%
 {%
  topsep=0pt,%
+ labelsep=6pt,
  noitemsep,%
  leftmargin=*
 }
 \setitemize[3]{label={-}}
 \setenumerate[3]{label={-}}
 \setdescription{itemindent=-\parindent}
+\setitemize[1]{label=\ensuremath{\bullet},topsep=4pt}
+\setitemize[2]{label=\ensuremath{\bullet}}
+\setenumerate[1]{label={\arabic*.},font=\sffamily\textbf,topsep=4pt}
+\setenumerate[2]{label={\alph*.},font=\sffamily\textbf}
+\newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
+\newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
 \newcommand*\quoteleftindent{4mm}
 \newcommand*\quoterightindent{4mm}
 \newcommand*\quotelistparindent{4mm}%
@@ -348,6 +481,10 @@
 }{%
   \end{quote}%
 }
+\def\dispquoteleftmargin{4mm}
+\def\dispquotetopsep{\quotationtopsep}
+\def\dispitemindent{\listparindent}
+\def\dispquoterule{\hrule height.5pt\nobreak\vskip2.6pt}
 \newenvironment{dispquote}%
 {%
   \begin{list}{}%
@@ -366,6 +503,10 @@
 {%
   \end{list}%
 }%
+\newcommand*\chapterpointshead[1]{\item[]\hskip-10pt{\bfseries\fontsize{10}{12}\selectfont#1}}
+\newcommand*\chapterpointsfont{\raggedright\fontsize{8.5}{10}\sffamily}
+\newcommand*\chapterpointsprehook{\zerorule}
+\newcommand*\chapterpointsheadskip{\vskip2pt}
 \newenvironment{chapterpoints}[1][Chapter Points]
 {%
   \chapterpointsprehook
@@ -378,6 +519,8 @@
   \end{chapterpointslist}%
 }
 \newlist{chapterpointslist}{itemize}{1}
+\setlist[chapterpointslist]{label=\ensuremath{\bullet},topsep=6pt,leftmargin=20pt,rightmargin=12pt}
+\def\contributorname#1{\item[#1]}
 \def\listtitle#1%
 {%
   \bgroup\parshape0
@@ -390,8 +533,14 @@
 \def\listtitle@rule{\hrule height0pt depth-0pt}
 \def\listtitle@topsep{10pt}
 \newlist{contributorslist}{description}{1}
+\setlist[contributorslist]{labelsep=6pt,itemindent=6pt,leftmargin=0pt,itemsep=\medskipamount,%
+  before*={\let\name\contributorname}%
+}
 \RequirePackage{caption}
 \DeclareCaptionLabelSeparator{enskip}{\enskip}
+\DeclareCaptionLabelSeparator{rule35}{\\\rule[4pt]{\linewidth}{.35pt}\\[-2pt]}
+\DeclareCaptionFont{figcaptionfont-p04}{\fontsize{8.75}{10}\selectfont}
+\DeclareCaptionFont{tablecaptionfont-p04}{\fontsize{9.75}{12}\selectfont}
 \protect\def\figuresource#1{\textit{(#1)}}
 \appto\@begin@figure@hook%
 {%
@@ -404,8 +553,26 @@
   \appto\@floatboxreset{\@tableboxreset@hook}%
 }%
 \def\@figureboxreset@hook{\centering}
+\def\@tableboxreset@hook{\fontsize{8.50}{11}\selectfont\sffamily}
+\captionsetup[figure]%
+{%
+  labelsep=rule35,%
+  labelfont={figcaptionfont-p04,bf,sf},%
+  font={figcaptionfont-p04,sf},
+  name=FIGURE,%
+}
+\captionsetup[table]%
+{%
+  labelsep=quad,%
+  labelfont={tablecaptionfont-p04,bf,sf},%
+  font={tablecaptionfont-p04,sf},%
+  name=Table,%
+  margin=\tabcolsep,
+  skip=2.6pt,
+}
 %% Tabnotes
 \def\tabnotesfont{\scriptsize}
+\def\tabnotesfont{\fontsize{7.5}{9}\selectfont\itshape}
 \def\tabnotesparindent{0pt}
 \newenvironment{tabnotes}%
 {%
@@ -419,8 +586,17 @@
 {%
   \egroup\hfill\egroup\par%
 }
+\RequirePackage{environ}
+\RenewEnviron{tabnotes}%
+{%
+  \unskip\par
+  \tabnotesfont
+  \lineskip6\p@
+  \null\hskip\tabcolsep\parbox{\hsize-2\tabcolsep}{\BODY}%
+}
 \newcounter{tabnote}
 \def\thetabnote{\@alph\c@tabnote}
+\def\tabnoteref@shape#1{\sustyle\ref{tabnote.#1}}
 \def\tabnotemark@fmt#1{\hbox{\tabnoteref@shape{#1}}}
 \def\tabnoteref{\@ifnextchar[{\@tabnoteref}{\@tabnoteref[]}}
 \def\@tabnoteref[#1]#2%
@@ -453,7 +629,6 @@
     {\itshape #3}\par}%
   \vtop to\z@{}\par%
 }
-
 \long\def\legend#1{\lineskip4\p@%
   \ifhmode\par\fi
   \noindent
@@ -463,6 +638,7 @@
     \noindent#1\par}%
   \vtop to\z@{}\par
 }
+\def\tablesourcehead{Source:\space}
 \def\tablesource#1{\legend{\tablesourcehead #1}}
 \def\tch#1%
 {%
@@ -481,6 +657,7 @@
     #1%
   \egroup%
 }
+\colorlet{thd}{black!20}
 \RequirePackage[framemethod=tikz]{mdframed}
 \RequirePackage{colortbl}
 \setlength{\arrayrulewidth}{.5pt}
@@ -488,9 +665,20 @@
 \setlength{\minrowclearance}{2pt}%
 \def\Hline{\hline\hline\hline}
 \def\bhline{\hline\hline}
+\def\tophline{}
+\def\bottomhline{\hline}
 \mdfdefinestyle{table-a02}%
 {%
   backgroundcolor=black!10,
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+  linewidth=0pt,
+  innertopmargin=5pt,
+  innerbottommargin=10pt,
+}
+\mdfdefinestyle{table-p04}%
+{%
+  backgroundcolor=black!0,
   innerleftmargin=0pt,
   innerrightmargin=0pt,
   linewidth=0pt,
@@ -507,6 +695,7 @@
 }
 \newenvironment{tableframe}[1][]%
 {%
+  \mdfsetup{style=table-p04}%
   \begin{mdframed}[#1]%
 }%
 {%
@@ -516,6 +705,7 @@
 \RequirePackage[hang,bottom,stable]{footmisc}
 \def\footnoterule{\kern-3pt\hrule height.5pt\kern2.6pt}
 \setlength{\footnotemargin}{1em}
+\setlength{\footnotemargin}{0em}
 \skip\footins=1pc
 \def\@makefnmarktext%
 {%
@@ -582,19 +772,52 @@
 \csdef{eqnarray}{\eqnarray@error}
 \csdef{eqnarray*}{\eqnarray@error}
 \RequirePackage{fancyhdr}
+\def\thepageformat#1{\rlap{\hskip2pc\rhlabelfont #1}}
+\def\thepageformateven#1%
+{%
+  \rlap%
+  {%
+    \hskip-10pc%
+    \rule[12pt]{10pc}{8.5pt}%
+    \rule[12pt]{\hsize}{1pt}%
+  }%
+  \llap{\rhlabelfont #1\hskip2pc}%
+}
+\def\thepageformatodd#1%
+{%
+  \llap%
+  {%
+    \rule[12pt]{\hsize}{1pt}%
+    \rule[12pt]{10pc}{8.5pt}%
+    \hskip-10pc%
+  }%
+  \rlap{\hskip2pc\rhlabelfont #1}%
+}
+\def\ps@plain@thepagepostfix{}
+\def\thepagesep{}
+\def\headsize{\sffamily\fontseries{l}\fontsize{11}{11}\selectfont}
 \fancypagestyle{headings}%
 {%
  \fancyhf{}%
  \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
- \fancyhead[E]{\headsize\thepageformat\thepage\thepagesep\leftmark\hfill}%
+ \fancyhead[E]{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
+ \def\headrulewidth{0pt}%
+}
+\fancypagestyle{headings}%
+{%
+ \fancyhf{}%
+ \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformatodd\thepage}%
+ \fancyhead[E]{\hbox{\headsize\thepageformateven\thepage\thepagesep\leftmark}\hfill}%
  \def\headrulewidth{0pt}%
 }
 \fancypagestyle{plain}%
 {%
  \fancyhf{}%
- \fancyfoot[OR]{\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
+ \fancyfoot[OR]{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
  \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
 }
+\newcommand*\acknowledgementfont{\fontsize{8.5}{10}\selectfont}
+\newcommand*\acknowledgementheading{\section*}
 \newenvironment{ack}[1][Acknowledgement]%
 {%
   \acknowledgementheading{#1}%
@@ -612,6 +835,7 @@
   \par%
 }
 \RequirePackage[numbers]{natbib}
+\def\bibsection{\section*{\bibname}}
 \def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
 \setlength{\bibhang}{10pt}
 \setlength{\bibsep}{0pt \@plus.1pt}
@@ -633,15 +857,40 @@
   \setlength{\parindent}{0pt}%
 }%
 \preto\endtitlepage{\par}
+\def\titlepagefont{\sffamily\raggedleft}
+\def\booktitleposthook{\par}
+\def\booktitlepreskip{\zerorule\vskip4\baselineskip}
+\long\def\booktitleformat#1{\sffamily\fontsize{34}{36}\selectfont #1\par}
+\long\def\booksubtitleformat#1{\sffamily\fontsize{25}{27}\selectfont #1\par}
+\def\titlepagerule{}
+\def\booksubtitleposthook{\par}
+\def\booksubtitlepreskip{\vskip.5\baselineskip}
+\def\booksubtitlepostskip{\vskip2\baselineskip}
+\def\bookauthorposthook{\par}
+\def\bookauthorpreskip{\vskip\baselineskip}
+\def\bookauthoraddressposthook{\par}
+\def\bookauthoraddressformat{\fontsize{16}{18}\selectfont}
+\def\bookauthorformat#1{\fontsize{16}{18}\selectfont\textbf{#1}}
+\def\bookeditedbypreskip{\vskip2pc}
+\def\bookvolumenrformat#1{#1}
+\def\dedicationhead%
+{%
+  \zerorule%
+  \vskip8pc%
+}
+\def\dedicationprehook{\cleardoublepage\thispagestyle{empty}\center}
+\def\dedicationposthook{\endcenter}
+\def\dedicationfont{\itshape}
 \newenvironment{dedication}%
 {%
   \csuse{dedicationprehook}%
-    \dedicationfont%
-    \dedicationhead%
+  \dedicationfont%
+  \dedicationhead%
 }%
 {%
    \csuse{dedicationposthook}%
 }
+\newenvironment{biography}{\par}{}
 \pagestyle{headings}
 \def\chaptermark#1{\markright{#1\enskip\hbox{\color{black!30}\@chapapp\enskip|\enskip\thechapter}}}
 \def\partmark#1{%
@@ -650,6 +899,11 @@
   {#1\enskip\hbox{\color{black!30}\partname\enskip|\enskip\thepart}}%
 }
 \def\sectionmark#1{}
+\def\rhlabelfont{\sffamily\bfseries\fontsize{11}{11}\selectfont}
+\def\chaptermarklabel{{\rhlabelfont CHAPTER \thechapter\quad}}
+\def\sectionmarklabel{{\rhlabelfont\thesection\quad}}
+\def\chaptermark#1{\markboth{\chaptermarklabel #1}{\chaptermarklabel #1}}
+\def\sectionmark#1{\markright{\sectionmarklabel #1}}
 \RequirePackage[tight]{minitoc}
 \preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
 \AtBeginDocument{\dominitoc}
@@ -693,8 +947,15 @@
 %% TODO: chapter numberline
 %% TODO: part numberline
 \let\tocnumberline\numberline
+\def\tocfigurename{Fig.}
+\def\tocfigurenumberline#1{\hb@xt@\@tempdima{\tocfigurename\space#1\hfil}}
+\def\tocchapternumberline#1{\hb@xt@\@tempdima{#1.\hfil}}
+\def\tocfigureshape{\sffamily}
+\def\toctablenumberline#1{#1\hfill}
+\def\toctableshape{}
 \def\l@figure%
 {%
+  \def\@dotsep{1000}%
   \def\@tocentry{figure}%
   \csuse{tocfigureshape}%
   \let\figuresource\@gobbletwo
@@ -787,6 +1048,35 @@
 
 \RequirePackage{mdframed}
 \newmdenv{textbox}
+\mdfdefinestyle{BtypeA}%
+{%
+  font={\fontsize{8}{10}\selectfont},%
+  frametitlefont={\fontsize{9}{11}\sffamily\bfseries\MakeUppercase},%
+  innertopmargin=4pt,%
+  innerbottommargin=6pt,%
+  innerleftmargin=6pt,%
+  innerrightmargin=6pt,%
+  backgroundcolor=black!15,%
+  frametitleaboveskip=6pt,%
+  linewidth=1.5pt%
+}
+\mdfdefinestyle{BtypeB}%
+{%
+  font={\fontsize{8}{10}\selectfont},%
+  frametitlefont={\boxrule\fontsize{9}{11}\sffamily\bfseries\MakeUppercase},%
+  linewidth=1.5pt,%
+  innertopmargin=4pt,%
+  innerbottommargin=6pt,%
+  innerleftmargin=6pt,%
+  innerrightmargin=6pt,%
+  frametitleaboveskip=6pt,%
+}
+\def\boxrule{\rlap{\smash{\rule[-4pt]{\dimexpr(\textwidth)}{.5pt}}}}
+\mdfsetup%
+{%
+  theoremseparator=,%
+  theoremspace=\enskip,%
+}
 \AfterPackage{index}
 {%
 \renewenvironment{theindex}%
