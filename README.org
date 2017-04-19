@@ -7,16 +7,15 @@
   Rename the folder =elsevierbook-project-template= to =<your-project-name>=.
   The package is self-contained, which means that once unzipped you can start
   formatting your book straight away. No additional installation steps are required.
-  However, you may wish to checj the 'Installation' section in the manual.
-
+  However, you may wish to check the 'Installation' section in the documention.
 
 * Package content
 
   - sty/
     - elsevierbook.cls - class file
-    - elsevierbook-<model>.cls - model class file(s)
+    - elsevierbook-{a02,a08a,p04}.cls - model class files
   - doc/
-     - elsbookdoc.pdf - manual on book preparation
+     - elsbookdoc.pdf - instruction for authors
   - img/ - forder for graphics files: EPS, PDF format
   - book.tex
   - chapter01.tex
