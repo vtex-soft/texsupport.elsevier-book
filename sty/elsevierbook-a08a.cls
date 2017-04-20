@@ -19,7 +19,6 @@
 \RequirePackage{xcolor}
 \RequirePackage{colortbl}
 \RequirePackage{fmtcount}
-%%<a08a>
 \RequirePackage{tikz}
 \newtoggle{bookseries}\togglefalse{bookseries}
 \newtoggle{multiauthor}\togglefalse{multiauthor}
@@ -932,7 +931,7 @@
 {%
   \par%
 }
-\RequirePackage[numbers]{natbib}
+\RequirePackage{natbib}
 \def\bibsection{\nosectionrule\section*{\bibname}}
 \def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
 \setlength{\bibhang}{10pt}
@@ -1081,11 +1080,12 @@
 }%
 \def\l@part#1#2%
 {%
- \let\numberline\tocpartnumberline%
- \csuse{tocpartshape}%
- #1%
- \par
- \csuse{tocpartpostskip}%
+  \def\@tocentry{part}%
+  \let\numberline\tocpartnumberline%
+  \csuse{tocpartshape}%
+  #1%
+  \par
+  \csuse{tocpartpostskip}%
 }%
 \def\l@chapter%
 {%
