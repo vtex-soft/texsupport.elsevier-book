@@ -1,9 +1,12 @@
-\documentclass[a4paper,12pt]{article}
+%\documentclass[a4paper,12pt]{article}
+\documentclass{ltxdoc}
 \usepackage{multicol}
-\usepackage[T1]{fontenc}
-\usepackage{newtxtext}
-\usepackage{newtxmath}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu,scaled=.88]{zi4}
+\usepackage[libertine]{newtxmath}
+\usepackage[tableposition=top]{caption}
 \usepackage{fancyvrb}
+\usepackage{hypdoc}
 \usepackage{enumitem}
 \setlist%
 {%
@@ -14,90 +17,120 @@
 }
 \setlist[description]{font=\normalfont\sffamily}
 
-\title{elsevierbook.cls class}
-\author{deimi}
-\date{}
-
 \def\file#1{\texttt{#1}}
 \begin{document}
+\title{\LaTeX\ Class for Elsevier Books}
+\author{Deimantas Gal\v{c}ius\footnote{\href{mailto:deimi@vtex.lt}{\texttt{deimi@vtex.lt}}}}
+\date{2017/04/04, v0.1}
 \maketitle
+\abstract{The package provides a class for typesetting books to be published by Elsevier.}
+
+\tableofcontents
 
 \section{Introduction}
 
-\file{elsevierbook.cls} is designed for preparation \LaTeX{} books to be published by Elsevier. 
-The document class is built on \file{book.cls} and require following packages:
+The \file{elsevierbook} class is designed for preparation \LaTeX{} books to be published by Elsevier. 
+The document class is built on \file{book.cls} class and requires following packages:
 
+\begin{multicols}{2}
 \begin{itemize}
 \item \file{etoolbox}
 \item \file{calc}
 \item \file{afterpackage}
 \item \file{numname}
 \item \file{xcolor}
-\item \file{colortbl} for table with colored rows, columns;
+\item \file{colortbl}
 \item \file{fontenc}
-\item \file{textcomp} 
-\item \file{amsmath} for math typesetting;
-\item \file{amsmath,amssymb,amsfonts}
-\item \file{amsthm} for theorem and alike;
-\item \file{caption} for table, figure caption control;
-\item \file{titlesec} for sectioning control;
-\item \file{enumitem} for lists control;
-\item \file{mdframed} for boxed text elements;
-\item \file{footmisc} for footnote control;
-\item \file{natbib} for bibliography; 
-\item \file{minitoc} for producing chaper's minitoc;
+\item \file{textcomp}
+\item \file{amsmath}
+\item \file{amssymb,amsfonts}
+\item \file{amsthm}
+\item \file{caption}
+\item \file{titlesec}
+\item \file{enumitem}
+\item \file{mdframed}
+\item \file{footmisc}
+\item \file{natbib}
+\item \file{minitoc}
 \item \file{multicol}
 \end{itemize}
+\end{multicols}
 
 \section{Installation}
 
+The latest released version of the package can be found on CTAN: \linebreak
+\url{http://www.ctan.org/pkg/elsevierbook/}. 
+The development version can be found on GitHub: 
+ \url{https://github.com/vtex-soft/texsupport. elsevier-book}%, where a bug report can be filed if needed.
+. 
+A bug report can be filed at GitHub repository. 
+%At this address you can file a bug report—or even
+%contribute your own enhancement making a pull request.
 
-The package is available at TeX Support page on github\\ (\file{https://github.com/vtex-soft/texsupport.elsevier-book})
-It can also be found on CTAN (Comprehensive TeX Archive Network)
-\file(http://www.ctan.org/tex-archive/macros/latex/contrib/elsevierbook/)
-Please download the \file{elsevierbook.dtx} which is a class source file and
-\file{elsevierbook.ins} which is a driver file for extraction the class file.
-To produce \file{elsevier.cls} file, run LaTeX on the \file{elsarticle.ins}. 
-The class file may be moved to a place, usually, \file(\$TEXMF/tex/latex/elsevierbook/), or a folder
-that TeX can read  from. The TeX file database needs to be regenerated after moving the class file.
-Usually, we use commands like \file{mktexlsr} or \file{texhash} depending upon the distribution and operating system. 
+Most users should not attempt to install this package themselves, and rather rely on
+their \TeX\ distributions to provide it. If you decide to install the package yourself, follow
+the standard rules:
+\begin{enumerate}
+\item Run latex on \file{elsevierbook.ins}. This will produce the file \file{elsevierbook.cls}.
+\item Put the file \file{elsevierbook.cls}  to the places where \LaTeX\ 
+can find them (see \cite{ref:ukfaq} or the documentation for your \TeX\ system).
+\item Update the database of file names. Again, see \cite{ref:ukfaq} or the documentation for your
+\TeX\ system for the system-specific details.
+\end{enumerate}
 
-However, the installation is optional and you can skip this phase.
-The bundle is self-contained and after unzipping your have everything you need for book preparation. (see \ref{bookstructrure})
+
+The installation is optional and you can skip this phase.
+The bundle is self-contained and after unzipping your have everything you need for a book preparation. 
+
 
 \section{Book structure}\label{bookstructure}
 
-Organising book can be challenging. 
-Here we discribe two possible ways of book organisation.
-The first one is pretty simple with flat folder structure that can suit for 
-short books, the other is more complex that can serve for more complex books.
+Book structure may vary depending on whether the book is a monograph or a contributed book. 
+Monographs and short books can be organized in simple folder structure as shown in Figure 
+\ref{fig:mono}.
+Each chapter is prepared in a separate file and the files reside in working directory. 
+Image files are put in a separate \file{img/} folder. 
+The \LaTeX\ style files have a dedicated \file{sty/} folder.
 
-\subsection{Option 1 - simple stucture}
+More complex books such as proceeding volumes or contributed books can have more 
+elaborated file structure as shown in Figure \ref{fig:contr}.
+
+\begin{figure}
+\begin{minipage}{\dimexpr(\textwidth-0pc)}
 \begin{multicols}{2}
-\begin{verbatim}
-book.tex
+\begin{Verbatim}[commandchars=+\(\)]
++fbox(book.tex               )
 chapter01.tex
 chapter02.tex
-dediction.tex
+appendix01.tex
+dedication.tex
 preface.tex
 bibliography.tex
+tableofcontents.tex
 [...] 
 img/
   ch01-figure01.eps
   ch02-figure02.eps
 sty/
   elsevierbook.cls
-\end{verbatim}
-
+\end{Verbatim}
 \columnbreak
-\begin{verbatim}
-book.tex: 
+\hrule height0pt
+\vskip-2pc
+\hrule height0pt
+\begin{Verbatim}[frame=single,label={book.tex}]
+\csdef{input@path}%
+{%
+ {sty/},% path for class/sty files
+ {img/},% path for graphics files
+}
+...
 \documentclass{elsevierbook.cls}
 \begin{document}
 \Frontmatter
   \include{titlepage}
   \include{dedication}
-  \tableofcontents
+  \include{tableofcontents}
   \include{preface}
   \include{acknowledgement}
   [...]
@@ -105,25 +138,31 @@ book.tex:
   \include{chapter01}
   \include{chapter02}
   [...]
-\Backmatter
+  \appendix
   \include{appendix01}
   [...]
+\Backmatter
   \include{bibliograhy}
-  \printindex
 \end{document}
-\end{verbatim}
-
+\end{Verbatim}
 \end{multicols}
+\end{minipage}
+\caption{Folder structure for monographs: 
+  folder/file structure (\textit{left}) and contents of 
+ the \file{book.tex} file (\textit{right}).}
+\label{fig:mono}
+\end{figure}
 
-\subsection{Option 2 - more complex structure}
-For more complex projects this can be more suitable
 
+\begin{figure}
+\begin{minipage}{\dimexpr(\textwidth-0pc)}
 \begin{multicols}{2}
-\begin{verbatim}
+\begin{Verbatim}[commandchars=+\(\)]
 book.tex
-dediction.tex
+dedication.tex
 preface.tex
 bibliography.tex
+tableofcontents.tex
 [...]
 chapter01/
   chapter01.tex
@@ -146,18 +185,27 @@ appendix01/
 bibliography.tex
 sty/
   elsevierbook.cls
-\end{verbatim}
-
+\end{Verbatim}
 \columnbreak
-\begin{verbatim}
-book.tex: 
-
+\begin{Verbatim}[frame=single,label={book.tex}]
+\csdef{input@path}%
+{%
+ {sty/},% path for class/sty files
+ {chapter01/},%
+ {chapter01/img/},%
+ {chapter02/},%
+ {chapter02/img/},%
+ {...},%
+ {appendix01/},%
+ {appendix01/img/},%
+}
+...
 \documentclass{elsevierbook.cls}
 \begin{document}
 \Frontmatter
   \include{titlepage}
   \include{dedication}
-  \tableofcontents
+  \include{tableofcontents}
   \include{preface}
   \include{acknowledgement}
   [...]
@@ -165,19 +213,28 @@ book.tex:
   \include{chapter01}
   \include{chapter02}
   [...]
-\Backmatter
+  \appendix
   \include{appendix01}
   [...]
+\Backmatter
   \include{bibliograhy}
-  \printindex
 \end{document}
-\end{verbatim}
+\end{Verbatim}
 \end{multicols}
+\end{minipage}
+\caption{Folder structure for contributed books: 
+  folder/file structure (\textit{left}) and contents of 
+ the \file{book.tex} file (\textit{right}).}
+\label{fig:contr}
+\end{figure}
+
+
 
 
 \section{Usage}
 
 The class should be loaded with the following command:
+
 
 \begin{verbatim}
 \documentclass[<options>]{elsevierboook}
@@ -189,54 +246,146 @@ The class should be loaded with the following command:
 \item[a02] sets \verb!a02! book model settings
 \item[a08a] sets \verb!a08a! book model settings
 \item[p05] sets \verb!p05! book model settings
-\item[authoryear] for \file{natbib} package.
+%\item[authoryear] for \file{natbib} package.
 \end{description}
 
 
 
-\section{Frontmatter}
+\section{Chapter opener}
 
- - chapter
- - author
- - address
- - footnotes
- - dispquotes
- - chapter points
- - minitoc
- - abstract
- - keywords
+All the chapter opening elements are coded inside in a wrapper environment
+\verb!\begin{frontmatter}!\ldots\verb!\end{frontmatter}!. A typical 
+chapter opener coding is shown below:
 
-\section{Tables, Figures}
+\begin{Verbatim}
+\begin{frontmatter}
+\chapter{Chapter Title\footnote{This is chapter footnote}}%
+\subchapter{Chapter Subtitle}
+\begin{aug}
+\author[addressrefs={ad1,ad2}]%
+  {%
+    \fnm{Firstname} \snm{Surname}%
+    \footnote{This is author footnote}%
+  }%
+\author[addressrefs={ad2}]%
+ {%
+   \fnm{Firstname} \snm{Surname}%
+ }%
+\address[id=ad1]%
+  {%
+    Name of Institute,
+    Division of Department,
+    Address of Institute
+  }%
+\address[id=ad2]%
+  {%
+    Name of Institute,
+    Division of Department,
+    Address of Institute
+  }%
+\end{aug}
+\end{Verbatim}
 
-Figures may be included using the command \verb!\includegraphics!. Please check \verb!graphicx! package
-for available options. Please use EPS format for figures  working with LaTeX, and PDF, PNG, MPS formats for pdfLaTeX. 
-Do not use file extensions and path in order to load file. If you need LaTeX to find your graphics files in 
-other folder than in setup, set the path into \verb!input@path!.
+The frontmatter part can have more environments such as abstracts, keywords, chapers points and quotes.
+These can be marked up in the following manner:
 
-\begin{verbatim}
+\begin{Verbatim}
+\begin{abstract}
+  The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.%
+
+  The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.%
+\end{abstract}
+\end{Verbatim}
+
+\begin{Verbatim}
+\begin{keywords}
+  \kwd{key one}
+  \kwd{key two}
+  \kwd{key three}
+\end{keywords}
+\end{Verbatim}
+
+
+\begin{Verbatim}
+\begin{chapterpoints}%[Chapter Points]
+\item The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.
+
+\item The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.
+\end{chapterpoints}
+\end{Verbatim}
+
+\begin{Verbatim}
+\begin{dispquote}
+  The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.
+
+  The ends of words and sentences are marked by spaces. It does not
+  matter how many spaces you type; one is as good as 100.  The end of
+  a line counts as a space.
+  \source{Name}
+\end{dispquote}
+\end{Verbatim}
+
+
+\section{Section headings}
+
+There are six section head levels defined. Coding for different heading levels are shown below:
+\begin{Verbatim}
+\section{Head Level 1}
+\subsection{Head Level 2}
+\subsubsection{Head Level 3}
+\paragraph{Head Level 4}
+\subparagraph{Head Level 5}
+\subsubparagraph{Head Level 6}
+\end{Verbatim}
+
+
+\section{Lists}
+
+The \file{elsevierbook.cls} class exploits \verb!enumitem! package for list environments 
+such as enumerate, itemize and others. It is possible to supply optional arguments 
+to fine control the appearance of list (see package documentation for details \cite{ref:enumitem}):
+\begin{Verbatim}
+\begin{enumerate}[<options>]
+\item [...]
+\item [...]
+\end{enumerate}
+\end{Verbatim}
+
+
+\section{Tables and figures}
+
+Figures may be included using the command \verb!\includegraphics!. 
+Use EPS file format for figures  working with LaTeX, and PDF, PNG, MPS file formats for pdfLaTeX. 
+Do not use file extensions and path in order to load file. Figure mark up is as follows:
+\begin{Verbatim}
 \begin{figure}
 \includegraphics{file-name}% no path, no extension
-\caption%
-  {Figure caption %
-     \source{Cortesy of [...]}% 
-  }
+\caption{Figure caption \source{Cortesy of [...]}}\label{fig:f01}
 \end{figure}
-\end{verbatim}
-
-Table environment may be enhanced depending on model chosen. 
-
-\begin{verbatim}
+\end{Verbatim}
+Table environment may be enhanced depending on the model chosen. 
+\begin{Verbatim}
 \begin{table}
-\begin{tableframe}
-\caption{Table caption text [...]  }%
+\begin{tableframe}% frame or background - depends on the model.
+\caption{Table caption text [...]  }\label{tbl:t01}
 \begin{tabularx}{\textwidth}{X||X}
-\Hline
-\tch{Item A} & \tch{Item B}\tabnoteref{tn1}\\\hline
-\tchi{Item A2} & \tchi{Item B2}\tabnoteref{tn1}\\\hline
-\rowcolor{thd}
-\multicolumn{2}{l}{\textbf{Item}} \\
+\tophline
+\tch{Item A} & \tch{Item B}\tabnoteref{tn1}\\\hline     % \tch - table column head
+\tchi{Item A2} & \tchi{Item B2}\tabnoteref{tn1}\\\hline % \tchi - table column subhead
+\rowcolor{thd} \multicolumn{2}{l}{\textbf{Item}} \\     % colored header
 Item A & Item B\\\hline
-Item C & Item D\tabnoteref{tn2}\\\Hline
+Item C & Item D\tabnoteref{tn2}\\
+\bottomhline
 \end{tabularx}
 \begin{tabnotes}
   \tabnotetext[*]{tn1}{Table footnote}
@@ -246,26 +395,30 @@ Item C & Item D\tabnoteref{tn2}\\\Hline
 \end{tabnotes}
 \end{tableframe}
 \end{table}
-\end{verbatim}
+\end{Verbatim}
 
-\begin{description}
-\item[tableframe] - environment 
-\item[source] - source 
-\item[Hline] - heavy line
-\item[tch] - table column head
-\item[rowcolor{thd}] for colored rows
-\item[tabnoteref] table footnote reference
-\item[tabnotetext] table footnote text. Must be on \verb!tabnotes! environment
-\item[legend] table legend. Must be inside \verb!tabnotes! environment.
-\end{description}
+
+\section{Theorems and alike environments}
+
+The class loads \verb!amsthm! package \cite{ref:amsthm} to make it easier 
+to define theorem environments and the alike.
+\begin{Verbatim}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\begin{theorem}[Optional title]\label{thm:01}
+...
+\end{theorem}
+\end{Verbatim}
 
 
 \section{Boxed text}
 
-Boxed text environments uses mdframed package as its basic. There are two types defined: Box Type A (BtypeA) and 
-Box Type B (BtypeB)
-
-Unnumbered text boxes
+The \file{mdframed} package \cite{ref:mdframed} is used for boxed text. 
+There are two types of boxed text defined: Box Type A (BtypeA) and 
+Box Type B (BtypeB). The mark up for unnumbered boxed text is as following:
 \begin{Verbatim}
 \begin{textbox}[style=BtypeA,frametitle={Box type A}]
  Some text [...]
@@ -275,84 +428,104 @@ Unnumbered text boxes
  Some text [...]
 \end{textbox}
 \end{Verbatim}
-
-\noindent Numbered text boxes are defined pretty much the same as theorem like environments.
+\noindent Numbered boxed text environments are defined the same ways as theorem-like environments:
 \begin{Verbatim}
 \mdtheorem[style=BtypeA]{example}{Example}[chapter]
 \mdtheorem[style=BtypeB]{boxb}{Box}
-\begin{example}[Numbered Box type A ]
+\begin{example}[Numbered Box type A]
   Some text [..]
 \end{example}
 [...]
-\begin{boxb}[NUmbered Box type B]
+\begin{boxb}[Numbered Box type B]
   Some text [..]
 \end{boxb}
 \end{Verbatim}
 
-You can use other options from mdframed package to fine tune the \verb!textbox! environment.
-
-\section{Theorems and friends}
-
-The class loads \verb!amsthm! package to make it easier to define theorem environments and the alike.
-\begin{verbatim}
-\newtheorem{theorem}{Theorem}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}
-\end{verbatim}
-
-Please refer to \verb!amsthm! package documentation for details.
-
-
-\section{Lists}
-
-We use \verb!enumitem! package for enumerate, itemize and other lists environments. It is possible 
-to supply optional arguments to fine control the appearance of list.
-
-\begin{Verbatim}
-\begin{enumerate}[<options>]
-\item [..]
-\end{enumerate}
-\end{Verbatim}
-
-Please check \verb!enumitem! documentation for details.
 
 
 \section{Display mathematics}
 
-The package \file{amsmath} is loaded by the class file. You can use all environments form amsmath package. 
-Please do not use faulty 'eqnarray' environment, but eqnalign or .. instead.
+AMS math coding is preferred for display mathematics \cite{ref:amsmath}.
+Avoid \verb!eqnarray! environment for coding.
 
 
-\section{Program Lists}
-
-not available yet.
-
-\end{document}
 
 \section{Cross-references}
+
+Cross-referencing is possible in \LaTeX\ for section headings, formulae, figure, tables, 
+literature references, etc. For example, the words `Fig. 1' will never be more than simple 
+text, whereas the proper cross-reference \verb!Fig.~\ref{fig:tiger}! may be turned into a 
+hyperlink to the figure. In the same way, the words `Ref. [1]' will fail to turn into a 
+hyperlink; the proper cross-reference is \verb!\cite{Knuth96}!.
 
 
 \section{Bibliography}
 
-\section{Acknowledgement}
+The class uses the \file{natbib} package for formatting references.
+You can choose between author--year (default) and numerical (option \verb!numbers!) citations.
+Further customization 
+can be made via \verb!\setcitestyle! macro (see \cite{ref:natbib}) for details.
 
-\section{Appendices}
+%\section{Index}
 
-\section{Index}
+%\section{Acknowledgement}
 
-\section{Glossary List}
+%\section{Appendices}
+%\section{Glossary List}
 
-\section {Book Frontmatter}
+%\section {Book Frontmatter}
 
-\subsection{titlepage}
-\subsection{Preface}
-\subsection{About Author}
-\subsection{Contributors Lists}
-\subsection{Toc, lof, lot, etc}
-\subsection{Dedication}
+\newpage
+\section{Submission}
+
+Submit one single file as a zip archive. 
+Pack your root folder \verb!<your-project-name>! with files and subfolders. 
+Check that subfolders \file{sty/}, \file{img/}, or \file{chapterNN/} (if any) are 
+present in a zip file.
+
+\begin{thebibliography}{9}
+\bibitem{ref:ukfaq} UK \TeX\ Users Group. UK list of \TeX\ frequently asked questions. 
+\url{http://www.tex.ac.uk}, 2016.
+
+\bibitem{ref:mdframed} 
+
+M.~Daniel, E.~Schubert. \textit{The mdframed package}, 
+2013. \url{http://www.ctan.org/pkg/mdframed}.
+
+\bibitem{ref:amsmath}
+
+F.~Mittelbach, R. Sch\"opf, M. Downes, D.M.~Jones, D.~Carlisle. \textit{AMS mathematical facilities for \LaTeX}, 216. \url{http://www.ctan.org/pkg/amsmath}. 
+
+\bibitem{ref:amsthm}
+
+American Mathematical Society. \textit{Typesetting theorems (AMS style)}, April 2015. 
+\url{http://www.ctan.org/pkg/amsthm}.
+
+\bibitem{ref:enumitem}
+J. Bezos. 
+\textit{Customizing lists with the enumitem package}, 2011. 
+\url{http://www.ctan.org/pkg/enumitem}.
+
+\bibitem{ref:natbib}
+
+P.W. Daly.
+\textit{Natural Sciences Citations and References}, 
+2010. 
+\url{https://www.ctan.org/pkg/natbib}.
 
 
+\end{thebibliography}
 
 \end{document}
+
+
+
+%\subsection{titlepage}
+%\subsection{Preface}
+%\subsection{About Author}
+%\subsection{Contributors Lists}
+%\subsection{Toc, lof, lot, etc}
+%\subsection{Dedication}
+
+
+
