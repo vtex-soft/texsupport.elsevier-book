@@ -25,7 +25,7 @@ However, you may wish to check the 'Installation' section in the documention.
     -   elsevierbook.cls - class file
     -   elsevierbook-{a02,a08a,p04}.cls - model class files
 -   doc/
-    -   elsbookdoc.pdf - instruction for authors
+    -   [elsbookdoc.pdf](https://github.com/vtex-soft/texsupport.elsevier-book/raw/master/doc/elsbookdoc.pdf)  - instruction for authors
 -   img/ - forder for graphics files: EPS, PDF format
 -   book.tex
 -   chapter01.tex
