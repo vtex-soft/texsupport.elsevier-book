@@ -9,6 +9,8 @@
   formatting your book straight away. No additional installation steps are required.
   However, you may wish to check the 'Installation' section in the documention.
 
+  Please avoid altering paper dimensions in a ~tex~ file.
+
 * Package content
 
   - sty/
