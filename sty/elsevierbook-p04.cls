@@ -225,14 +225,15 @@
       \csvlistassess{\author@notes}{\@next}{\ref{addressid.*}}%
       \csdef{author@sep@\number\c@augtemp}{\author@sep@one}% default
       %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
-      \ifnum\c@augtemp=1\relax%
-       \csdef{author@sep@\number\c@augtemp}{}%
-      \fi%
       \ifnum\c@author=\c@augtemp\relax% Last item
         \ifnum\c@augtemp=2\relax% if two items only
-          \csdef{author@sep@\number\c@augtemp}{\author@sep@two}%
-        \else%
-          \csdef{author@sep@\number\c@augtemp}{\author@sep@last}%
+        \csdef{author@sep@\number\c@augtemp}{\author@sep@two}%
+         \else%
+           \ifnum\c@augtemp=1\relax%
+             \csdef{author@sep@\number\c@augtemp}{}%
+           \else
+             \csdef{author@sep@\number\c@augtemp}{\author@sep@last}%
+           \fi%
         \fi%
       \fi%
       \csuse{author@sep@\number\c@augtemp}%
@@ -289,14 +290,15 @@
       \stepcounter{addrtemp}%
       \csdef{address@sep@\number\c@addrtemp}{\address@sep@one}% default
       %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
-      \ifnum\c@addrtemp=1\relax%
-       \csdef{address@sep@\number\c@addrtemp}{}%
-      \fi%
       \ifnum\c@address=\c@addrtemp\relax% Last item
         \ifnum\c@addrtemp=2\relax% if two items only
           \csdef{address@sep@\number\c@addrtemp}{\address@sep@two}%
-        \else%
-          \csdef{address@sep@\number\c@addrtemp}{\address@sep@last}%
+       \else%
+         \ifnum\c@addrtemp=1\relax%
+           \csdef{address@sep@\number\c@addrtemp}{}%
+         \else
+           \csdef{address@sep@\number\c@addrtemp}{\address@sep@last}%
+         \fi%
         \fi%
       \fi%
       \csuse{address@sep@\number\c@addrtemp}%
