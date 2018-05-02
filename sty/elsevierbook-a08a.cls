@@ -933,11 +933,12 @@
 {%
   \par%
 }
-\RequirePackage{natbib}
-\def\bibsection{\nosectionrule\section*{\bibname}}
-\def\bibfont{\normalfont\fontsize{8}{11}\selectfont}
-\setlength{\bibhang}{10pt}
-\setlength{\bibsep}{0pt \@plus.1pt}
+\AfterPackage{natbib}{%
+\def\bibsection{\nosectionrule\section*{\bibname}}%
+\def\bibfont{\normalfont\fontsize{8}{11}\selectfont}%
+\setlength{\bibhang}{10pt}%
+\setlength{\bibsep}{0pt \@plus.1pt}%
+}
 \newcommand*\titlepagehook%
 {%
   \let\seriestitle\bookseriestitle%
