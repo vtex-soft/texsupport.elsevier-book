@@ -466,6 +466,10 @@ The class uses the \file{natbib} package for formatting references.
 You can choose between author--year (default) and numerical (option \verb!numbers!) citations.
 Further customization 
 can be made via \verb!\setcitestyle! macro (see \cite{ref:natbib}) for details.
+If your bibliography is chapterwise, you may set a \verb!sectionbib! option to \verb~documentclass~,
+and remove \verb~\include{references}~ at the end of the \verb~book.tex~ file.
+Bibtex users may substitute \verb~\include{references}~ with \verb~\bibliographystyle{<bibstyle>}~ and\\ \verb~\bibliography{<bibdata-file>}~.
+
 
 %\section{Index}
 
@@ -483,6 +487,12 @@ Submit one single file as a zip archive.
 Pack your root folder \verb!<your-project-name>! with files and subfolders. 
 Check that subfolders \file{sty/}, \file{img/}, or \file{chapterNN/} (if any) are 
 present in a zip file.
+
+
+\section{Bug reports}
+
+Please submit any bug reports, issues or feature requests at \url{https://github.com/vtex-soft/texsupport.elsevier-book/issues}
+
 
 \begin{thebibliography}{9}
 \bibitem{ref:ukfaq} UK \TeX\ Users Group. UK list of \TeX\ frequently asked questions. 
@@ -516,6 +526,7 @@ P.W. Daly.
 
 
 \end{thebibliography}
+
 
 \end{document}
 
