@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2017/01/24 v0.1  Elsevier book class]
+\ProvidesClass{elsevierbook}[2018/11/19 v0.1.1  Elsevier book class]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -200,7 +200,11 @@
   {*1}%
 \newenvironment{aug}%
 {%
+  \def\@authorlist{}%
+  \def\@addresslist{}%
   \setcounter{author}{0}%
+  \setcounter{addresslabel}{0}%
+  \setcounter{address}{0}%
   \augfont
   \setbox\@tempboxa=\vbox\bgroup%
 }%
