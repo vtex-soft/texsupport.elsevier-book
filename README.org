@@ -29,3 +29,9 @@
   Submit one single file as a zip archive. 
   Pack your root folder =<your-project-name>= with files and subfolders.
   Check that subfolder =sty/=, =img/=, or =chapterNN/= (if any) are present in a zip file.
+
+* Bug reports
+
+  Please submit bug report, issues or feature requests on github page
+[[https://github.com/vtex-soft/texsupport.elsevier-book/issues]].
+

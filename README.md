@@ -1,15 +1,13 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#org1e1b321">1. Getting started</a></li>
-<li><a href="#orgbcb429c">2. Package content</a></li>
-<li><a href="#orga1d9180">3. Submission</a></li>
-</ul>
-</div>
-</div>
 
-<a id="org1e1b321"></a>
+# Table of Contents
+
+1.  [Getting started](#orga97c6cf)
+2.  [Package content](#org01e387f)
+3.  [Submission](#org803b8ad)
+4.  [Bug reports](#orgdd98ddb)
+
+
+<a id="orga97c6cf"></a>
 
 # Getting started
 
@@ -24,7 +22,7 @@ However, you may wish to check the 'Installation' section in the documention.
 Please avoid altering paper dimensions in a `tex` file.
 
 
-<a id="orgbcb429c"></a>
+<a id="org01e387f"></a>
 
 # Package content
 
@@ -40,11 +38,19 @@ Please avoid altering paper dimensions in a `tex` file.
 -   [..]
 
 
-<a id="orga1d9180"></a>
+<a id="org803b8ad"></a>
 
 # Submission
 
 Submit one single file as a zip archive. 
 Pack your root folder `<your-project-name>` with files and subfolders.
 Check that subfolder `sty/`, `img/`, or `chapterNN/` (if any) are present in a zip file.
+
+
+<a id="orgdd98ddb"></a>
+
+# Bug reports
+
+Please submit bug report, issues or feature requests on github page
+<https://github.com/vtex-soft/texsupport.elsevier-book/issues>.
 
