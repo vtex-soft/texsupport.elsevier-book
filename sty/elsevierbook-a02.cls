@@ -201,18 +201,21 @@
 \titlespacing*{\subsubparagraph}{1em}%
   {*2}%
   {*1}%
+\newcounter{aug}
+\def\theaug{\arabic{aug}}
 \newenvironment{aug}%
 {%
-  \def\@authorlist{}%
-  \def\@addresslist{}%
-  \setcounter{author}{0}%
+  \refstepcounter{aug}%
+  \def\fad@authorlist{}%
+  \def\fad@addresslist{}%
+  \setcounter{fadauthor}{0}%
   \setcounter{addresslabel}{0}%
-  \setcounter{address}{0}%
+  \setcounter{fadaddress}{0}%
   \augfont
   \setbox\@tempboxa=\vbox\bgroup%
 }%
 {%
-  \egroup%
+ \egroup%
   \printauthorlist%
   \printaddresslist
 }%
@@ -229,10 +232,10 @@
       \let\author@fnmarks\@empty%
       \stepcounter{augtemp}%
       \edef\@next{\csuse{author@\number\c@augtemp @addressrefs}}%
-      \csvlistassess{\author@notes}{\@next}{\ref{addressid.*}}%
+      \csvlistassess{\author@notes}{\@next}{\ref{\number\c@aug.addressid.*}}%
       \csdef{author@sep@\number\c@augtemp}{\author@sep@one}% default
       %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
-      \ifnum\c@author=\c@augtemp\relax% Last item
+      \ifnum\c@fadauthor=\c@augtemp\relax% Last item
         \ifnum\c@augtemp=2\relax% if two items only
         \csdef{author@sep@\number\c@augtemp}{\author@sep@two}%
          \else%
@@ -249,7 +252,7 @@
       \listassess{\author@notes}{\author@fnmarks}{*}%
       \author@notes@format{\author@notes}%
     }%
-    \dolistloop{\@authorlist}%
+    \dolistloop{\fad@authorlist}%
   \egroup%
   \par%
   \ignorespaces
@@ -297,7 +300,7 @@
       \stepcounter{addrtemp}%
       \csdef{address@sep@\number\c@addrtemp}{\address@sep@one}% default
       %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
-      \ifnum\c@address=\c@addrtemp\relax% Last item
+      \ifnum\c@fadaddress=\c@addrtemp\relax% Last item
         \ifnum\c@addrtemp=2\relax% if two items only
           \csdef{address@sep@\number\c@addrtemp}{\address@sep@two}%
        \else%
@@ -309,10 +312,11 @@
         \fi%
       \fi%
       \csuse{address@sep@\number\c@addrtemp}%
-      \addresslabel{\csuse{addres@\number\c@addrtemp @id}}%
-      ##1%
+      \addresslabel{\csuse{address@\number\c@addrtemp @id}}%
+      \csuse{address@\number\c@addrtemp @corresponding}%
+      \csuse{address@\number\c@addrtemp @type}{##1}%
     }%
-    \dolistloop{\@addresslist}%
+    \dolistloop{\fad@addresslist}%
     \par%
   \egroup%
   \par
@@ -329,18 +333,27 @@
 \newcommand*\augfont{\sffamily\bfseries\fontsize{10}{11}\selectfont\raggedright}
 \newcommand*\authorskip{\setlength\parindent{0pt}}
 \newcommand*\authorsep{\@empty}
-\renewcommand*\author{\@ifnextchar[\@author{\@author[]}}
-\newcounter{author}
+\renewcommand*\author{\@ifnextchar[\fad@author{\fad@author[]}}
+\newcounter{fadauthor}
 \define@key{author}{id}{}
-\define@key{author}{addressrefs}{\csxdef{author@\number\c@author @addressrefs}{#1}}
-\define@key{address}{id}{\csxdef{addres@\number\c@address @id}{#1}}
-\def\@author[#1]#2%
+\define@key{author}{addressrefs}{\csxdef{author@\number\c@fadauthor @addressrefs}{#1}}
+\define@key{address}{id}{\csxdef{address@\number\c@fadaddress @id}{#1}}
+\define@key{address}{type}{\csgdef{address@\number\c@fadaddress @type}{\csuse{address@#1@type}}}
+\define@key{address}{label}{\csgdef{address@\number\c@fadaddress @label}{#1}}
+\define@key{address}{corresponding}[true]{%
+  \ifstrequal{#1}{true}%
+  {\csgdef{address@\number\c@fadaddress @corresponding}{\address@corresponding@type}}%
+  {}
+}
+\newcommand*\address@electronic@type[1]{\texttt{#1}}
+\newcommand*\address@corresponding@type{Corresponding author:\space}
+\def\fad@author[#1]#2%
 {%
-  \stepcounter{author}%
+  \stepcounter{fadauthor}%
   \bgroup%
   \ifstrempty{#1}{}{\setkeys{author}{#1}}%
     \bgroup%
-      \listgadd\@authorlist{#2}%
+      \listgadd\fad@authorlist{#2}%
     \egroup%
  \egroup%
  \ignorespaces
@@ -350,11 +363,11 @@
 %%
 \def\@address[#1]#2%
 {%
-  \stepcounter{address}%
+  \stepcounter{fadaddress}%
   \bgroup%
   \ifstrempty{#1}{}{\setkeys{address}{#1}}%
     \bgroup%
-      \listgadd\@addresslist{#2}%
+      \listgadd\fad@addresslist{#2}%
     \egroup%
  \egroup%
  \par%
@@ -363,11 +376,25 @@
 \newcommand*\addressskip{\par\noindent}
 \newcommand*\addressfont{\normalfont\fontsize{8}{11}\itshape\selectfont}
 \def\address{\@ifnextchar[{\@address}{\@address[]}}
-\newcounter{address}
+\newcounter{fadaddress}
 \newcounter{addresslabel}
-\renewcommand*\theaddresslabel{\fnsymbol{addresslabel}}
+\renewcommand*\theaddresslabel{\alph{addresslabel}}
 \newcommand*\addressmark{\textsuperscript{\theaddresslabel}}
-\def\addresslabel#1{\refstepcounter{addresslabel}\label{addressid.#1}\addressmark}
+\newcommand*\addressmark@withlabel[1]{\textsuperscript{#1}}
+\def\addresslabel#1{%
+  \bgroup
+  \@ifundefined{address@\number\c@addrtemp @label}%
+  {%
+    \refstepcounter{addresslabel}%
+  }%
+  {%
+    \protected@edef\@currentlabel{\csuse{address@\number\c@addrtemp @label}}%
+    \def\theaddresslabel{\csuse{address@\number\c@addrtemp @label}}%
+  }%
+  \addressmark%
+  \label{\number\c@aug.addressid.#1}%
+  \egroup
+}
 \newcommand*\abstractname{Abstract}
 \newcommand*\abstractheadfont{\small\bfseries\sffamily}
 \newcommand*\abstractpreskip%
