@@ -82,6 +82,7 @@
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
+ \addtocontents{toc}{\addvspace{1pc}}
 }
 \newcommand*{\Frontmatter}%
 {%
@@ -245,7 +246,6 @@
   \let\@afterheading\@afterheadingwithindent%
 }
 \newtoggle{sectionbefore}
-\patchcmd\begin{\begingroup}{\begingroup\prunesectiontoggle}{}{}%
 \def\setsectiontoggle{\global\toggletrue{sectionbefore}}
 \def\prunesectiontoggle{\iftoggle{sectionbefore}{\vskip1pc}{}\global\togglefalse{sectionbefore}}
 \def\sectionfont{\sffamily\bfseries\mathversion{bold}\Large\filright}
@@ -313,6 +313,7 @@
   \setcounter{fadauthor}{0}%
   \setcounter{addresslabel}{0}%
   \setcounter{fadaddress}{0}%
+  \setcounter{footnote}{0}%
   \augfont
   \setbox\@tempboxa=\vbox\bgroup%
 }%
@@ -698,12 +699,11 @@
 \DeclareCaptionFont{figcaptionfont-p04}{\fontsize{8.75}{10}\selectfont}
 \DeclareCaptionFont{tablecaptionfont-p04}{\fontsize{9.75}{12}\selectfont}
 \protect\def\figuresource#1{\textit{(#1)}}
-\appto\@begin@figure@hook%
-{%
+\preto\figure{%
   \def\source{\protect\figuresource}%
   \appto\@floatboxreset{\@figureboxreset@hook}%
-}%
-\appto\@begin@table@hook%
+}
+\preto\table
 {%
   \def\source{\protect\tablesource}%
   \appto\@floatboxreset{\@tableboxreset@hook}%
@@ -981,13 +981,16 @@
   \let\editedby\bookeditedby%
   \let\volume\bookvolumenr%
 }
-\AtBeginEnvironment{titlepage}
+\let\titlepage@latex\titlepage
+\let\titlepage\relax
+\let\endtitlepage\relax
+\newenvironment{titlepage}
 {%
+  \titlepage@latex
   \csuse{titlepagehook}%
   \csuse{titlepagefont}%
   \setlength{\parindent}{0pt}%
-}%
-\preto\endtitlepage{\par}
+}{\par}%
 \appto\titlepagehook{\setlength\leftskip{40pt}}
 \def\titlepagefont{\sffamily}
 \def\booktitleposthook{\par}
@@ -1035,11 +1038,16 @@
 \preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
 \AtBeginDocument{\dominitoc}
 \RequirePackage{multicol}
+\protected\def\minitocnumberline#1{\hb@xt@\@tempdima{#1\hfil}}
+\let\minitoc@dottedtocline\@dottedtocline
 \newcommand*\setminitoclines%
 {%
-  \def\l@section{\@dottedtocline {1}{0em}{2.3em}}%
-  \def\l@subsection{\@dottedtocline {2}{2.3em}{3em}}%
-  \def\l@subsubsection{\@dottedtocline {3}{5.3em}{3.5em}}%
+%%<p04> \def\mtcSfont{\normalfont\sffamily}
+%%<p04> \def\mtcSSfont{\normalfont\sffamily}
+%%<p04> \def\mtcSSSfont{\normalfont\sffamily}
+  \def\l@section{\minitoc@dottedtocline {1}{0em}{2.3em}}%
+  \def\l@subsection{\minitoc@dottedtocline {2}{2.3em}{3em}}%
+  \def\l@subsubsection{\minitoc@dottedtocline {3}{5.3em}{3.5em}}%
 }
 \mtcsetformat{minitoc}{dotinterval}{1000}
 \setcounter{minitocdepth}{3}
@@ -1052,22 +1060,6 @@
 \mtcsetfont{minitoc}{subsubsection}{\sffamily}
 \mtcsetrules{minitoc}{off}
 \mtcsetformat{minitoc}{tocrightmargin}{2.55em plus 1fil}
-\newcommand{\multicolumnmtc}{2}
-\let\SV@mtc@verse\mtc@verse
-\let\SV@endmtc@verse\endmtc@verse
-\def\mtc@verse#1{%
-  \setminitoclines%
-  %\SV@mtc@verse#1\removelastskip%
-  \setcounter{collectmore}{-1}%
-  \multicolsep0pt%
-  \begin{multicols}{\multicolumnmtc}
-  \raggedcolumns\leavevmode\unskip
-  \vskip -1.5ex \vskip -1\baselineskip}
-\def\endmtc@verse%
-{%
-  \end{multicols}%
-  %\SV@endmtc@verse
-}
 \def\tableofcontents{\@starttoc{toc}}
 \def\listoffigures{\global\@mtc@lof@used@true\@starttoc{lof}}
 \def\listoftables{\global\@mtc@lot@used@true\@starttoc{lot}}
@@ -1118,6 +1110,7 @@
   \let\numberline\tocpartnumberline%
   \csuse{tocpartshape}%
   #1%
+  \hangindent=4pc
   \par
   \csuse{tocpartpostskip}%
 }%
@@ -1128,19 +1121,25 @@
   \csuse{tocchaptershape}%
   \book@dottedtocline{0}{0pt}{1pc}%
 }%
+\def\l@chapterstar%
+{%
+  \def\@tocentry{chapterstar}%
+  \csuse{tocchapterstarshape}%
+  \book@dottedtocline{0}{0pt}{1pc}%
+}%
 \def\l@section%
 {%
   \def\@tocentry{section}%
   \csuse{tocsectionshape}%
   \let\numberline\tocnumberline%
-  \book@dottedtocline{1}{1pc}{2pc}%
+   \book@dottedtocline{1}{1pc}{2pc}%
 }%
 \def\l@subsection%
 {%
   \def\@tocentry{subsection}%
   \csuse{tocsubsectionshape}%
   \let\numberline\tocnumberline%
-  \book@dottedtocline{2}{3pc}{2pc}%
+ \book@dottedtocline{2}{3pc}{2pc}%
 }%
 \def\l@subsubsection%
 {%
