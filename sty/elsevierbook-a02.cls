@@ -79,6 +79,7 @@
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
+ \addtocontents{toc}{\addvspace{1pc}}
 }
 \newcommand*{\Frontmatter}%
 {%
@@ -211,6 +212,7 @@
   \setcounter{fadauthor}{0}%
   \setcounter{addresslabel}{0}%
   \setcounter{fadaddress}{0}%
+  \setcounter{footnote}{0}%
   \augfont
   \setbox\@tempboxa=\vbox\bgroup%
 }%
@@ -577,12 +579,11 @@
 \DeclareCaptionFont{figcaptionfont-p04}{\fontsize{8.75}{10}\selectfont}
 \DeclareCaptionFont{tablecaptionfont-p04}{\fontsize{9.75}{12}\selectfont}
 \protect\def\figuresource#1{\textit{(#1)}}
-\appto\@begin@figure@hook%
-{%
+\preto\figure{%
   \def\source{\protect\figuresource}%
   \appto\@floatboxreset{\@figureboxreset@hook}%
-}%
-\appto\@begin@table@hook%
+}
+\preto\table
 {%
   \def\source{\protect\tablesource}%
   \appto\@floatboxreset{\@tableboxreset@hook}%
@@ -852,13 +853,16 @@
   \let\editedby\bookeditedby%
   \let\volume\bookvolumenr%
 }
-\AtBeginEnvironment{titlepage}
+\let\titlepage@latex\titlepage
+\let\titlepage\relax
+\let\endtitlepage\relax
+\newenvironment{titlepage}
 {%
+  \titlepage@latex
   \csuse{titlepagehook}%
   \csuse{titlepagefont}%
   \setlength{\parindent}{0pt}%
-}%
-\preto\endtitlepage{\par}
+}{\par}%
 \def\titlepagefont{\sffamily}
 \def\booktitleposthook{\par}
 \def\booktitlepreskip{\zerorule\vskip4\baselineskip}
@@ -905,11 +909,16 @@
 \preto\minitoc{\setcounter{mtc}{\number\c@chapter}}
 \AtBeginDocument{\dominitoc}
 \RequirePackage{multicol}
+\protected\def\minitocnumberline#1{\hb@xt@\@tempdima{#1\hfil}}
+\let\minitoc@dottedtocline\@dottedtocline
 \newcommand*\setminitoclines%
 {%
-  \def\l@section{\@dottedtocline {1}{0em}{2.3em}}%
-  \def\l@subsection{\@dottedtocline {2}{2.3em}{3em}}%
-  \def\l@subsubsection{\@dottedtocline {3}{5.3em}{3.5em}}%
+%%<p04> \def\mtcSfont{\normalfont\sffamily}
+%%<p04> \def\mtcSSfont{\normalfont\sffamily}
+%%<p04> \def\mtcSSSfont{\normalfont\sffamily}
+  \def\l@section{\minitoc@dottedtocline {1}{0em}{2.3em}}%
+  \def\l@subsection{\minitoc@dottedtocline {2}{2.3em}{3em}}%
+  \def\l@subsubsection{\minitoc@dottedtocline {3}{5.3em}{3.5em}}%
 }
 \mtcsetformat{minitoc}{dotinterval}{1000}
 \setcounter{minitocdepth}{3}
@@ -963,6 +972,7 @@
 \def\tocpartpostskip{\vskip2.6pt}
 \let\tocchapternumberline\tocnumberline
 \let\tocfigurenumberline\tocnumberline
+\let\toctablenumberline\tocnumberline
 \def\l@figure%
 {%
   \def\@dotsep{1000}%
@@ -986,6 +996,7 @@
   \let\numberline\tocpartnumberline%
   \csuse{tocpartshape}%
   #1%
+  \hangindent=4pc
   \par
   \csuse{tocpartpostskip}%
 }%
@@ -996,19 +1007,25 @@
   \csuse{tocchaptershape}%
   \book@dottedtocline{0}{0pt}{1pc}%
 }%
+\def\l@chapterstar%
+{%
+  \def\@tocentry{chapterstar}%
+  \csuse{tocchapterstarshape}%
+  \book@dottedtocline{0}{0pt}{1pc}%
+}%
 \def\l@section%
 {%
   \def\@tocentry{section}%
   \csuse{tocsectionshape}%
   \let\numberline\tocnumberline%
-  \book@dottedtocline{1}{1pc}{2pc}%
+   \book@dottedtocline{1}{1pc}{2pc}%
 }%
 \def\l@subsection%
 {%
   \def\@tocentry{subsection}%
   \csuse{tocsubsectionshape}%
   \let\numberline\tocnumberline%
-  \book@dottedtocline{2}{3pc}{2pc}%
+ \book@dottedtocline{2}{3pc}{2pc}%
 }%
 \def\l@subsubsection%
 {%
