@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2018/11/19 v0.1.1  Elsevier book class]
+\ProvidesClass{elsevierbook}[2020/02/14, 12:18 (deimi) Elsevier book class]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -971,8 +971,11 @@
 \def\@dotsep{1000}
 \def\tocpartpostskip{\vskip2.6pt}
 \let\tocchapternumberline\tocnumberline
-\let\tocfigurenumberline\tocnumberline
-\let\toctablenumberline\tocnumberline
+\def\tocfigurename{Fig.\ }
+\def\tocfigurenumberline#1{\hb@xt@\@tempdima{\bfseries\selectfont\tocfigurename\space#1\hfil}}
+\def\tocfigureshape{\fontsize{8}{10}\selectfont\raggedright}
+\def\toctablenumberline#1{\hb@xt@\@tempdima{\bfseries\tablename\space#1\hfil}}
+\def\toctableshape{\fontsize{8}{10}\selectfont\raggedright}
 \def\l@figure%
 {%
   \def\@dotsep{1000}%

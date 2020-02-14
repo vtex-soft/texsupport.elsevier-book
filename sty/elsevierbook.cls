@@ -4,13 +4,14 @@
 %%
 %% The original source files were:
 %%
-%% elsevierbook.dtx  (with options: `main')
+%% elsevierbook.dtx  (with options: `main,00')
 %% 
 %% This is a generated file.
 %% 
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
+\ProvidesClass{elsevierbook}[2020/02/14, 12:18 (deimi) Elsevier book class]
 \def\@elsmodel{elsevierbook-a02}
 \DeclareOption{a02}{\def\@elsmodel{elsevierbook-a02}}
 \DeclareOption{a08a}{\def\@elsmodel{elsevierbook-a08a}}

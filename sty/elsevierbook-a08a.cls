@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2018/11/19 v0.1.1  Elsevier book class]
+\ProvidesClass{elsevierbook}[2020/02/14, 12:18 (deimi) Elsevier book class]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
