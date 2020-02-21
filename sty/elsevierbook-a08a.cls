@@ -4,14 +4,14 @@
 %%
 %% The original source files were:
 %%
-%% elsevierbook.dtx  (with options: `class,a08a')
+%% elsevierbook.dtx  (with options: `main,class,a08a')
 %% 
 %% This is a generated file.
 %% 
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2020/02/14, 12:18 (deimi) Elsevier book class]
+\ProvidesClass{elsevierbook-a08a}[2020/02/20, 13:04 (deimi) Elsevier book class - model A08a]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -970,6 +970,148 @@
 \setlength{\bibhang}{10pt}%
 \setlength{\bibsep}{0pt \@plus.1pt}%
 }
+\csdef{bibstyle@elsarticle-num}{%
+  \bibpunct{[}{]}{,}{n}{}{,}%
+  % numbers
+  \NAT@numberstrue
+  % sort&compress
+  \def\NAT@sort{\@ne}\def\NAT@cmprs{\@ne}%
+  % nospace
+  \def\NAT@spacechar{}%
+}
+
+\csdef{bibstyle@elsarticle-harv}{%
+  % name-year
+  \NAT@numbersfalse
+  % round
+  \renewcommand\NAT@open{(}%
+  \renewcommand\NAT@close{)}%
+  % semicolon
+  \renewcommand\NAT@sep{;}%
+}
+\csdef{bibstyle@vancouver}{\csuse{bibstyle@elsarticle-num}}
+\csdef{bibstyle@ama}%
+{%
+  \bibpunct{}{}{,}{s}{}{\textsuperscript{,}}
+   % numbers
+   \NAT@numberstrue
+   % nospace
+   \def\NAT@sort{\z@}
+   \def\NAT@cmprs{\z@}
+   %
+   \def\NAT@spacechar{}%
+  \let\bibauthor\@firstofone%
+  \let\bibpages\@firstofone%
+  \gdef\xfnm[##1]{\unskip\space\removeDot{##1}}%
+  \def\bibinfo##1##2%
+  {%
+    \def\next{##1}%
+    \def\@@@pg{pages}\def\@@@au{author}\def\@@@volume{volume}%
+    \ifx\next\@@@pg\bibpages{##2}\else
+    \ifx\next\@@@au\bibauthor{##2}\else
+    \ifx\next\@@@volume{\fontseries{m}\selectfont ##2}\else
+    ##2\fi\fi\fi%
+  }%
+}
+\csdef{bibstyle@vancouver-super}{%
+   \bibpunct{}{}{,}{s}{}{\textsuperscript{,}}
+   % numbers
+   \NAT@numberstrue
+   % sort&compress
+   \def\NAT@sort{\@ne}\def\NAT@cmprs{\@ne}%
+   % nospace
+   \def\NAT@spacechar{}%
+   \gdef\bibnumfmt##1{##1.}%
+ }
+
+\csdef{bibstyle@apa}{\csuse{bibstyle@elsarticle-harv}}
+\csdef{bibstyle@saunders}%
+{%
+  % name-year
+  \NAT@numbersfalse
+  % round
+  \renewcommand\NAT@open{(}%
+  \renewcommand\NAT@close{)}%
+  % semicolon
+  \renewcommand\NAT@sep{;}%
+  \let\bibauthor\@firstofone%
+  \let\bibpages\@firstofone%
+   \gdef\xfnm[##1]{\unskip\space\removeDot{##1}}
+   \def\bibinfo##1##2{\def\next{##1}%
+   \def\@@@pg{pages}\def\@@@au{author}%
+   \ifx\next\@@@pg\bibpages{##2}\else
+   \ifx\next\@@@au\bibauthor{##2}\else
+   ##2\fi\fi}
+}
+\csdef{bibstyle@saunders-super}%
+{%
+  \bibpunct{}{}{,}{s}{}{\textsuperscript{,}}%
+   % numbers
+   \NAT@numberstrue
+   % no sort&compress
+   \def\NAT@sort{\@ne}\def\NAT@cmprs{\z@}%
+   % nospace
+   \def\NAT@spacechar{}%
+   \gdef\bibnumfmt##1{##1.}%
+  \let\bibauthor\@firstofone%
+  \let\bibpages\@firstofone%
+   \gdef\xfnm[##1]{\unskip\space\removeDot{##1}}%
+   \def\bibinfo##1##2{\def\next{##1}%
+   \def\@@@pg{pages}\def\@@@au{author}%
+   \ifx\next\@@@pg\bibpages{##2}\else
+   \ifx\next\@@@au\bibauthor{##2}\else
+   ##2\fi\fi}%
+}
+\csdef{bibstyle@acs-num}%
+{%
+  \bibpunct{\textit{(}}{\textit{)}}{,}{n}{}{,}%
+  % numbers
+  \NAT@numberstrue
+  % sort&compress
+  \def\NAT@sort{\@ne}\def\NAT@cmprs{\z@}%
+  % nospace
+  \def\NAT@spacechar{}%
+  \let\citenumfont=\itshape
+}
+\csdef{bibstyle@acs-super}%
+{%
+   \bibpunct{}{}{,}{s}{}{\textsuperscript{,}}
+   % numbers
+   \NAT@numberstrue
+   % sort&compress
+   \def\NAT@sort{\@ne}\def\NAT@cmprs{\@ne}%
+   % nospace
+   \def\NAT@spacechar{}%
+}
+\csdef{bibstyle@acs}%
+{%
+  % name-year
+  \NAT@numbersfalse
+  % round
+  \renewcommand\NAT@open{(}%
+  \renewcommand\NAT@close{)}%
+  % semicolon
+  \renewcommand\NAT@sep{;}%
+  \let\bibauthor\@firstofone%
+  \let\bibpages\@firstofone%
+  \def\bibinfo##1##2{\def\next{##1}%
+   \def\@@@pg{pages}\def\@@@au{author}\def\@@@year{year}\def\@@@volume{volume}%
+   \ifx\next\@@@pg\bibpages{##2}\else
+   \ifx\next\@@@au\bibauthor{##2}\else
+   \ifx\next\@@@year{\textbf{##2}}\else
+   \ifx\next\@@@volume{\textit{##2}}\else
+   ##2\fi\fi\fi\fi%
+ }%
+}
+\def\removeDot#1{\def\tmp{#1}%
+    \ifx\tmp\@empty\else\@removeDot#1\@nil\fi}
+\def\@removeDot#1\@nil{\edef\fchar{\expandafter\@car#1\@nil}%
+      \edef\rchar{\expandafter\@cdr#1!\@nil}%
+      \def\@xmltempa{.}\def\@xmltempb{!}%
+      \ifx\fchar\@xmltempb\relax\else%
+      \ifx\fchar\@xmltempa\relax\else%
+      \fchar\ignorespaces\fi\removeDot{\rchar}\fi}
+\providecommand{\href}[2]{{#2}}
 \newcommand*\titlepagehook%
 {%
   \let\seriestitle\bookseriestitle%
