@@ -21,7 +21,7 @@
 \begin{document}
 \title{\LaTeX\ Class for Elsevier Books}
 \author{Deimantas Gal\v{c}ius\footnote{\href{mailto:deimi@vtex.lt}{\texttt{deimi@vtex.lt}}}}
-\date{2017/04/04, v0.1}
+%\date{2017/04/04, v0.1}
 \maketitle
 \abstract{The package provides a class for typesetting books to be published by Elsevier.}
 
@@ -58,12 +58,13 @@ The document class is built on \file{book.cls} class and requires following pack
 
 \section{Installation}
 
-The latest released version of the package can be found on CTAN: \linebreak
-\url{http://www.ctan.org/pkg/elsevierbook/}. 
-The development version can be found on GitHub: 
+%The latest released version of the package can be found on CTAN: \linebreak
+%\url{http://www.ctan.org/pkg/elsevierbook/}. 
+%The development version can be found on GitHub:
+The latest version of the package can be found on GitHub:
  \url{https://github.com/vtex-soft/texsupport. elsevier-book}%, where a bug report can be filed if needed.
 . 
-A bug report can be filed at GitHub repository. 
+%A bug report can be filed at GitHub repository. 
 %At this address you can file a bug report—or even
 %contribute your own enhancement making a pull request.
 
@@ -142,7 +143,7 @@ sty/
   \include{appendix01}
   [...]
 \Backmatter
-  \include{bibliograhy}
+  \include{references}
 \end{document}
 \end{Verbatim}
 \end{multicols}
@@ -161,7 +162,7 @@ sty/
 book.tex
 dedication.tex
 preface.tex
-bibliography.tex
+references.tex
 tableofcontents.tex
 [...]
 chapter01/
@@ -182,7 +183,7 @@ appendix01/
   img/
     appendix01-figure01.eps
     appendix01-figure02.eps
-bibliography.tex
+references.tex
 sty/
   elsevierbook.cls
 \end{Verbatim}
@@ -217,7 +218,7 @@ sty/
   \include{appendix01}
   [...]
 \Backmatter
-  \include{bibliograhy}
+  \include{references}
 \end{document}
 \end{Verbatim}
 \end{multicols}
@@ -462,13 +463,93 @@ hyperlink; the proper cross-reference is \verb!\cite{Knuth96}!.
 
 \section{Bibliography}
 
-The class uses the \file{natbib} package for formatting references.
+
+The template provided uses the \file{natbib} package for formatting references.
 You can choose between author--year (default) and numerical (option \verb!numbers!) citations.
 Further customization 
 can be made via \verb!\setcitestyle! macro (see \cite{ref:natbib}) for details.
-If your bibliography is chapterwise, you may set a \verb!sectionbib! option to \verb~documentclass~,
-and remove \verb~\include{references}~ at the end of the \verb~book.tex~ file.
-Bibtex users may substitute \verb~\include{references}~ with \verb~\bibliographystyle{<bibstyle>}~ and\\ \verb~\bibliography{<bibdata-file>}~.
+If your bibliography is chapterwise, you may set a \verb!sectionbib! option for \verb~natbib~.
+In case of \verb~bibtex~ you may want to use \verb~elsarticle-harv~ or \verb~elsarticle-num~
+or your own ~bibtex~ style.
+If you are using \verb~biblatex~ for formatting the bibliography, you will probably
+need to remove \verb~natbib~ package and load \verb~biblatex~ package.
+
+
+% \subsection{Bibtex styles}
+
+% Bibtex users can use one of the predefined styles for formatting references (see \cite{ref:elsevier-bibstyles}).
+
+% \begin{description}
+% \item[Model 1] Numbered style.
+%   \begin{Verbatim}
+%     \citestyle{elsarticle-num}
+%     \bibliographystyle{../bst/elsarticle-num}
+%   \end{Verbatim}
+% %
+% \item [Model 2] Harvard (name-date) style.
+%   \begin{Verbatim}
+%     \citestyle{elsarticle-harv}
+%     \bibliographystyle{../bst/elsarticle-harv}
+%   \end{Verbatim}
+% %
+% \item [Model 3] Vancouver (numbered) style.
+%   \begin{Verbatim}
+%     \citestyle{vancouver}
+%     \bibliographystyle{../bst/vancouver}
+%   \end{Verbatim}
+% %
+% \item [Model 4] Embellished Vancouver (superscript numbered) style.
+%   \begin{Verbatim}
+%     \citestyle{vancouver-super}
+%     \bibliographystyle{../bst/vancouver-super}
+%   \end{Verbatim}
+% %
+% \item [Model 5] APA (American Psychological Association). Name-date style.
+%   \begin{Verbatim}
+%     \citestyle{apa}
+%     \bibliographystyle{../bst/apa}
+%   \end{Verbatim}
+% %
+% \item [Model 6] AMA (American Medical Association). Numbered style.
+%   \begin{Verbatim}
+%     \citestyle{ama}
+%     \bibliographystyle{../bst/ama}
+%   \end{Verbatim}
+% %
+% \item [Model 7] Saunders (name-date) style.
+%   \begin{Verbatim}
+%     \citestyle{saunders}
+%     \bibliographystyle{../bst/saunders}
+%   \end{Verbatim}
+% %
+% \item [Model 8] Saunders (numbered) style.
+%   \begin{Verbatim}
+%     \citestyle{saunders-num}
+%     \bibliographystyle{../bst/saunders-num}
+%   \end{Verbatim}
+% %
+% \item [Model 9] ACS (numbered) style.
+%   \begin{Verbatim}
+%     \citestyle{acs-num}
+%     \bibliographystyle{../bst/acs-num}
+%   \end{Verbatim}
+% %
+% \item [Model 9a] ACS (superscript numbered) style.
+%   \begin{Verbatim}
+%     \citestyle{acs-super}
+%     \bibliographystyle{../bst/acs-super}
+%   \end{Verbatim}
+% %
+% \item [Model 9b] ACS (name-date) style.
+%   \begin{Verbatim}
+%     \citestyle{acs}
+%     \bibliographystyle{../bst/acs}
+%   \end{Verbatim}
+
+% \end{description}
+
+
+% \subsection{Biblatex}
 
 
 %\section{Index}
@@ -480,7 +561,6 @@ Bibtex users may substitute \verb~\include{references}~ with \verb~\bibliography
 
 %\section {Book Frontmatter}
 
-\newpage
 \section{Submission}
 
 Submit one single file as a zip archive. 
@@ -523,6 +603,11 @@ P.W. Daly.
 \textit{Natural Sciences Citations and References}, 
 2010. 
 \url{https://www.ctan.org/pkg/natbib}.
+
+
+\bibitem{ref:elsevier-bibstyles}
+\textit{Elsevier's Standard Reference Styles}
+\url{https://booksite.elsevier.com/9780081019375/content/Elsevier%20Standard%20Reference%20Styles.pdf}
 
 
 \end{thebibliography}
