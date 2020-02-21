@@ -15,6 +15,16 @@
 % models = a02,a08a,p04
 %\documentclass[<model>,<options>]{elsevierbook}% 
 
+% === Bibtex ====
+\usepackage{natbib}
+% \citestyle{elsarticle-num}  % Numbered style
+% \citestyle{elsarticle-harv} % Name-date style
+
+%
+% == Biblatex  ==
+% \usepackage{biblatex}
+% \addbibresource{...}
+
 %\includeonly{chapter01}
 \begin{document}
 
@@ -23,6 +33,7 @@
   \include{dedication}
   \include{tableofcontents}
   % \include{listoffigures}
+  % \include{listoftables}
   \include{preface}
   \include{aboutauthors}
 
@@ -36,7 +47,43 @@
   \include{appendix02}
 
 \Backmatter
-  \include{references}
-
+%
+%%%%%%%%% REFERENCES %%%%%%%%%
+% 
+%        ====  Option 1 ====
+%        Plain LaTeX entries
+%        ===================
+% 
+% \include{references}
+%
+%
+%         ==== Option 2 =====
+%         bibtex (+natbib)
+%         ===================
+%
+% Numbered style.
+% Set \citestyle{elsarticle-num} in document preamble.
+% \bibliographystyle{../bst/elsarticle-num}
+%
+% Harvard (name-date) style.
+% Set \citestyle{elsarticle-harv} in document preamble.
+% \bibliographystyle{elsarticle-harv}
+%
+% Your own bibstyle.
+% \bibliographystyle{<your-bib-style>}
+%
+% Bibdata (your-bibtex-file.bib)
+% \bibliography{<your-bib-file>}
+%
+%
+%
+%           ==== Option 3 =====
+%           biblatex
+%           ===================
+% Remove 'natbib' package from document preamble and
+% load 'biblatex' package instead.
+%
+% \printbibliography
+% 
 \end{document}
 
