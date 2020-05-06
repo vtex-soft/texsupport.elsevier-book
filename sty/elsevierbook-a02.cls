@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2020/02/20, 13:04 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2020/05/06, 11:38 (deimi) Elsevier book class - model A02]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -58,6 +58,7 @@
 \RequirePackage{newtxtext}
 \csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
 \RequirePackage{newtxmath}
+\let\Bbbk\relax
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}

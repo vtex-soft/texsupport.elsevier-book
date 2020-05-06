@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2020/02/20, 13:04 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2020/05/06, 11:38 (deimi) Elsevier book class - model P04]
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -60,6 +60,7 @@
 \RequirePackage[varqu,varl]{zi4}% inconsolata typewriter
 \csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
 \RequirePackage{newtxmath}
+\let\Bbbk\relax
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
 \RequirePackage{amsthm}
