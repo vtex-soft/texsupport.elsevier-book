@@ -11,7 +11,17 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2020/05/06, 11:38 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2020/10/07, 14:11 (deimi) Elsevier book class - model A02]
+\LoadClass{book}
+\def\@listi%
+{%
+  \leftmargin\leftmargini%
+  \parsep 0\p@ \@plus.5\p@ \@minus.5\p@%
+  \topsep 8\p@ \@plus2\p@ \@minus4\p@%
+  \itemsep4\p@ \@plus2\p@ \@minus\p@%
+}
+\let\saved@listi\@listi
+\@listi
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
 \RequirePackage{afterpackage}
@@ -43,16 +53,6 @@
   bookeditor,%
   bookauthoraddress,%
 }
-\LoadClass{book}
-\def\@listi%
-{%
-  \leftmargin\leftmargini%
-  \parsep 0\p@ \@plus.5\p@ \@minus.5\p@%
-  \topsep 8\p@ \@plus2\p@ \@minus4\p@%
-  \itemsep4\p@ \@plus2\p@ \@minus\p@%
-}
-\let\saved@listi\@listi
-\@listi
 \RequirePackage[T1]{fontenc}
 \RequirePackage[full]{textcomp}
 \RequirePackage{newtxtext}
