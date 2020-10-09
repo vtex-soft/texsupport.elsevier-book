@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2020/10/07, 14:11 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2020/10/09, 10:55 (deimi) Elsevier book class - model A02]
 \LoadClass{book}
 \def\@listi%
 {%
@@ -583,11 +583,13 @@
 \preto\figure{%
   \def\source{\protect\figuresource}%
   \appto\@floatboxreset{\@figureboxreset@hook}%
+  \def\title#1{\def\figuretitle{\nobreakspace#1}}%
 }
 \preto\table
 {%
   \def\source{\protect\tablesource}%
   \appto\@floatboxreset{\@tableboxreset@hook}%
+  \def\title#1{\def\tabletitle{\nobreakspace#1}}%
 }%
 \def\@figureboxreset@hook{\centering}
 \def\@tableboxreset@hook{\footnotesize\sffamily}
@@ -607,6 +609,10 @@
   margin=\tabcolsep,
   skip=2.6pt,
 }
+\let\figuretitle\relax
+\let\tabletitle\relax
+\def\fnum@figure{\figurename\nobreakspace\thefigure\figuretitle}
+\def\fnum@table{\tablename\nobreakspace\thetable\tabletitle}
 %% Tabnotes
 \def\tabnotesfont{\scriptsize}
 \def\tabnotesparindent{0pt}
