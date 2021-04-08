@@ -11,7 +11,9 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2020/10/09, 10:55 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2021/04/08, 18:55 (deimi) Elsevier book class - model P04]
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+\ProcessOptions*
 \LoadClass{book}
 \def\@listi%
 {%
@@ -247,6 +249,7 @@
   \refstepcounter{aug}%
   \def\fad@authorlist{}%
   \def\fad@addresslist{}%
+  \let\addressnolabel\undefined
   \setcounter{fadauthor}{0}%
   \setcounter{addresslabel}{0}%
   \setcounter{fadaddress}{0}%
@@ -352,6 +355,14 @@
         \fi%
       \fi%
       \csuse{address@sep@\number\c@addrtemp}%
+      % do not print superscript if
+      % address count = 1
+      % and
+      % \addressnolabel is defined
+      \ifnum\c@fadaddress=1%
+      \ifdefined\addressnolabel\let\addresslabel\@gobble\fi
+      \fi
+      %
       \addresslabel{\csuse{address@\number\c@addrtemp @id}}%
       \csuse{address@\number\c@addrtemp @corresponding}%
       \csuse{address@\number\c@addrtemp @type}{##1}%
@@ -405,7 +416,7 @@
 {%
   \stepcounter{fadaddress}%
   \bgroup%
-  \ifstrempty{#1}{}{\setkeys{address}{#1}}%
+  \ifstrempty{#1}{\xdef\addressnolabel{}}{\setkeys{address}{#1}}%
     \bgroup%
       \listgadd\fad@addresslist{#2}%
     \egroup%
