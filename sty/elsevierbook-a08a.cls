@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2021/04/08, 18:55 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2021/04/09, 12:28 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -79,7 +79,7 @@
 \setlength\textcolumnwidth{55mm}%
 \setlength\parindent{15pt}%
 \setlength\parskip{0pt plus0.1pt}%
-\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\FALSE}
+\patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\@latex@error{Fail to patch \string\cleardoublepage}\@ehc}
 \newcommand*{\Mainmatter}%
 {%
  \cleardoublepage
@@ -310,7 +310,7 @@
 \def\theaug{\arabic{aug}}
 \newenvironment{aug}%
 {%
-  \refstepcounter{aug}%
+  \stepcounter{aug}%
   \def\fad@authorlist{}%
   \def\fad@addresslist{}%
   \let\addressnolabel\undefined
@@ -335,13 +335,13 @@
     \setcounter{augtemp}{0}%
     \def\do##1%
     {%
-      \let\author@notes\@empty%
-      \let\author@fnmarks\@empty%
-      \stepcounter{augtemp}%
-      \edef\@next{\csuse{author@\number\c@augtemp @addressrefs}}%
-      \csvlistassess{\author@notes}{\@next}{\ref{\number\c@aug.addressid.*}}%
-      \csdef{author@sep@\number\c@augtemp}{\author@sep@one}% default
-      %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
+       \let\author@notes\@empty%
+       \let\author@fnmarks\@empty%
+       \stepcounter{augtemp}%
+       \edef\@next{\csuse{author@\number\c@augtemp @addressrefs}}%
+       \csvlistassess{\author@notes}{\@next}{\noexpand\ref{\number\c@aug.addressid.*}}%
+       \csdef{author@sep@\number\c@augtemp}{\author@sep@one}% default
+       %\csletcs{autor@sep@i\number\c@augtemp}{author@sep@one}% default
       \ifnum\c@fadauthor=\c@augtemp\relax% Last item
         \ifnum\c@augtemp=2\relax% if two items only
         \csdef{author@sep@\number\c@augtemp}{\author@sep@two}%
@@ -1420,6 +1420,22 @@
   \def\indexfont{\small}%
   \newindex{default}{idx}{ind}{Index}%
 }
+}
+\AfterPackage{hyperref}%
+{%
+  \definecolor{linkcolor}{rgb}{0,.502,.675}%
+  \hypersetup%
+  {%
+    colorlinks=true,
+    bookmarksnumbered=true,
+    allcolors=linkcolor,
+    breaklinks=true,
+    % hypertexnames=false, % Activate global counter; do not use \theH.... counters.
+    %  pageanchor=false, % remove pageanchor.
+    setpagesize=false, %% double PS code otherwise.
+    %  pdfpagelabels=false, % we set pagelabels in esbook-pagelabel.dtx
+    unicode=true,
+  }%
 }
 \endinput
 %%
