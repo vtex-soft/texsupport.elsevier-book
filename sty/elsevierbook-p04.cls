@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2021/04/09, 12:28 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2021/05/04, 15:06 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -79,6 +79,8 @@
 \setlength\textcolumnwidth{(118.71mm-4mm)/2}%
 \setlength\parindent{14pt}%
 \setlength\parskip{0pt plus0.1pt}%
+\setlength\marginparsep{1pc}
+\setlength\marginparwidth{9pc}
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\@latex@error{Fail to patch \string\cleardoublepage}\@ehc}
 \newcommand*{\Mainmatter}%
 {%
@@ -862,7 +864,6 @@
 }
 \csdef{eqnarray}{\eqnarray@error}
 \csdef{eqnarray*}{\eqnarray@error}
-\RequirePackage{fancyhdr}
 \def\thepageformat#1{\rlap{\hskip2pc\rhlabelfont #1}}
 \def\thepageformateven#1%
 {%
@@ -887,25 +888,26 @@
 \def\ps@plain@thepagepostfix{}
 \def\thepagesep{}
 \def\headsize{\sffamily\fontseries{l}\fontsize{11}{11}\selectfont}
-\fancypagestyle{headings}%
+\def\ps@headings%
 {%
- \fancyhf{}%
- \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
- \fancyhead[E]{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
- \def\headrulewidth{0pt}%
+  \def\@oddfoot{\@empty}%
+  \def\@evenfoot{\@empty}%
+  \def\@oddhead{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
+  \def\@evenhead{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
 }
-\fancypagestyle{headings}%
+\def\ps@headings%
 {%
- \fancyhf{}%
- \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformatodd\thepage}%
- \fancyhead[E]{\hbox{\headsize\thepageformateven\thepage\thepagesep\leftmark}\hfill}%
- \def\headrulewidth{0pt}%
+  \def\@oddfoot{\@empty}%
+  \def\@evenfoot{\@empty}%
+  \def\@oddhead{\headsize\hfill\rightmark\thepagesep\thepageformatodd\thepage}%
+  \def\@evenhead{\hbox{\headsize\thepageformateven\thepage\thepagesep\leftmark}\hfill}%
 }
-\fancypagestyle{plain}%
+\def\ps@plain%
 {%
- \fancyhf{}%
- \fancyfoot[OR]{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
- \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
+  \def\@oddhead{\@empty}%
+  \def\@evenhead{\@empty}%
+  \def\@oddfoot{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
+  \def\@evenfoot{\headsize\thepageformat\thepage\hfill}%
 }
 \newcommand*\acknowledgementfont{\fontsize{8.5}{10}\selectfont}
 \newcommand*\acknowledgementheading{\section*}

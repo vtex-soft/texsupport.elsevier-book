@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2021/04/09, 12:28 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2021/05/04, 15:06 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -935,23 +935,23 @@
 }
 \csdef{eqnarray}{\eqnarray@error}
 \csdef{eqnarray*}{\eqnarray@error}
-\RequirePackage{fancyhdr}
 \def\thepageformat#1{{\sffamily#1}}
 \def\ps@plain@thepagepostfix{\,\rule[-4pt]{.75pt}{15pt}}
 \def\thepagesep{\quad}
 \def\headsize{\sffamily\fontsize{9}{9}\selectfont}
-\fancypagestyle{headings}%
+\def\ps@headings%
 {%
- \fancyhf{}%
- \fancyhead[O]{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
- \fancyhead[E]{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
- \def\headrulewidth{0pt}%
+  \def\@oddfoot{\@empty}%
+  \def\@evenfoot{\@empty}%
+  \def\@oddhead{\headsize\hfill\rightmark\thepagesep\thepageformat\thepage}%
+  \def\@evenhead{\hbox{\headsize\thepageformat\thepage\thepagesep\leftmark}\hfill}%
 }
-\fancypagestyle{plain}%
+\def\ps@plain%
 {%
- \fancyhf{}%
- \fancyfoot[OR]{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
- \fancyfoot[EL]{\headsize\thepageformat\thepage\hfill}%
+  \def\@oddhead{\@empty}%
+  \def\@evenhead{\@empty}%
+  \def\@oddfoot{\hfill\headsize\thepageformat\thepage\csuse{ps@plain@thepagepostfix}}%
+  \def\@evenfoot{\headsize\thepageformat\thepage\hfill}%
 }
 \newcommand*\acknowledgementfont{\fontsize{9}{11}\selectfont}
 \def\nosectionrule%
