@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2021/05/04, 15:06 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2021/05/06, 07:26 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -1205,9 +1205,10 @@
 \let\tocnumberline\numberline
 \long\def\tocpartnumberline#1%
 {%
+  \vskip1pc
   \noindent%
   \bgroup%
-    \normalfont\sffamily\bfseries\fontsize{13}{15}\selectfont
+    \normalfont\sffamily\bfseries\fontsize{14}{16}\selectfont
     \MakeUppercase{\partname}\space%
     #1\enskip%
   \egroup

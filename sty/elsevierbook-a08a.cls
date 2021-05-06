@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2021/05/04, 15:06 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2021/05/06, 07:26 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
