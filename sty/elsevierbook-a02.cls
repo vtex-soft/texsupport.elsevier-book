@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2021/05/06, 07:26 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2022/03/08, 09:33 (deimi) Elsevier book class - model A02]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -59,7 +59,7 @@
 \RequirePackage[full]{textcomp}
 \RequirePackage{newtxtext}
 \csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
-\RequirePackage{newtxmath}
+\RequirePackage[varvw]{newtxmath}
 \let\Bbbk\relax
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax

@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2021/05/06, 07:26 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2022/03/08, 09:33 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -61,7 +61,7 @@
 \RequirePackage[type1,lining]{FiraSans}% sans serif
 \RequirePackage[varqu,varl]{zi4}% inconsolata typewriter
 \csdef{verbatim@font}{\ttfamily\fontsize{8}{10}\selectfont}
-\RequirePackage{newtxmath}
+\RequirePackage[varvw]{newtxmath}
 \let\Bbbk\relax
 \RequirePackage{amsmath,amssymb,amsfonts}
 \let\openbox\relax
@@ -1140,7 +1140,7 @@
 }
 \def\sectionmark#1{}
 \def\rhlabelfont{\sffamily\bfseries\fontsize{11}{11}\selectfont}
-\def\chaptermarklabel{{\rhlabelfont CHAPTER \thechapter\quad}}
+\def\chaptermarklabel{{\rhlabelfont \MakeUppercase{\@chapapp} \thechapter\quad}}
 \def\sectionmarklabel{{\rhlabelfont\thesection\quad}}
 \def\chaptermark#1{\markboth{\chaptermarklabel #1}{\chaptermarklabel #1}}
 \def\sectionmark#1{\markright{\sectionmarklabel #1}}
@@ -1213,6 +1213,9 @@
     #1\enskip%
   \egroup
 }
+\def\tocchaptername{CHAPTER}
+\def\tocappendixname{APPENDIX}
+\appto\appendix{\addtocontents{toc}{\detokenize{\let\tocchaptername\tocappendixname}}}
 \def\tocfigurename{Fig.}
 \def\tocfigurenumberline#1{\hb@xt@\@tempdima{\tocfigurename\space#1\hfil}}
 \def\tocfigureshape{\sffamily}
@@ -1221,7 +1224,7 @@
 \def\tocpartshape{\normalfont\sffamily\bfseries\fontsize{14}{16}\selectfont}
 \def\tocpartpostskip{\vskip4pt\hrule\vskip4pt}
 \def\tocchaptershape{\normalfont\sffamily\bfseries\fontsize{12}{16}\selectfont}
-\def\tocchapternumberline#1{{CHAPTER\space #1\enskip\enskip}}
+\def\tocchapternumberline#1{{\tocchaptername\space #1\enskip\enskip}}
 \def\tocsectionshape{\normalfont\normalsize}
 \def\tocsectionnumberline#1{\normalfont\normalsize\hbox to59pt{\hfill\sffamily\bfseries\fontsize{10}{12}\selectfont#1\enskip}}
 \def\tocnumberline#1{\normalfont\normalsize\hbox to59pt{\hfill#1\enskip}}
