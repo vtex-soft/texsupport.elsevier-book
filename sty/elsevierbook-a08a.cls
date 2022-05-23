@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2022/03/08, 09:33 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2022/05/23, 07:00 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -33,6 +33,7 @@
 \RequirePackage{colortbl}
 \RequirePackage{fmtcount}
 \RequirePackage{tikz}
+\RequirePackage{textcase}
 \newtoggle{bookseries}\togglefalse{bookseries}
 \newtoggle{multiauthor}\togglefalse{multiauthor}
 \def\metamacro#1{\csdef{#1}##1{\bgroup\csuse{#1prehook}\csuse{#1preskip}\csuse{#1format}{##1}\csuse{#1postskip}\csuse{#1posthook}\egroup}}
