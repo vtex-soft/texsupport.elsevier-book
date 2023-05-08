@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2022/05/23, 07:00 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2023/05/08, 10:27 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -513,8 +513,8 @@
 \setdescription{itemindent=-\parindent}
 \setitemize[1]{label=\ensuremath{\bullet},topsep=4pt}
 \setitemize[2]{label=\ensuremath{\bullet}}
-\setenumerate[1]{label={\arabic*.},font=\sffamily\textbf,topsep=4pt}
-\setenumerate[2]{label={\alph*.},font=\sffamily\textbf}
+\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\sffamily\textbf,topsep=4pt}
+\setenumerate[2]{label={\alph*.},ref={\alph*},font=\sffamily\textbf}
 \newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
 \newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
 \newcommand*\quoteleftindent{4mm}
@@ -1216,7 +1216,17 @@
 }
 \def\tocchaptername{CHAPTER}
 \def\tocappendixname{APPENDIX}
-\appto\appendix{\addtocontents{toc}{\detokenize{\let\tocchaptername\tocappendixname}}}
+\appto\appendix%
+{%
+  \immediate\write\@auxout%
+  {%
+    \noexpand\@writefile{toc}%
+    {%
+      \detokenize{\let\tocchaptername\tocappendixname\protected@file@percent}%
+    }%
+  }%
+}
+
 \def\tocfigurename{Fig.}
 \def\tocfigurenumberline#1{\hb@xt@\@tempdima{\tocfigurename\space#1\hfil}}
 \def\tocfigureshape{\sffamily}

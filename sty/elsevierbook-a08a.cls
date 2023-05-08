@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2022/05/23, 07:00 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2023/05/08, 10:27 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -594,8 +594,8 @@
 \setitemize[1]{label=\textbullet,labelsep=10pt}
 \setitemize[2]{label=\color{black!50}\textbullet,labelsep=10pt}
 \setitemize[3]{label=\ensuremath{-}}
-\setenumerate[1]{label={\arabic*.},font=\textbf}
-\setenumerate[2]{label={\alph*.},font=\textbf}
+\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\textbf}
+\setenumerate[2]{label={\alph*.},ref={\alph*},font=\textbf}
 \newcommand*\quotefont{\sffamily\fontsize{10.5}{12}\itshape}
 \newcommand*\quotesourcefont{\bfseries}
 \newcommand*\quoteleftindent{4mm}
