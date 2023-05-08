@@ -1,8 +1,10 @@
 temp := elsevierbook-project-template
 
 zip:
+	mkdir -p release
 	mkdir -p $(temp)
 	cp template/*.tex $(temp)/
+	cat ./template/Makefile | sed -e "1d" >$(temp)/Makefile
 	mkdir -p $(temp)/doc
 	cp -r doc/elsbookdoc.pdf $(temp)/doc
 	cp -r sty/ $(temp)/
