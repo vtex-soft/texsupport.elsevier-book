@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2023/05/08, 10:27 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2023/12/07, 13:20 (deimi) Elsevier book class - model A02]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -254,8 +254,10 @@
         \fi%
       \fi%
       \csuse{author@sep@\number\c@augtemp}%
-      \def\@makefnmark{\listxadd\author@fnmarks{\@thefnmark}}%
-      ##1%
+      \bgroup
+        \def\@footnotemark{\listxadd\author@fnmarks{\@thefnmark}}%
+        ##1%
+        \egroup
       \listassess{\author@notes}{\author@fnmarks}{*}%
       \author@notes@format{\author@notes}%
     }%
@@ -467,15 +469,21 @@
  topsep=0pt,%
  labelsep=6pt,
  noitemsep,%
- leftmargin=*
+ leftmargin=*,%
+ itemindent=0pt,%
 }
 \setitemize[3]{label={-}}
 \setenumerate[3]{label={-}}
-\setdescription{itemindent=-\parindent}
-\setitemize[1]{label=\ensuremath{\bullet},topsep=4pt}
-\setitemize[2]{label=\ensuremath{\bullet}}
-\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\sffamily\textbf,topsep=4pt}
-\setenumerate[2]{label={\alph*.},ref={\alph*},font=\sffamily\textbf}
+\setdescription{%
+  labelindent=0pt,
+  labelsep=6pt,
+  itemindent=-6pt,%
+  leftmargin=!,%
+}
+\setitemize[1]{label=\ensuremath{\bullet},topsep=4pt,leftmargin=*}
+\setitemize[2]{label=\ensuremath{\bullet},leftmargin=*}
+\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\sffamily\textbf,topsep=4pt,leftmargin=*}
+\setenumerate[2]{label={\alph*.},ref={\alph*},font=\sffamily\textbf,leftmargin=*}
 \newcommand*\quotefont{\fontsize{9}{11}\itshape\color{black!80}}
 \newcommand*\quotesourcefont{\normalfont\normalcolor\fontsize{9}{11}\selectfont}
 \newcommand*\quoteleftindent{4mm}
@@ -583,8 +591,9 @@
 \def\listtitle@rule{\hrule height0pt depth-0pt}
 \def\listtitle@topsep{10pt}
 \newlist{contributorslist}{description}{1}
-\setlist[contributorslist]{itemindent=-12pt,leftmargin=*,labelsep=.5em,itemsep=\smallskipamount,
-  before*={\let\name\contributorname}%
+\setlist[contributorslist]{itemindent=-6pt,labelsep=.5em,itemsep=\smallskipamount,
+  before*={\let\name\contributorname},%
+  leftmargin=!,%
 }
 \RequirePackage{caption}
 \DeclareCaptionLabelSeparator{enskip}{\enskip}
@@ -756,58 +765,6 @@
 \def\footnoterule{\kern-3pt\hrule height.5pt\kern2.6pt}
 \setlength{\footnotemargin}{1em}
 \skip\footins=1pc
-\def\@makefnmarktext%
-{%
-  \ifx\@mpfn\f@@tn@te%
-    \ifx\thefootnote\orig@footnote
-      \hbox{\hspace *{.04em}\@thefnmark.\hspace *{.03em}}
-    \else%
-      \orig@makefnmark
-    \fi%
-  \else%
-    \orig@makefnmark%
-  \fi%
-}%
-\long\def\@makefntext#1%
-{%
-  \ifFN@hangfoot
-    \bgroup
-    \setbox\@tempboxa\hbox{%
-        \ifdim\footnotemargin>0pt
-          \hb@xt@\footnotemargin{\@makefnmarktext\hss}%
-        \else
-          \@makefnmark
-        \fi
-      }%
-      \leftmargin\wd\@tempboxa
-      \rightmargin\z@
-      \linewidth \columnwidth
-      \advance \linewidth -\leftmargin
-      \parshape \@ne \leftmargin \linewidth
-      \footnotesize
-      \@setpar{{\@@par}}%
-      \leavevmode
-      \llap{\box\@tempboxa}%
-      \parskip\hangfootparskip\relax
-      \parindent\hangfootparindent\relax
-    \else
-      \parindent1em
-      \noindent
-      \ifdim\footnotemargin>\z@
-        \hb@xt@ \footnotemargin{\hss\@makefnmark}%
-      \else
-        \ifdim\footnotemargin=\z@
-          \llap{\@makefnmark}%
-        \else
-          \llap{\hb@xt@ -\footnotemargin{\@makefnmark\hss}}%
-        \fi
-      \fi
-    \fi
-    \footnotelayout#1%
-    \ifFN@hangfoot
-      \par\egroup
-    \fi
-}
 \def\eqnarray@error%
 {%
   \GenericError{}%

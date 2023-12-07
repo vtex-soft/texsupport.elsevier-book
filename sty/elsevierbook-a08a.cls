@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2023/05/08, 10:27 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2023/12/07, 13:20 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -355,8 +355,10 @@
         \fi%
       \fi%
       \csuse{author@sep@\number\c@augtemp}%
-      \def\@makefnmark{\listxadd\author@fnmarks{\@thefnmark}}%
-      ##1%
+      \bgroup
+        \def\@footnotemark{\listxadd\author@fnmarks{\@thefnmark}}%
+        ##1%
+        \egroup
       \listassess{\author@notes}{\author@fnmarks}{*}%
       \author@notes@format{\author@notes}%
     }%
@@ -586,16 +588,22 @@
  topsep=0pt,%
  labelsep=8pt,
  noitemsep,%
- leftmargin=*
+ leftmargin=*,%
+ itemindent=0pt,%
 }
 \setitemize[3]{label={-}}
 \setenumerate[3]{label={-}}
-\setdescription{itemindent=-\parindent}
-\setitemize[1]{label=\textbullet,labelsep=10pt}
-\setitemize[2]{label=\color{black!50}\textbullet,labelsep=10pt}
-\setitemize[3]{label=\ensuremath{-}}
-\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\textbf}
-\setenumerate[2]{label={\alph*.},ref={\alph*},font=\textbf}
+\setdescription{%
+  labelindent=0pt,
+  labelsep=6pt,
+  itemindent=-6pt,%
+  leftmargin=!,%
+}
+\setitemize[1]{label=\textbullet,labelsep=10pt,leftmargin=*}
+\setitemize[2]{label=\color{black!50}\textbullet,labelsep=10pt,leftmargin=*}
+\setitemize[3]{label=\ensuremath{-},leftmargin=*}
+\setenumerate[1]{label={\arabic*.},ref={\arabic*},font=\textbf,leftmargin=*}
+\setenumerate[2]{label={\alph*.},ref={\alph*},font=\textbf,leftmargin=*}
 \newcommand*\quotefont{\sffamily\fontsize{10.5}{12}\itshape}
 \newcommand*\quotesourcefont{\bfseries}
 \newcommand*\quoteleftindent{4mm}
@@ -872,58 +880,6 @@
 \def\footnoterule{\kern-3pt\hrule height.5pt\kern2.6pt}
 \setlength{\footnotemargin}{1em}
 \skip\footins=1pc
-\def\@makefnmarktext%
-{%
-  \ifx\@mpfn\f@@tn@te%
-    \ifx\thefootnote\orig@footnote
-      \hbox{\hspace *{.04em}\@thefnmark.\hspace *{.03em}}
-    \else%
-      \orig@makefnmark
-    \fi%
-  \else%
-    \orig@makefnmark%
-  \fi%
-}%
-\long\def\@makefntext#1%
-{%
-  \ifFN@hangfoot
-    \bgroup
-    \setbox\@tempboxa\hbox{%
-        \ifdim\footnotemargin>0pt
-          \hb@xt@\footnotemargin{\@makefnmarktext\hss}%
-        \else
-          \@makefnmark
-        \fi
-      }%
-      \leftmargin\wd\@tempboxa
-      \rightmargin\z@
-      \linewidth \columnwidth
-      \advance \linewidth -\leftmargin
-      \parshape \@ne \leftmargin \linewidth
-      \footnotesize
-      \@setpar{{\@@par}}%
-      \leavevmode
-      \llap{\box\@tempboxa}%
-      \parskip\hangfootparskip\relax
-      \parindent\hangfootparindent\relax
-    \else
-      \parindent1em
-      \noindent
-      \ifdim\footnotemargin>\z@
-        \hb@xt@ \footnotemargin{\hss\@makefnmark}%
-      \else
-        \ifdim\footnotemargin=\z@
-          \llap{\@makefnmark}%
-        \else
-          \llap{\hb@xt@ -\footnotemargin{\@makefnmark\hss}}%
-        \fi
-      \fi
-    \fi
-    \footnotelayout#1%
-    \ifFN@hangfoot
-      \par\egroup
-    \fi
-}
 \def\eqnarray@error%
 {%
   \GenericError{}%
