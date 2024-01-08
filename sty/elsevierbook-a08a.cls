@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2023/12/07, 13:20 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2024/01/08, 15:36 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -192,7 +192,8 @@
 }
 \titleclass{\chapter}{straight}
 \titleformat{\chapter}[display]%
-  {\chapterrule\vskip-26pt\thispagestyle{plain}\sffamily\footnotesize}%
+{\if@openright\cleardoublepage\else\clearpage\fi%
+  \chapterrule\vskip-26pt\thispagestyle{plain}\sffamily\footnotesize}%
   {\hskip2pc\MakeUppercase{\chaptertitlename}\ \NUMBERstring{chapter}}%
   {30pt}%
   {\sffamily\fontseries{sb}\fontsize{22}{26}\selectfont\raggedright}%

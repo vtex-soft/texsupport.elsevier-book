@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2023/12/07, 13:20 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2024/01/08, 15:36 (deimi) Elsevier book class - model A02]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -145,7 +145,8 @@
 }%
 \titleclass{\chapter}{straight}
 \titleformat{\chapter}[display]%
-  {\thispagestyle{plain}\sffamily\fontsize{15}{15}\selectfont\raggedright}%
+{\if@openright\cleardoublepage\else\clearpage\fi%
+  \thispagestyle{plain}\sffamily\fontsize{15}{15}\selectfont\raggedright}%
   {\chaptertitlename\ \thechapter}%
   {30pt}%
   {\fontsize{22}{24}\bfseries}%

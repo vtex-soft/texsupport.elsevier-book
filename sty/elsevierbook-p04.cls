@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2023/12/07, 13:20 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2024/01/08, 15:36 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -167,8 +167,10 @@
   \par%
   \csuse{subchapterposthook}
 }%
+\titleclass{\chapter}{straight}%
 \titleformat{\chapter}[block]%
-  {\thispagestyle{plain}%
+{\if@openright\cleardoublepage\else\clearpage\fi
+  \thispagestyle{plain}%
     \zerorule
     \vskip-34pt%
     \rlap{%
