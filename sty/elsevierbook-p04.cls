@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-p04}[2024/01/08, 15:36 (deimi) Elsevier book class - model P04]
+\ProvidesClass{elsevierbook-p04}[2024/02/26, 11:24 (deimi) Elsevier book class - model P04]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -146,6 +146,7 @@
   {0pt}%
   {\partpostskip}%
 \def\ttl@tocpart{\def\ttl@a{\string\numberline{\thepart}}}
+\newcounter{chapterstar}
 \newcommand*\subchapterfont{\sffamily\fontseries{l}\Large}
 \newcommand*\subchapterprehook%
 {%
@@ -188,7 +189,7 @@
   {\thispagestyle{plain}}%
   {}%
   {0pt}%
-  {\sffamily\fontsize{22}{24}\fontseries{l}\selectfont}%
+  {\sffamily\fontsize{22}{24}\fontseries{l}\selectfont}[\refstepcounter{chapterstar}]%%
 \newcommand*\chapterpostskip{3pc}
 \titlespacing*{\chapter}%
   {0pt}%
