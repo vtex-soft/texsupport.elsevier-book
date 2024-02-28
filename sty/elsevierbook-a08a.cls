@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a08a}[2024/02/26, 11:24 (deimi) Elsevier book class - model A08a]
+\ProvidesClass{elsevierbook-a08a}[2024/02/28, 14:15 (deimi) Elsevier book class - model A08a]
       \PassOptionsToClass{11pt}{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
@@ -83,10 +83,10 @@
 \patchcmd\cleardoublepage{\hbox}{\thispagestyle{empty}\hbox}{}{\@latex@error{Fail to patch \string\cleardoublepage}\@ehc}
 \newcommand*{\Mainmatter}%
 {%
+ \addtocontents{toc}{\addvspace{1pc}}
  \cleardoublepage
  \pagenumbering{arabic}%
  \setcounter{page}{1}%
- \addtocontents{toc}{\addvspace{1pc}}
 }
 \newcommand*{\Frontmatter}%
 {%
