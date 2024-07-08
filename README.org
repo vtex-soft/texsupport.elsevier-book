@@ -1,6 +1,10 @@
 
 * Getting started
 
+  The template is prepared using TeXLive distribution and
+  is meant to work with the latest TeXLive(MacTeX) or MikTeX distributions.
+  Please ensure you have up-to-date LaTeX distribution.
+
   Download
   [[https://github.com/vtex-soft/texsupport.elsevier-book/raw/master/release/elsevierbook-project-template.zip][elsevierbook-project-template]]
   package and unzip it.
