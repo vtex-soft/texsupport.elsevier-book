@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook-a02}[2024/02/28, 14:15 (deimi) Elsevier book class - model A02]
+\ProvidesClass{elsevierbook-a02}[2024/09/23, 12:42 (deimi) Elsevier book class - model A02]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions*
 \LoadClass{book}
@@ -1123,12 +1123,46 @@
   \par
   \csuse{tocpartpostskip}%
 }%
+\ExplSyntaxOn
+\def\tocsetup#1{\setkeys{tocsetup}{#1}\tocsetupinit}
+\def\tocsetupinit%
+{%
+  \setlength\tocsectionindent{\tocchapternumberlinenumwidth+\tocchapterindent}%
+  \setlength\tocsubsectionindent{\tocsectionnumberlinenumwidth+\tocsectionindent}%
+}
+\define@key{tocsetup}{chapternumwidth}{\setlength\tocchapternumberlinenumwidth{#1}}
+\define@key{tocsetup}{sectionnumwidth}{\setlength\tocsectionnumberlinenumwidth{#1}}
+\define@key{tocsetup}{subsectionnumwidth}{\setlength\tocsubsectionnumberlinenumwidth{#1}}
+\define@key{tocsetup}{subsubsectionnumwidth}{\setlength\tocsubsubsectionnumberlinenumwidth{#1}}
+\define@key{tocsetup}{chapterindent}{\setlength\tocchapterindent{#1}}
+\define@key{tocsetup}{sectionindent}{\setlength\tocsectionnumindent{#1}}
+\define@key{tocsetup}{subsectionindent}{\setlength\tocsubsectionindent{#1}}
+\define@key{tocsetup}{subsubsectionindent}{\setlength\tocsubsubsectionindent{#1}}
+\newlength\tocpartnumberlinenumwidth
+\newlength\tocpartindent
+\newlength\tocchapternumberlinenumwidth
+\newlength\tocchapterindent
+\newlength\tocsectionnumberlinenumwidth
+\newlength\tocsectionindent
+\newlength\tocsubsectionnumberlinenumwidth
+\newlength\tocsubsectionindent
+\newlength\tocsubsubsectionnumberlinenumwidth
+\newlength\tocsubsubsectionindent
+\setlength\tocchapterindent{0pc}
+ \setlength\tocchapternumberlinenumwidth{1pc}
+ \setlength\tocsectionnumberlinenumwidth{2pc}
+ \setlength\tocsubsectionnumberlinenumwidth{2pc}
+ \setlength\tocsectionindent{\tocchapternumberlinenumwidth+\tocchapterindent}
+\setlength\tocsubsectionindent{\tocsectionnumberlinenumwidth+\tocsectionindent}
+\setlength\tocsubsubsectionindent{5.3em}
+\setlength\tocsubsubsectionnumberlinenumwidth{3.5em}
 \def\l@chapter%
 {%
   \def\@tocentry{chapter}%
   \let\numberline\tocchapternumberline%
   \csuse{tocchaptershape}%
-  \book@dottedtocline{0}{0pt}{1pc}%
+  \book@dottedtocline{0}%
+  {\tocchapterindent}{\tocchapternumberlinenumwidth}%
 }%
 \def\l@chapterstar%
 {%
@@ -1141,21 +1175,22 @@
   \def\@tocentry{section}%
   \csuse{tocsectionshape}%
   \let\numberline\tocnumberline%
-   \book@dottedtocline{1}{1pc}{2pc}%
+  \book@dottedtocline{1}{\tocsectionindent}{\tocsectionnumberlinenumwidth}%
 }%
 \def\l@subsection%
 {%
   \def\@tocentry{subsection}%
   \csuse{tocsubsectionshape}%
   \let\numberline\tocnumberline%
- \book@dottedtocline{2}{3pc}{2pc}%
+ \book@dottedtocline{2}{\tocsubsectionindent}{\tocsubsectionnumberlinenumwidth}%
+%%%<p04>  \book@dottedtocline{2}{3pc}{5pc}%
 }%
 \def\l@subsubsection%
 {%
   \def\@tocentry{subsubsection}%
   \csuse{tocsubsubsectionshape}%
   \let\numberline\tocnumberline%
-  \book@dottedtocline{3}{5.3em}{3.5em}%
+  \book@dottedtocline{3}{\tocsubsubsectionindent}{\tocsubsubsectionnumberlinenumwidth}%
 }%
 \def\pnumshape{\sffamily\fontsize{9}{11}\selectfont}
 \def\l@paragraph#1#2{}%

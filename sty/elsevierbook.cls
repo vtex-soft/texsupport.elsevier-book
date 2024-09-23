@@ -11,7 +11,7 @@
 %% Copyright (C) 2017 by Deimantas Galčius <deimi@vtex.lt>
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{elsevierbook}[2024/02/28, 14:15 (deimi) Elsevier book class]
+\ProvidesClass{elsevierbook}[2024/09/23, 12:42 (deimi) Elsevier book class]
 \def\@elsmodel{elsevierbook-a02}
 \DeclareOption{a02}{\def\@elsmodel{elsevierbook-a02}}
 \DeclareOption{a08a}{\def\@elsmodel{elsevierbook-a08a}}
