@@ -164,9 +164,9 @@
   {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
   {\thesection}%
   {1em}%
-  {\MakeTextUppercase}%
+  {}%
 \titleformat{\subsection}%
-  {\sffamily\bfseries\mathversion{bold}\fontsize{11}{13}\selectfont}%
+  {\sffamily\bfseries\mathversion{bold}\fontsize{10}{13}\selectfont}%
   {\thesubsection}%
   {1em}%
   {}%
